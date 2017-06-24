@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(CameraRaycaster))]
 public class CursorIconSwitch : MonoBehaviour {
 
     CameraRaycaster camRaycaster;
+    Vector2 cursorHotspot = new Vector2(96,96);
+
     [SerializeField] Texture2D walkCursor = null;
     [SerializeField] Texture2D attackCursor = null;
     [SerializeField] Texture2D whatCursor = null;
-    [SerializeField] Vector2 cursorHotspot = new Vector2(96,96);
 
     // Use this for initialization
     void Start () {

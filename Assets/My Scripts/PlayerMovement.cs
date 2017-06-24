@@ -1,54 +1,70 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 [RequireComponent(typeof(ThirdPersonCharacter))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float walkMoveStopRadius = 0.2f;
-    ThirdPersonCharacter m_Character;
+    ThirdPersonCharacter thirdPersonController;
     private CameraRaycaster cameraraycaster;
     Vector3 currentClickTarget;
-    bool InputType = false;    //  TODO consider making static layer
+    private bool jump; 
+    
+    bool inputMode = false;   
+
 
     // Use this for initialization
     void Start()
     {
         cameraraycaster = Camera.main.GetComponent<CameraRaycaster>();
-        m_Character = GetComponent<ThirdPersonCharacter>();
+        thirdPersonController = GetComponent<ThirdPersonCharacter>();
         currentClickTarget = transform.position;
     }
 
+    private void Update()
+    {
+        if (!jump)
+        {
+            jump = Input.GetButtonDown("Jump");
+        }
+    }
+
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.G))
-            InputType = !InputType;
+        {
+            inputMode = !inputMode;
+            currentClickTarget = transform.position;
+        }
 
-        if (InputType)
+        if (inputMode)
             MouseMovement();
         else
             GamepadMovement();
+
+        jump = false;
     }
 
     private void GamepadMovement()
     {
-
-    //  Joystick Movement
         // read inputs
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
+        bool crouch = Input.GetButton("GamepadX");
 
         // calculate camera relative direction to move:
         Vector3 m_CamForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 m_Move = v * m_CamForward + h * Camera.main.transform.right;
 
-        m_Character.Move(m_Move, false, false);
-    //  Joystick Movement
+        thirdPersonController.Move(m_Move, crouch, jump);
     }
+
 
     private void MouseMovement()
     {
+        bool crouch = Input.GetKey(KeyCode.C);
+
         if (Input.GetMouseButton(0))
         {
             print("Cursor raycast hit layer: " + cameraraycaster.layerHit);
@@ -59,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
                     break;
                 case Layer.Walkable:
                     currentClickTarget = cameraraycaster.hit.point;
-                    m_Character.Move(currentClickTarget - transform.position, false, false);
+                    thirdPersonController.Move(currentClickTarget - transform.position, crouch, jump);
                     break;
 
 
@@ -71,11 +87,11 @@ public class PlayerMovement : MonoBehaviour
             var playerToClickPoint = currentClickTarget - transform.position;
             if (playerToClickPoint.magnitude >= walkMoveStopRadius)
             {
-                m_Character.Move(playerToClickPoint, false, false);
+                thirdPersonController.Move(playerToClickPoint, crouch, jump);
             }
             else
             {
-                m_Character.Move(Vector3.zero, false, false);
+                thirdPersonController.Move(Vector3.zero, crouch, jump);
             }
         }
     }
