@@ -55,7 +55,6 @@ public class CameraRaycaster : MonoBehaviour
         bool hasHit = Physics.Raycast(ray, out hit, distanceToBackground, layerMask);
         if (hasHit)
         {
-            print(hit.transform.name.ToString());
             return hit;
         }
         return null;

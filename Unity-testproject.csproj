@@ -131,6 +131,7 @@
     <Compile Include="Assets\Graphics\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
     <Compile Include="Assets\My Scripts\AbstractTargetFollower.cs" />
     <Compile Include="Assets\My Scripts\CameraRaycaster.cs" />
+    <Compile Include="Assets\My Scripts\Click2Move.cs" />
     <Compile Include="Assets\My Scripts\FreeLookCam.cs" />
     <Compile Include="Assets\My Scripts\PivotBasedCameraRig.cs" />
     <Compile Include="Assets\My Scripts\ProtectCameraFromWallClip.cs" />
