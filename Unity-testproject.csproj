@@ -131,19 +131,12 @@
     <Compile Include="Assets\Graphics\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
     <Compile Include="Assets\My Scripts\AbstractTargetFollower.cs" />
     <Compile Include="Assets\My Scripts\CameraRaycaster.cs" />
-    <Compile Include="Assets\My Scripts\Click2Move.cs" />
+    <Compile Include="Assets\My Scripts\CursorIconSwitch.cs" />
     <Compile Include="Assets\My Scripts\FreeLookCam.cs" />
     <Compile Include="Assets\My Scripts\PivotBasedCameraRig.cs" />
+    <Compile Include="Assets\My Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\My Scripts\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\My Scripts\Utility.cs" />
-    <Compile Include="Assets\SampleScenes\Menu\Scripts\MenuSceneLoader.cs" />
-    <Compile Include="Assets\SampleScenes\Menu\Scripts\PauseMenu.cs" />
-    <Compile Include="Assets\SampleScenes\Menu\Scripts\SceneAndURLLoader.cs" />
-    <Compile Include="Assets\SampleScenes\Scripts\CameraSwitch.cs" />
-    <Compile Include="Assets\SampleScenes\Scripts\LevelReset.cs" />
-    <Compile Include="Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
-    <Compile Include="Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
-    <Compile Include="Assets\SampleScenes\Scripts\SlowMoButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Graphics\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
@@ -187,7 +180,6 @@
     <None Include="Assets\Graphics\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\Graphics\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\Graphics\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
-    <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />

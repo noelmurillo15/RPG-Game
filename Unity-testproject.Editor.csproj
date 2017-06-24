@@ -208,7 +208,6 @@
     <None Include="Assets\Graphics\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\Graphics\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\Graphics\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
-    <None Include="Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
