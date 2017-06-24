@@ -4,10 +4,12 @@ using UnityStandardAssets.Characters.ThirdPerson;
 [RequireComponent(typeof(ThirdPersonCharacter))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float walkMoveStopRadius = 0.2f;
-    ThirdPersonCharacter thirdPersonController;
+    [SerializeField] float walkStopRadius = 1f;
+    [SerializeField] float attackStopRadius = 5f;
+
+    ThirdPersonCharacter thirdPersonCharacter;
     private CameraRaycaster cameraraycaster;
-    Vector3 currentClickTarget;
+    Vector3 currentDestination, clickPoint;
     private bool jump; 
     
     bool inputMode = false;   
@@ -17,8 +19,14 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         cameraraycaster = Camera.main.GetComponent<CameraRaycaster>();
-        thirdPersonController = GetComponent<ThirdPersonCharacter>();
-        currentClickTarget = transform.position;
+        thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
+        currentDestination = transform.position;
+    }
+
+    Vector3 ShortDestination(Vector3 destination, float stopRadius)
+    {
+        Vector3 reductionVector = (destination - transform.position).normalized * stopRadius;
+        return destination - reductionVector;
     }
 
     private void Update()
@@ -35,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             inputMode = !inputMode;
-            currentClickTarget = transform.position;
+            currentDestination = transform.position;
         }
 
         if (inputMode)
@@ -51,13 +59,13 @@ public class PlayerMovement : MonoBehaviour
         // read inputs
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        bool crouch = Input.GetButton("GamepadX");
+        bool crouch = Input.GetButton("GamepadB");
 
         // calculate camera relative direction to move:
         Vector3 camForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 movement = v * camForward + h * Camera.main.transform.right;
 
-        thirdPersonController.Move(movement, crouch, jump);
+        thirdPersonCharacter.Move(movement, crouch, jump);
     }
 
 
@@ -67,32 +75,47 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            //print("Cursor raycast hit layer: " + cameraraycaster.currentLayerHit);
+            clickPoint = cameraraycaster.hit.point;
             switch (cameraraycaster.currentLayerHit)
             {
                 case Layer.Enemy:
-                    print("Clicked on Enemy");
+                    currentDestination = ShortDestination(clickPoint, attackStopRadius);
                     break;
                 case Layer.Walkable:
-                    currentClickTarget = cameraraycaster.hit.point;
-                    thirdPersonController.Move(currentClickTarget - transform.position, crouch, jump);
+                    currentDestination = ShortDestination(clickPoint, walkStopRadius);
                     break;
 
 
                 default:
-                    print("Something is missing a layer");
+                    print("Unexpected layer found.");
                     break;
             }
 
-            var playerToClickPoint = currentClickTarget - transform.position;
-            if (playerToClickPoint.magnitude >= walkMoveStopRadius)
-            {
-                thirdPersonController.Move(playerToClickPoint, crouch, jump);
-            }
-            else
-            {
-                thirdPersonController.Move(Vector3.zero, crouch, jump);
-            }
+            WalkToDestination(crouch);
         }
+    }
+
+    private void WalkToDestination(bool crouch)
+    {
+        var playerToClickPoint = currentDestination - transform.position;
+
+        if (playerToClickPoint.magnitude >= 0)
+            thirdPersonCharacter.Move(playerToClickPoint, crouch, jump);
+        else
+            thirdPersonCharacter.Move(Vector3.zero, crouch, jump);      
+    }
+
+    private void OnDrawGizmos()
+    {
+    //  TODO Learn Gizmos
+        //  Movement Gizmo
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, currentDestination);
+        Gizmos.DrawSphere(currentDestination, 0.1f);
+        Gizmos.DrawSphere(clickPoint, 0.1f);
+
+        //  Attack Radius Gizmo
+        Gizmos.color = new Color(255f, 0f, 0f, .5f);
+        Gizmos.DrawWireSphere(transform.position, attackStopRadius);
     }
 }

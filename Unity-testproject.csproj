@@ -135,6 +135,7 @@
     <Compile Include="Assets\My Scripts\FreeLookCam.cs" />
     <Compile Include="Assets\My Scripts\PivotBasedCameraRig.cs" />
     <Compile Include="Assets\My Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\My Scripts\PlayerStats.cs" />
     <Compile Include="Assets\My Scripts\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\My Scripts\Utility.cs" />
   </ItemGroup>
