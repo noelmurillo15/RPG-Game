@@ -54,10 +54,10 @@ public class PlayerMovement : MonoBehaviour
         bool crouch = Input.GetButton("GamepadX");
 
         // calculate camera relative direction to move:
-        Vector3 m_CamForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 m_Move = v * m_CamForward + h * Camera.main.transform.right;
+        Vector3 camForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 movement = v * camForward + h * Camera.main.transform.right;
 
-        thirdPersonController.Move(m_Move, crouch, jump);
+        thirdPersonController.Move(movement, crouch, jump);
     }
 
 
@@ -67,8 +67,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            print("Cursor raycast hit layer: " + cameraraycaster.layerHit);
-            switch (cameraraycaster.layerHit)
+            //print("Cursor raycast hit layer: " + cameraraycaster.currentLayerHit);
+            switch (cameraraycaster.currentLayerHit)
             {
                 case Layer.Enemy:
                     print("Clicked on Enemy");

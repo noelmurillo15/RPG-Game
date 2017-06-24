@@ -7,18 +7,19 @@ public class CursorIconSwitch : MonoBehaviour {
     Vector2 cursorHotspot = new Vector2(96,96);
 
     [SerializeField] Texture2D walkCursor = null;
-    [SerializeField] Texture2D attackCursor = null;
     [SerializeField] Texture2D whatCursor = null;
+    [SerializeField] Texture2D attackCursor = null;
 
     // Use this for initialization
     void Start () {
         camRaycaster = GetComponent<CameraRaycaster>();
-	}
+        camRaycaster.onLayerChange += OnLayerChange; //  registering
+    }
 	
-	// Update is called once per frame
-	void LateUpdate () {
+	void OnLayerChange (Layer newlayer) { //  Only called when layer changes
+        print("Layer has changed to : " + newlayer);
 
-        switch (camRaycaster.layerHit)
+        switch (newlayer)
         {
             case Layer.Enemy:
                 Cursor.SetCursor(attackCursor, cursorHotspot, CursorMode.Auto);
@@ -31,4 +32,6 @@ public class CursorIconSwitch : MonoBehaviour {
                 break;
         }
 	}
+
+    //  TODO consider de-registering OnLayerChanged on leaving all game scenes
 }
