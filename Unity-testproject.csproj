@@ -84,7 +84,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Camera &amp; UI\PlayerHealthBar.cs" />
     <Compile Include="Assets\Graphics\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\Graphics\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\Graphics\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -133,9 +132,13 @@
     <Compile Include="Assets\My Scripts\AbstractTargetFollower.cs" />
     <Compile Include="Assets\My Scripts\CameraRaycaster.cs" />
     <Compile Include="Assets\My Scripts\CursorIconSwitch.cs" />
+    <Compile Include="Assets\My Scripts\Enemy.cs" />
+    <Compile Include="Assets\My Scripts\EnemyHealthBar.cs" />
+    <Compile Include="Assets\My Scripts\EnemyUI.cs" />
     <Compile Include="Assets\My Scripts\FreeLookCam.cs" />
     <Compile Include="Assets\My Scripts\PivotBasedCameraRig.cs" />
     <Compile Include="Assets\My Scripts\Player.cs" />
+    <Compile Include="Assets\My Scripts\PlayerHealthBar.cs" />
     <Compile Include="Assets\My Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\My Scripts\PlayerStats.cs" />
     <Compile Include="Assets\My Scripts\ProtectCameraFromWallClip.cs" />
