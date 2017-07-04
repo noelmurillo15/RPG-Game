@@ -109,7 +109,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 0
-  controlID: 113
+  controlID: 11
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 114
+  controlID: 12
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 115
+  controlID: 13
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -532,7 +532,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoom: 0
     m_UniformScale: 1
     m_UpDirection: 1
@@ -590,23 +590,23 @@ MonoBehaviour:
     height: 650
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: e2fbffff
-    m_LastClickedID: -1054
-    m_ExpandedIDs: 0ae5ffff0ee5ffffe4fbffff00000000
+    m_SelectedIDs: 68b3ffff
+    m_LastClickedID: -19608
+    m_ExpandedIDs: b0fbffffb6fbffffe4fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Terrain
+      m_OriginalName: Terrain
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: -19608
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 8}
     m_SearchString: 
@@ -642,14 +642,14 @@ MonoBehaviour:
     width: 1437
     height: 650
   m_SceneLighting: 1
-  lastFramingTime: 599.0356178286263
+  lastFramingTime: 482.18596910309316
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.0002888441, y: 0.7876561, z: 0}
+    m_Target: {x: -6.082718, y: -106.91951, z: -0.5644226}
     speed: 2
-    m_Value: {x: 0.0002888441, y: 0.7876561, z: 0}
+    m_Value: {x: -6.082718, y: -106.91951, z: -0.5644226}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -672,18 +672,18 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.1644551, y: -0.034912996, z: 0.0058239666, w: -0.98575264}
+    m_Target: {x: -0.3077426, y: 0.48262596, z: -0.18597718, w: -0.79861283}
     speed: 2
-    m_Value: {x: -0.16445456, y: -0.034912884, z: 0.005823948, w: -0.9857495}
+    m_Value: {x: -0.3077421, y: 0.48262516, z: -0.18597686, w: -0.7986115}
   m_Size:
-    m_Target: 75.70393
+    m_Target: 548.6135
     speed: 2
-    m_Value: 75.70393
+    m_Value: 548.6135
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+  m_LastSceneViewRotation: {x: -0.23216088, y: 0.0093342075, z: -0.0022273555, w: -0.9726301}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -752,19 +752,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Blends & FBX/Village
+    - Assets/RPG Tutorial/World Objects/Terrain Textures
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Blends & FBX/Village
+  - Assets/RPG Tutorial/World Objects/Terrain Textures
   m_LastFoldersGridSize: 16
   m_LastProjectPath: F:\Documents\Github Projects\Unity-testproject
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: c2290000
-    m_LastClickedID: 10690
-    m_ExpandedIDs: 0000000078260000fc260000882e0000862f0000be370000c0370000c237000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 166}
+    m_SelectedIDs: 343e0000
+    m_LastClickedID: 15924
+    m_ExpandedIDs: 0000000078260000fc260000ce2d00003e320000723b0000743b0000763b0000783b00007a3b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -792,7 +792,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000078260000fc260000862f0000f8320000be370000c0370000c2370000
+    m_ExpandedIDs: 0000000078260000fc260000723b0000743b0000763b0000783b00007a3b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -819,22 +819,22 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000f2c40000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Gallows
-      m_OriginalName: Gallows
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 10646
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_CreateAssetUtility:
