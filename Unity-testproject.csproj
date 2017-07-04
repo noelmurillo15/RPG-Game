@@ -129,20 +129,20 @@
     <Compile Include="Assets\Graphics\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
     <Compile Include="Assets\Graphics\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
     <Compile Include="Assets\Graphics\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
-    <Compile Include="Assets\My Scripts\AbstractTargetFollower.cs" />
-    <Compile Include="Assets\My Scripts\CameraRaycaster.cs" />
-    <Compile Include="Assets\My Scripts\CursorIconSwitch.cs" />
-    <Compile Include="Assets\My Scripts\Enemy.cs" />
-    <Compile Include="Assets\My Scripts\EnemyHealthBar.cs" />
-    <Compile Include="Assets\My Scripts\EnemyUI.cs" />
-    <Compile Include="Assets\My Scripts\FreeLookCam.cs" />
-    <Compile Include="Assets\My Scripts\PivotBasedCameraRig.cs" />
-    <Compile Include="Assets\My Scripts\Player.cs" />
-    <Compile Include="Assets\My Scripts\PlayerHealthBar.cs" />
-    <Compile Include="Assets\My Scripts\PlayerMovement.cs" />
-    <Compile Include="Assets\My Scripts\PlayerStats.cs" />
-    <Compile Include="Assets\My Scripts\ProtectCameraFromWallClip.cs" />
-    <Compile Include="Assets\My Scripts\Utility.cs" />
+    <Compile Include="Assets\RPG Tutorial\Camera\AbstractTargetFollower.cs" />
+    <Compile Include="Assets\RPG Tutorial\Camera\CameraRaycaster.cs" />
+    <Compile Include="Assets\RPG Tutorial\Camera\FreeLookCam.cs" />
+    <Compile Include="Assets\RPG Tutorial\Camera\PivotBasedCameraRig.cs" />
+    <Compile Include="Assets\RPG Tutorial\Camera\ProtectCameraFromWallClip.cs" />
+    <Compile Include="Assets\RPG Tutorial\Enemy\Enemy.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Player.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\PlayerStats.cs" />
+    <Compile Include="Assets\RPG Tutorial\UI\CursorIconSwitch.cs" />
+    <Compile Include="Assets\RPG Tutorial\UI\EnemyHealthBar.cs" />
+    <Compile Include="Assets\RPG Tutorial\UI\EnemyUI.cs" />
+    <Compile Include="Assets\RPG Tutorial\UI\PlayerHealthBar.cs" />
+    <Compile Include="Assets\RPG Tutorial\Utility\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Graphics\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
