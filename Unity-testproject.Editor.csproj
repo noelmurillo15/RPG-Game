@@ -165,6 +165,7 @@
     <Compile Include="Assets\Graphics\PostProcessing\Editor\Utils\EditorResources.cs" />
     <Compile Include="Assets\Graphics\PostProcessing\Editor\Utils\FxStyles.cs" />
     <Compile Include="Assets\Graphics\PostProcessing\Editor\Utils\ReflectionUtils.cs" />
+    <Compile Include="Assets\RPG Tutorial\Editor\CameraRaycasterEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Graphics\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />

@@ -46,9 +46,9 @@ public class PlayerMovement : MonoBehaviour
             currentDestination = transform.position;
         }
 
-        if (inputMode)
-            MouseMovement();
-        else
+        //if (inputMode)
+        //    MouseMovement();
+        //else
             GamepadMovement();
 
         jump = false;
@@ -69,31 +69,31 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void MouseMovement()
-    {
-        bool crouch = Input.GetKey(KeyCode.C);
+    //private void MouseMovement()
+    //{
+    //    bool crouch = Input.GetKey(KeyCode.C);
 
-        if (Input.GetMouseButton(0))
-        {
-            clickPoint = cameraraycaster.hit.point;
-            switch (cameraraycaster.currentLayerHit)
-            {
-                case Layer.Enemy:
-                    currentDestination = ShortDestination(clickPoint, attackStopRadius);
-                    break;
-                case Layer.Walkable:
-                    currentDestination = ShortDestination(clickPoint, walkStopRadius);
-                    break;
+    //    if (Input.GetMouseButton(0))
+    //    {
+    //        clickPoint = cameraraycaster.hit.point;
+    //        switch (cameraraycaster.currentLayerHit)
+    //        {
+    //            case Layer.Enemy:
+    //                currentDestination = ShortDestination(clickPoint, attackStopRadius);
+    //                break;
+    //            case Layer.Walkable:
+    //                currentDestination = ShortDestination(clickPoint, walkStopRadius);
+    //                break;
 
 
-                default:
-                    print("Unexpected layer found.");
-                    break;
-            }
+    //            default:
+    //                print("Unexpected layer found.");
+    //                break;
+    //        }
 
-            WalkToDestination(crouch);
-        }
-    }
+    //        WalkToDestination(crouch);
+    //    }
+    //}
 
     private void WalkToDestination(bool crouch)
     {

@@ -143,7 +143,6 @@
     <Compile Include="Assets\RPG Tutorial\UI\EnemyUI.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\PlayerHealthBar.cs" />
     <Compile Include="Assets\RPG Tutorial\Utility\SpinMe.cs" />
-    <Compile Include="Assets\RPG Tutorial\Utility\Utility.cs" />
     <Compile Include="Assets\UnityChan\UnityChanController.cs" />
   </ItemGroup>
   <ItemGroup>

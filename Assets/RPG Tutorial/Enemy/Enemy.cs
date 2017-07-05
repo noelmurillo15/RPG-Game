@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour {
         if(distanceToPlayer <= attackRadius)
         {
             aiCharacterControl.SetTarget(player.transform);
-            anim.SetFloat(speedHash, distanceToPlayer);
+            //anim.SetFloat(speedHash, distanceToPlayer);
         }
         else
         {
