@@ -10,6 +10,7 @@ public class CursorIconSwitch : MonoBehaviour {
     [SerializeField] Texture2D unknownCursor = null;
     [SerializeField] Texture2D attackCursor = null;
 
+    //  TODO solve fight between serialize and const
     [SerializeField] const int walkableLayerNumber = 8;
     [SerializeField] const int enemyLayerNumber = 9;
 

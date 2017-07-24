@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
+using UnityEngine.AI;
 
+
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(AICharacterControl))]
 [RequireComponent(typeof(ThirdPersonCharacter))]
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float walkStopRadius = 1f;
-    [SerializeField] float attackStopRadius = 5f;
 
-    ThirdPersonCharacter thirdPersonCharacter;
-    private CameraRaycaster cameraraycaster;
+    CameraRaycaster cameraraycaster;
+    AICharacterControl aiCharControl;
     Vector3 currentDestination, clickPoint;
-    private bool jump; 
-    
+    ThirdPersonCharacter thirdPersonCharacter;
+
+    GameObject walkTarget = null;
+
+    [SerializeField] const int walkableLayerNumber = 8, enemyLayerNumber = 9;
+
     bool inputMode = false;   
 
 
@@ -21,40 +27,16 @@ public class PlayerMovement : MonoBehaviour
         cameraraycaster = Camera.main.GetComponent<CameraRaycaster>();
         thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
         currentDestination = transform.position;
+        aiCharControl = GetComponent<AICharacterControl>();
+
+        walkTarget = new GameObject("walkTarget");
+
+        //  Register an observer
+        cameraraycaster.notifyMouseClickObservers += ProcessMouseClick;
     }
 
-    Vector3 ShortDestination(Vector3 destination, float stopRadius)
-    {
-        Vector3 reductionVector = (destination - transform.position).normalized * stopRadius;
-        return destination - reductionVector;
-    }
-
-    private void Update()
-    {
-        if (!jump)
-        {
-            jump = Input.GetButtonDown("Jump");
-        }
-    }
-
-    // Update is called once per frame
-    private void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            inputMode = !inputMode;
-            currentDestination = transform.position;
-        }
-
-        //if (inputMode)
-        //    MouseMovement();
-        //else
-            GamepadMovement();
-
-        jump = false;
-    }
-
-    private void GamepadMovement()
+    //  TODO : make this work again
+    void GamepadMovement()
     {
         // read inputs
         float h = Input.GetAxis("Horizontal");
@@ -65,57 +47,27 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 movement = v * camForward + h * Camera.main.transform.right;
 
-        thirdPersonCharacter.Move(movement, crouch, jump);
+        thirdPersonCharacter.Move(movement, crouch, false);
     }
 
-
-    //private void MouseMovement()
-    //{
-    //    bool crouch = Input.GetKey(KeyCode.C);
-
-    //    if (Input.GetMouseButton(0))
-    //    {
-    //        clickPoint = cameraraycaster.hit.point;
-    //        switch (cameraraycaster.currentLayerHit)
-    //        {
-    //            case Layer.Enemy:
-    //                currentDestination = ShortDestination(clickPoint, attackStopRadius);
-    //                break;
-    //            case Layer.Walkable:
-    //                currentDestination = ShortDestination(clickPoint, walkStopRadius);
-    //                break;
-
-
-    //            default:
-    //                print("Unexpected layer found.");
-    //                break;
-    //        }
-
-    //        WalkToDestination(crouch);
-    //    }
-    //}
-
-    private void WalkToDestination(bool crouch)
+    void ProcessMouseClick(RaycastHit raycastHit, int layerHit)
     {
-        var playerToClickPoint = currentDestination - transform.position;
+        switch (layerHit)
+        {
+            case enemyLayerNumber:
+                // Navigate to enemy
+                GameObject enemy = raycastHit.collider.gameObject;
+                aiCharControl.SetTarget(enemy.transform);
+                break;
+            case walkableLayerNumber:
+                // Navigate to point on ground
+                walkTarget.transform.position = raycastHit.point;
+                aiCharControl.SetTarget(walkTarget.transform);
+                break;
 
-        if (playerToClickPoint.magnitude >= 1f)
-            thirdPersonCharacter.Move(playerToClickPoint, crouch, jump);
-        else
-            thirdPersonCharacter.Move(Vector3.zero, crouch, jump);      
-    }
-
-    private void OnDrawGizmos()
-    {
-    //  TODO Learn Gizmos
-        //  Movement Gizmo
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, currentDestination);
-        Gizmos.DrawSphere(currentDestination, 0.1f);
-        Gizmos.DrawSphere(clickPoint, 0.1f);
-
-        //  Attack Radius Gizmo
-        Gizmos.color = new Color(255f, 0f, 0f, .5f);
-        Gizmos.DrawWireSphere(transform.position, attackStopRadius);
+            default:
+                Debug.LogWarning("Dont know how to handle mouse click");
+                return;
+        }
     }
 }
