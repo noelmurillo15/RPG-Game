@@ -193,12 +193,6 @@
     <Reference Include="UnityEngine.WindModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp-Editor-firstpass">
-      <HintPath>Library/ScriptAssemblies/Assembly-CSharp-Editor-firstpass.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -331,7 +325,6 @@
     <Compile Include="Assets\3rd Party Assets\Graphics\PostProcessing\Editor\Utils\EditorResources.cs" />
     <Compile Include="Assets\3rd Party Assets\Graphics\PostProcessing\Editor\Utils\FxStyles.cs" />
     <Compile Include="Assets\3rd Party Assets\Graphics\PostProcessing\Editor\Utils\ReflectionUtils.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Editor\Water\Water4\GerstnerDisplaceEditor.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Editor\Water\Water4\PlanarReflectionEditor.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
@@ -380,11 +373,8 @@
     <None Include="Assets\3rd Party Assets\Graphics\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
     <None Include="Assets\3rd Party Assets\Graphics\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\3rd Party Assets\Graphics\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
-    <None Include="Assets\3rd Party Assets\Graphics\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Readme.txt" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\Projectors\Guidelines.txt" />
@@ -402,16 +392,7 @@
     <None Include="Assets\3rd Party Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpec.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpecTransp.shader" />
     <None Include="Assets\3rd Party Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_akarami_blend.shader" />
     <None Include="Assets\3rd Party Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
     <None Include="Assets\3rd Party Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye_blend.shader" />

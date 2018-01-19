@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+
 public class UnityChanController : MonoBehaviour {
 
     public Animator anim;
