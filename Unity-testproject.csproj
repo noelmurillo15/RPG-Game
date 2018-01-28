@@ -377,9 +377,14 @@
     <Compile Include="Assets\RPG Tutorial\Camera\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\RPG Tutorial\Enemy\Enemy.cs" />
     <Compile Include="Assets\RPG Tutorial\Interfaces\IDamageable.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Mana.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\Player.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\PlayerMovement.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\PlayerStats.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\Behaviours\ProjectileSpellBehaviour.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\Configurations\ProjectileConfig.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\Configurations\SpellConfig.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\ISpell.cs" />
     <Compile Include="Assets\RPG Tutorial\Projectiles\Projectile.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\EnemyHealthBar.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\EnemyUI.cs" />

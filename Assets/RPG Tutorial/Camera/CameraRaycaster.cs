@@ -51,16 +51,18 @@ public class CameraRaycaster : MonoBehaviour {
     bool RaycastForEnemy(Ray ray)
     {
         RaycastHit hitInfo;
-        Physics.Raycast(ray, out hitInfo, maxRaycastDepth);
-
-        var gameObjectHit = hitInfo.collider.gameObject;
-        var enemyhit = gameObjectHit.GetComponent<Enemy>();
-
-        if (enemyhit)
+        if (Physics.Raycast(ray, out hitInfo, maxRaycastDepth))
         {
-            Cursor.SetCursor(targetCursor, cursorHotspot, CursorMode.Auto);
-            onMouseOverEnemy(enemyhit);
-            return true;
+
+            var gameObjectHit = hitInfo.collider.gameObject;
+            var enemyhit = gameObjectHit.GetComponent<Enemy>();
+
+            if (enemyhit)
+            {
+                Cursor.SetCursor(targetCursor, cursorHotspot, CursorMode.Auto);
+                onMouseOverEnemy(enemyhit);
+                return true;
+            }
         }
         return false;
     }
