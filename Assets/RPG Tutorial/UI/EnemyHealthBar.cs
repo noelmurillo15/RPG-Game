@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// Allan Murillo : Unity RPG Core Test Project
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class EnemyHealthBar : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class EnemyHealthBar : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        enemy = GetComponentInParent<Enemy>(); // Different to way player's health bar finds player
+        enemy = GetComponentInParent<Enemy>();
         healthBarRawImage = GetComponent<RawImage>();
     }
 

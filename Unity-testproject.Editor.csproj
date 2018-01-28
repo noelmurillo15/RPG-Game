@@ -330,7 +330,6 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Editor\Water\Water4\WaterBaseEditor.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Editor\Water\Water4\WaterEditorUtility.cs" />
-    <Compile Include="Assets\RPG Tutorial\Editor\CameraRaycasterEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\Graphics\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />

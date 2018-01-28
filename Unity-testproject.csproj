@@ -381,7 +381,6 @@
     <Compile Include="Assets\RPG Tutorial\Player\PlayerMovement.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\PlayerStats.cs" />
     <Compile Include="Assets\RPG Tutorial\Projectiles\Projectile.cs" />
-    <Compile Include="Assets\RPG Tutorial\UI\CursorIconSwitch.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\EnemyHealthBar.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\EnemyUI.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\PlayerHealthBar.cs" />

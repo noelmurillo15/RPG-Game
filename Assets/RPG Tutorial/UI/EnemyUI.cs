@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿// Allan Murillo : Unity RPG Core Test Project
+using UnityEngine;
 
 // Add a UI Socket transform to your enemy
 // Attach this script to the socket
 // Link to a canvas prefab that contains NPC UI
 public class EnemyUI : MonoBehaviour {
+
 
     // Works around Unity 5.5's lack of nested prefabs
     [Tooltip("The UI canvas prefab")]
@@ -12,14 +14,14 @@ public class EnemyUI : MonoBehaviour {
 
     Camera cameraToLookAt;
 
-    // Use this for initialization 
+
+
     void Start()
     {
         cameraToLookAt = Camera.main;
         Instantiate(enemyCanvasPrefab, transform.position, Quaternion.identity, transform);
     }
 
-    // Update is called once per frame 
     void LateUpdate()
     {
         transform.LookAt(cameraToLookAt.transform);
