@@ -5,10 +5,11 @@ using UnityEngine;
 namespace RPG {
 
     [CreateAssetMenu(menuName = ("RPG/Spell/Area of Effect"))]
-    public class AoeSpellConfig : Spell {
+    public class AoeSpellConfig : SpellConfig
+    {
 
 
-        [Header("Aoe Spell")]   //  Header for inspector setting grouping
+        [Header("Area of Effect Settings")]   //  Header for inspector setting grouping
         [SerializeField] float radius = 5f;
         [SerializeField] float damage = 15f;
 

@@ -5,10 +5,11 @@ using UnityEngine;
 namespace RPG {
 
     [CreateAssetMenu(menuName = ("RPG/Spell/Buff"))]
-    public class BuffSpellConfig : Spell {
+    public class BuffSpellConfig : SpellConfig
+    {
 
 
-        [Header("Buff Spell")]   //  Header for inspector setting grouping
+        [Header("Buff Settings")]   //  Header for inspector setting grouping
         [SerializeField] BuffType buff;
         [SerializeField] float statChangeAmt = 1f;
 
@@ -18,7 +19,7 @@ namespace RPG {
             var behaviourComponent = gameObjToAttachTo.AddComponent<BuffSpellBehaviour>();
             behaviourComponent.SetConfig(this);
             behaviour = behaviourComponent;
-        }
+        }        
 
         public float GetStatChangeAmount() { return statChangeAmt; }
 

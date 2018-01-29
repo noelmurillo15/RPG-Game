@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace RPG {
 
-    public class ProjectileSpellBehaviour : MonoBehaviour, ISpell {
+    public class ProjectileSpellBehaviour : SpellBehaviour
+    {
 
 
         ProjectileSpellConfig config;
@@ -20,7 +21,7 @@ namespace RPG {
             this.config = configToAttach;
         }
 
-        public void Activate(SpellUseParams spellParams)
+        public override void Activate(SpellUseParams spellParams)
         {
             float damageToDeal = spellParams.baseDamage + config.GetDamage();
             spellParams.target.AdjustHealth(damageToDeal * -1f);

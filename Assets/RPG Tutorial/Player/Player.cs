@@ -20,7 +20,7 @@ public class Player : MonoBehaviour, IDamageable {
     float maxAttackRange = 5f;
 
     //  Temporarily Serialized for dubbing
-    [SerializeField] Spell[] spells;
+    [SerializeField] SpellConfig[] spells;
     PlayerStats stats;
 
     
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour, IDamageable {
         {            
             var spellParams = new SpellUseParams(myTarget, baseDmg);
             spells[spellIndex].Activate(spellParams);
-            manaComponent.ConsumeMana(mySpell.GetManaCost());
+            manaComponent.AdjustMana(mySpell.GetManaCost() * -1);
         }
     }
 

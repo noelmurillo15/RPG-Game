@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RPG {
 
-    public class BuffSpellBehaviour : MonoBehaviour, ISpell {
+    public class BuffSpellBehaviour : SpellBehaviour {
 
 
         BuffSpellConfig config;
@@ -21,7 +21,7 @@ namespace RPG {
             this.config = configToAttach;
         }
 
-        public void Activate(SpellUseParams spellParams)
+        public override void Activate(SpellUseParams spellParams)
         {
             spellParams.target.StatChange(config.GetBuffType(), config.GetStatChangeAmount());
         }

@@ -2687,6 +2687,8 @@ MonoBehaviour:
   maxMana: 100
   currentMana: 0
   regenAmount: 1
+  manaCriticalPercent: 0.15
+  manaRegenActive: 0
 --- !u!114 &114983870376265884
 MonoBehaviour:
   m_ObjectHideFlags: 1

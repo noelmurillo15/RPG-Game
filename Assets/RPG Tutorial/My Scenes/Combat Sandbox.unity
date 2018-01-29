@@ -1476,6 +1476,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114937411281817916, guid: 742a955b27b8d4641a709872b72b307a,
+        type: 2}
+      propertyPath: manaOrb
+      value: 
+      objectReference: {fileID: 1504245594}
     - target: {fileID: 4475349107029236, guid: 742a955b27b8d4641a709872b72b307a, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0.53267515
@@ -1492,11 +1497,6 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: -0.11041513
       objectReference: {fileID: 0}
-    - target: {fileID: 114937411281817916, guid: 742a955b27b8d4641a709872b72b307a,
-        type: 2}
-      propertyPath: manaOrb
-      value: 
-      objectReference: {fileID: 1504245594}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 742a955b27b8d4641a709872b72b307a, type: 2}
   m_IsPrefabParent: 0

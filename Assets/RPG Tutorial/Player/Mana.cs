@@ -1,6 +1,8 @@
-﻿using System;
+﻿// Allan Murillo : Unity RPG Core Test Project
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+
 
 public class Mana : MonoBehaviour {
 
@@ -9,6 +11,8 @@ public class Mana : MonoBehaviour {
     [SerializeField] float maxMana = 100f;
     [SerializeField] float currentMana;
     [SerializeField] float regenAmount = 1f;
+    [SerializeField] float manaCriticalPercent = .1f;
+    [SerializeField] bool manaRegenActive = false;
     CameraRaycaster camRaycaster;
 
 
@@ -17,43 +21,49 @@ public class Mana : MonoBehaviour {
         currentMana = maxMana;
     }
 
-    void FixedUpdate()
+    IEnumerator ManaRegen()
     {
-        if(currentMana < maxMana)
+        manaRegenActive = true;
+        while (currentMana < maxMana)
         {
-            AddMana(regenAmount);
+            Regeneration(regenAmount);
+            yield return new WaitForSeconds(.2f);
         }
-    }
-
-    private void AddMana(float regenAmount)
-    {
-        var manaToAdd = regenAmount * Time.fixedDeltaTime;
-        currentMana = Mathf.Clamp(currentMana + manaToAdd, 0, maxMana);
-        UpdateManaBar();
-    }
-
-    public bool IsManaAvailable(float amt)
-    {
-        return amt <= currentMana;
-    }
-
-    public void ConsumeMana(float amt)
-    {
-        if (IsManaAvailable(amt))
-        {
-            float newMana = currentMana - amt;
-            currentMana = Mathf.Clamp(newMana, 0, maxMana);
-            UpdateManaBar();
-        }
-    }
-
-    void UpdateManaBar()
-    {
-        manaOrb.fillAmount = ManaPercentage();
+        manaRegenActive = false;
     }
 
     public float ManaPercentage()
     {
         return currentMana / maxMana;
+
     }
+    public bool IsManaAvailable(float amt)
+    {
+        return amt <= currentMana;
+    }
+
+    private void Regeneration(float hpToRegain)
+    {
+        AdjustMana(hpToRegain);
+    }
+
+    public void AdjustMana(float amt)
+    {
+        if (!IsManaAvailable(amt))
+        {
+            return;
+        }
+
+        currentMana = Mathf.Clamp(currentMana + amt, 0, maxMana);
+        if (ManaPercentage() < manaCriticalPercent && !manaRegenActive)
+        {
+            StartCoroutine(ManaRegen());
+        }
+        UpdateManaBar();
+    }
+
+    void UpdateManaBar()
+    {
+        manaOrb.fillAmount = ManaPercentage();
+    }    
 }

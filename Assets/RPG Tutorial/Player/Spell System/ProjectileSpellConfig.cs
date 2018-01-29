@@ -5,10 +5,11 @@ using UnityEngine;
 namespace RPG {
 
     [CreateAssetMenu(menuName = ("RPG/Spell/Projectile"))]
-    public class ProjectileSpellConfig : Spell {
+    public class ProjectileSpellConfig : SpellConfig
+    {
 
 
-        [Header("Projectile Spell")]   //  Header for inspector setting grouping
+        [Header("Projectile Settings")]   //  Header for inspector setting grouping
         [SerializeField] float damage;
 
 

@@ -387,7 +387,8 @@
     <Compile Include="Assets\RPG Tutorial\Player\Spell System\BuffSpellConfig.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\Spell System\ProjectileSpellBehaviour.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\Spell System\ProjectileSpellConfig.cs" />
-    <Compile Include="Assets\RPG Tutorial\Player\Spell System\Spell.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\SpellBehaviour.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\SpellConfig.cs" />
     <Compile Include="Assets\RPG Tutorial\Projectiles\Projectile.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\EnemyHealthBar.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\EnemyUI.cs" />
