@@ -9,6 +9,13 @@ namespace RPG {
         void Activate(SpellUseParams spellParams);
     }
 
+    public enum BuffType
+    {
+        NONE,
+        HP,
+        MANA,
+    }
+
     public struct SpellUseParams {
         public IDamageable target;
         public float baseDamage;

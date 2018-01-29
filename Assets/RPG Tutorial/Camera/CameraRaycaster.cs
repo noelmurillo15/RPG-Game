@@ -10,14 +10,19 @@ public class CameraRaycaster : MonoBehaviour {
 
     [SerializeField] Texture2D walkCursor = null;
     [SerializeField] Texture2D targetCursor = null;
+    [SerializeField] Texture2D playerCursor = null;
     [SerializeField] Vector2 cursorHotspot = new Vector2(0,0);
-    
+
+    const int PLAYER_LAYER = 8; //  Must match walkable layer in unity
     const int WALKABLE_LAYER = 9; //  Must match walkable layer in unity
     float maxRaycastDepth = 100f; // Hard coded value
 
     Rect screenRect = new Rect(0,0, Screen.width, Screen.height);   //  TODO : Screen resize
 
-	// Setup delegates for broadcasting layer changes to other classes
+    // Setup delegates for broadcasting layer changes to other classes
+    public delegate void GeneralEventHanlder(); // declare new delegate type
+    public event GeneralEventHanlder onMouseOverPlayer; // instantiate an observer set
+
     public delegate void OnMouseOverTerrain(Vector3 destination); // declare new delegate type
     public event OnMouseOverTerrain onMouseOverTerrain; // instantiate an observer set
 
@@ -49,6 +54,7 @@ public class CameraRaycaster : MonoBehaviour {
 
             //  Specify Layer Priorities
             if (RaycastForEnemy(ray)) { return; }   //  Enemies are top priority
+            if (RaycastForPlayer(ray)) { return; }
             if (RaycastForTerrain(ray)) { return; }
         }
     }
@@ -66,6 +72,22 @@ public class CameraRaycaster : MonoBehaviour {
             {
                 Cursor.SetCursor(targetCursor, cursorHotspot, CursorMode.Auto);
                 onMouseOverEnemy(enemyhit);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool RaycastForPlayer(Ray ray)
+    {
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, maxRaycastDepth))
+        {
+            var gameObjectHit = hitInfo.collider.gameObject;
+            if (gameObjectHit.CompareTag("Player"))
+            {
+                Cursor.SetCursor(playerCursor, cursorHotspot, CursorMode.Auto);
+                onMouseOverPlayer();
                 return true;
             }
         }

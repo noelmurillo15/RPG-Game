@@ -1,5 +1,4 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
-using System;
 using UnityEngine;
 
 
@@ -9,12 +8,12 @@ namespace RPG {
 
 
         AoeSpellConfig config;
-        ParticleSystem myParticleSystem;
+        ParticleSystem myParticleSystem;        
 
 
         void Start()
         {
-            print("Aoe Spell behaviour Attached");
+            //print("Aoe Spell behaviour Attached");
         }
 
         public void SetConfig(AoeSpellConfig configToAttach)
@@ -62,7 +61,7 @@ namespace RPG {
                 var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(damageToDeal);
+                    damageable.AdjustHealth(damageToDeal * -1f);
                 }
             }
         }

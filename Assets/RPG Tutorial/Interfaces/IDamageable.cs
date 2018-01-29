@@ -1,9 +1,11 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
 
+namespace RPG {
 
-public interface IDamageable {
+    public interface IDamageable {
 
 
-    void TakeDamage(float dmg);
-
+        void AdjustHealth(float dmg);
+        void StatChange(BuffType buff, float statAmt);
+    }
 }

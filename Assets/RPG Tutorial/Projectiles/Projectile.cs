@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour {
 
 
     public float speed;
-    public float damage;
+    public float damage = 5f;
 
 
 
@@ -17,11 +17,17 @@ public class Projectile : MonoBehaviour {
 
     void OnCollisionEnter(Collision other)
     {
-        Component damageableComponent = other.gameObject.GetComponent(typeof(IDamageable));
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Component damageableComponent = other.gameObject.GetComponent(typeof(RPG.IDamageable));
         if (damageableComponent)
         {
-            (damageableComponent as IDamageable).TakeDamage(damage);
+            (damageableComponent as RPG.IDamageable).AdjustHealth(damage * -1f);
         }
-        Destroy(gameObject, .1f);
+        Destroy(gameObject, .01f);
     }
 } 

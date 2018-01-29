@@ -3,83 +3,142 @@ using RPG;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-
+using System;
 
 public class Player : MonoBehaviour, IDamageable {
 
 
-    [SerializeField] GameObject target;
     [SerializeField] float maxHP = 100f;
     [SerializeField] float currentHP = 100f;
     [SerializeField] float baseDmg = 10f;
 
-    CameraRaycaster camRaycaster;
+    IDamageable myTarget = null;
+
+    CameraRaycaster camRaycaster = null;
     float lastHitTime = 0f;
     float minTimeBetweenHits = .5f;
     float maxAttackRange = 5f;
 
     //  Temporarily Serialized for dubbing
     [SerializeField] Spell[] spells;
+    PlayerStats stats;
 
     
 
     void Start()
     {
+        stats = GetComponent<PlayerStats>();
         camRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+
         camRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
-
-        spells[0].AttachComponent(gameObject);
+        camRaycaster.onMouseOverPlayer += OnMouseOverPlayer;
+        AttachInitialSpells();
     }
 
-
-    void OnMouseOverEnemy(Enemy enemy)
+    private void AttachInitialSpells()
     {
-        //  TODO : is target in range
-        if (Input.GetMouseButtonDown(0) && IsTargetInRange(enemy.gameObject))
+        for (int spellIndex = 0; spellIndex < spells.Length; spellIndex++)
         {
-            AttackTarget(enemy);
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            AttemptSpell(0, enemy);
+            spells[spellIndex].AttachComponent(gameObject);
         }
     }
 
-    private void AttemptSpell(int spellIndex, Enemy enemy)
+    public float GetHealthAsPercentage()
     {
+        return currentHP / maxHP;
+    }
+
+    private void ScanForSpellKeyDown()
+    {
+        for (int keyIndex = 0; keyIndex < spells.Length + 1; keyIndex++)
+        {
+            if (Input.GetKeyDown(keyIndex.ToString()))
+            {
+                AttemptSpell(keyIndex - 1);
+            }
+        }
+    }
+
+    private void AttemptSpell(int spellIndex)
+    {
+        if (myTarget == null)
+        {
+            Debug.Log("My Target is null");
+            return;
+        }
+
         var manaComponent = GetComponent<Mana>();
-        var manaCost = spells[spellIndex].GetManaCost();
+        var mySpell = spells[spellIndex];        
 
-        if (manaComponent.IsManaAvailable(manaCost)) //  TODO : read from scriptable object
-        {
-            var spellParams = new SpellUseParams(enemy, baseDmg);
+        if (manaComponent.IsManaAvailable(mySpell.GetManaCost()))
+        {            
+            var spellParams = new SpellUseParams(myTarget, baseDmg);
             spells[spellIndex].Activate(spellParams);
-            manaComponent.ConsumeMana(manaCost);
+            manaComponent.ConsumeMana(mySpell.GetManaCost());
         }
     }
 
-    void AttackTarget(Enemy enemy)
-    {
-        if (Time.time - lastHitTime > minTimeBetweenHits)
-        {           
-            enemy.TakeDamage(baseDmg);
-            lastHitTime = Time.time;
-        }
-    }
-    
     private bool IsTargetInRange(GameObject target)
     {
         float distToTarget = (target.transform.position - transform.position).magnitude;
         return distToTarget <= maxAttackRange;
     }
 
-    public void TakeDamage(float dmg)
+    void AttackTarget()
     {
-        ReduceHealth(dmg);
-        bool playerDead = (currentHP - dmg <= 0f);
+        if (Time.time - lastHitTime > minTimeBetweenHits)
+        {
+            myTarget.AdjustHealth(baseDmg * -1f);
+            lastHitTime = Time.time;
+        }
+    }
+
+    public void AdjustHealth(float amt)
+    {
+        currentHP = Mathf.Clamp(currentHP + amt, 0f, maxHP);
+        bool playerDead = (currentHP <= 0f);
         if (playerDead)
         {
             StartCoroutine(KillPlayer());
+        }
+    }
+
+    public void StatChange(BuffType buff, float statAmt)
+    {
+        //  TODO : implement and modify stat change
+        switch (buff)
+        {
+            case BuffType.HP:
+                AdjustHealth(statAmt);
+                break;
+            case BuffType.MANA:
+                break;
+            default:
+                Debug.Log("Buff type not implemented");
+                break;
+        }
+    }
+
+    void OnMouseOverEnemy(Enemy enemyToSet)
+    {
+        myTarget = enemyToSet;
+        if (Input.GetMouseButtonDown(0) && IsTargetInRange(enemyToSet.gameObject))
+        {
+            AttackTarget();
+        }
+
+        if (GetHealthAsPercentage() > Mathf.Epsilon)
+        {
+            ScanForSpellKeyDown();
+        }
+    }
+
+    void OnMouseOverPlayer()
+    {
+        myTarget = this;
+        if (GetHealthAsPercentage() > Mathf.Epsilon)
+        {
+            ScanForSpellKeyDown();
         }
     }
 
@@ -91,17 +150,10 @@ public class Player : MonoBehaviour, IDamageable {
         Debug.Log("Play Death Animation");
         //  Wait a bit      
         yield return new WaitForSecondsRealtime(2f);    //  TODO : use audio clip length
+        //  De-register from event listeners
+        camRaycaster.onMouseOverEnemy -= OnMouseOverEnemy;
+        camRaycaster.onMouseOverPlayer -= OnMouseOverPlayer;
         //  Reload Scene (scenemanager)        
         SceneManager.LoadScene(0);
-    }
-
-    void ReduceHealth(float dmg)
-    {
-        currentHP = Mathf.Clamp(currentHP - dmg, 0f, maxHP);
-    }
-
-    public float GetHealthAsPercentage()
-    {
-        return currentHP / maxHP;
-    }
+    }    
 }

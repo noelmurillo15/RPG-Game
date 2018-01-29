@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2441e6bc4f214498a516a4b48ec900, type: 3}
   m_Name: AoeBlast
   m_EditorClassIdentifier: 
-  manaCost: 5
+  manaCost: 10
   particlePrefab: {fileID: 1488839932605426, guid: 2e019143f1edef2459af3f4f5e47ace0,
     type: 2}
   dmgMultiplier: 1

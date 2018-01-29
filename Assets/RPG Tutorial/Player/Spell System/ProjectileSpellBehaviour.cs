@@ -12,7 +12,7 @@ namespace RPG {
 
         void Start()
         {
-            print("Projectile Spell behaviour Attached");
+            //print("Projectile Spell behaviour Attached");
         }
 
         public void SetConfig(ProjectileSpellConfig configToAttach)
@@ -23,7 +23,7 @@ namespace RPG {
         public void Activate(SpellUseParams spellParams)
         {
             float damageToDeal = spellParams.baseDamage + config.GetDamage();
-            spellParams.target.TakeDamage(damageToDeal);
+            spellParams.target.AdjustHealth(damageToDeal * -1f);
         }
     }
 }
