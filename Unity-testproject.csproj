@@ -381,10 +381,11 @@
     <Compile Include="Assets\RPG Tutorial\Player\Player.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\PlayerMovement.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\PlayerStats.cs" />
-    <Compile Include="Assets\RPG Tutorial\Player\Spell System\Behaviours\ProjectileSpellBehaviour.cs" />
-    <Compile Include="Assets\RPG Tutorial\Player\Spell System\Configurations\ProjectileConfig.cs" />
-    <Compile Include="Assets\RPG Tutorial\Player\Spell System\Configurations\SpellConfig.cs" />
-    <Compile Include="Assets\RPG Tutorial\Player\Spell System\ISpell.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\AoeSpellBehaviour.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\AoeSpellConfig.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\ProjectileSpellBehaviour.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\ProjectileSpellConfig.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\Spell System\Spell.cs" />
     <Compile Include="Assets\RPG Tutorial\Projectiles\Projectile.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\EnemyHealthBar.cs" />
     <Compile Include="Assets\RPG Tutorial\UI\EnemyUI.cs" />

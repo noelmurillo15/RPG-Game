@@ -10,7 +10,7 @@ public class Player : MonoBehaviour, IDamageable {
     [SerializeField] GameObject target;
     [SerializeField] float maxHP = 100f;
     [SerializeField] float currentHP = 100f;
-    [SerializeField] float dmgPerHit = 10f;
+    [SerializeField] float baseDmg = 10f;
 
     CameraRaycaster camRaycaster;
     float lastHitTime = 0f;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour, IDamageable {
     float maxAttackRange = 5f;
 
     //  Temporarily Serialized for dubbing
-    [SerializeField] SpellConfig spell1;
+    [SerializeField] Spell[] spells;
 
     
 
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour, IDamageable {
         camRaycaster = Camera.main.GetComponent<CameraRaycaster>();
         camRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
 
-        spell1.AddComponent(gameObject);
+        spells[0].AttachComponent(gameObject);
     }
 
 
@@ -40,19 +40,20 @@ public class Player : MonoBehaviour, IDamageable {
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            AttemptSpell1(enemy);
+            AttemptSpell(0, enemy);
         }
     }
 
-    private void AttemptSpell1(Enemy enemy)
+    private void AttemptSpell(int spellIndex, Enemy enemy)
     {
         var manaComponent = GetComponent<Mana>();
+        var manaCost = spells[spellIndex].GetManaCost();
 
-        if (manaComponent.IsManaAvailable(10f)) //  TODO : read from scriptable object
+        if (manaComponent.IsManaAvailable(manaCost)) //  TODO : read from scriptable object
         {
-            manaComponent.ConsumeMana(10f);
-
-            //  TODO : Use Ability
+            var spellParams = new SpellUseParams(enemy, baseDmg);
+            spells[spellIndex].Activate(spellParams);
+            manaComponent.ConsumeMana(manaCost);
         }
     }
 
@@ -60,7 +61,7 @@ public class Player : MonoBehaviour, IDamageable {
     {
         if (Time.time - lastHitTime > minTimeBetweenHits)
         {           
-            enemy.TakeDamage(dmgPerHit);
+            enemy.TakeDamage(baseDmg);
             lastHitTime = Time.time;
         }
     }
