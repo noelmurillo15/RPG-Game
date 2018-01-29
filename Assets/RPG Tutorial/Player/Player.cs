@@ -3,7 +3,7 @@ using RPG;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using System;
+
 
 public class Player : MonoBehaviour, IDamageable {
 
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour, IDamageable {
     {
         for (int spellIndex = 0; spellIndex < spells.Length; spellIndex++)
         {
-            spells[spellIndex].AttachComponent(gameObject);
+            spells[spellIndex].AttachSpell(gameObject);
         }
     }
 

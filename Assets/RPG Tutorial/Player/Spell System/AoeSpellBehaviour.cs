@@ -7,19 +7,6 @@ namespace RPG {
     public class AoeSpellBehaviour : SpellBehaviour {
 
 
-        AoeSpellConfig config;
-
-
-        void Start()
-        {
-            //print("Aoe Spell behaviour Attached");
-        }
-
-        public void SetConfig(AoeSpellConfig configToAttach)
-        {
-            this.config = configToAttach;
-        }
-
         public override void Activate(SpellUseParams spellParams)
         {
             DealRadialDamage(spellParams.baseDamage);
@@ -27,15 +14,17 @@ namespace RPG {
      
         private void DealRadialDamage(float baseDmg)
         {
+            var aoeSpellConfig = (config as AoeSpellConfig);
+
             //  Static Sphere Cast for targets
             RaycastHit[] hits = Physics.SphereCastAll(
                 transform.position,
-                config.GetRadius(),
+                aoeSpellConfig.GetRadius(),
                 Vector3.up,
-                config.GetRadius()
+                aoeSpellConfig.GetRadius()
             );
 
-            float damageToDeal = baseDmg + config.GetDamage();
+            float damageToDeal = baseDmg + aoeSpellConfig.GetDamage();
 
             foreach (RaycastHit hit in hits)
             {
@@ -50,6 +39,7 @@ namespace RPG {
                     damageable.AdjustHealth(damageToDeal * -1f);
                 }
             }
+            PlayParticleEffect();
         }
     }
 }

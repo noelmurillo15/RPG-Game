@@ -4,27 +4,17 @@ using UnityEngine;
 
 namespace RPG {
 
-    public class ProjectileSpellBehaviour : SpellBehaviour
-    {
+    public class ProjectileSpellBehaviour : SpellBehaviour {
 
-
-        ProjectileSpellConfig config;
-
-
-        void Start()
-        {
-            //print("Projectile Spell behaviour Attached");
-        }
-
-        public void SetConfig(ProjectileSpellConfig configToAttach)
-        {
-            this.config = configToAttach;
-        }
 
         public override void Activate(SpellUseParams spellParams)
         {
-            float damageToDeal = spellParams.baseDamage + config.GetDamage();
+            var projectileSpellConfig = (config as ProjectileSpellConfig);
+
+            float damageToDeal = spellParams.baseDamage + projectileSpellConfig.GetDamage();
             spellParams.target.AdjustHealth(damageToDeal * -1f);
+
+            PlayParticleEffect();
         }
     }
 }

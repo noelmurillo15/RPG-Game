@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿// Allan Murillo : Unity RPG Core Test Project
+using UnityEngine;
+
 
 namespace RPG {
 
@@ -21,6 +23,7 @@ namespace RPG {
 
     public abstract class SpellConfig : ScriptableObject {
 
+
         [Header("Spell General Settings")]   //  Header for inspector setting grouping
         [SerializeField] float manaCost = 10f;
 
@@ -32,7 +35,14 @@ namespace RPG {
 
 
 
-        public abstract void AttachComponent(GameObject gameObjToAttachTo);        
+        public abstract SpellBehaviour GetUniqueBehaviour(GameObject objAttached);
+
+        public void AttachSpell(GameObject objAttached)
+        {
+            SpellBehaviour behaviourComponent = GetUniqueBehaviour(objAttached);
+            behaviourComponent.SetConfig(this);
+            behaviour = behaviourComponent;
+        }        
 
         public void Activate(SpellUseParams mySpell)
         {

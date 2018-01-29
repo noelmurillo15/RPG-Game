@@ -1,4 +1,4 @@
-using System;
+using RPG;
 using UnityEngine;
 
 namespace UnityStandardAssets.Characters.ThirdPerson

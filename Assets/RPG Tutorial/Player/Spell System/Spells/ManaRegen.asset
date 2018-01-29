@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acc1c22d61f8df4db38dbb1ab4bc146, type: 3}
   m_Name: ManaRegen
   m_EditorClassIdentifier: 
-  manaCost: 10
+  manaCost: 0
   audio: {fileID: 0}
   animation: {fileID: 0}
   particlePrefab: {fileID: 1746850453115452, guid: b9bd1e1d69ade9345accec97f6f0c35a,

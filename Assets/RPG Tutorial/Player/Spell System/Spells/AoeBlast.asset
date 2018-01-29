@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f2441e6bc4f214498a516a4b48ec900, type: 3}
   m_Name: AoeBlast
   m_EditorClassIdentifier: 
-  manaCost: 10
+  manaCost: 20
+  audio: {fileID: 0}
+  animation: {fileID: 0}
   particlePrefab: {fileID: 1488839932605426, guid: 2e019143f1edef2459af3f4f5e47ace0,
     type: 2}
-  dmgMultiplier: 1
-  animation: {fileID: 0}
   radius: 10
-  damage: 5
+  damage: 10

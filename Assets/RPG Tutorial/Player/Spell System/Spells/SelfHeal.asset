@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Name: SelfHeal
   m_EditorClassIdentifier: 
   manaCost: 25
+  audio: {fileID: 0}
+  animation: {fileID: 0}
   particlePrefab: {fileID: 1746850453115452, guid: 9e6969bc927392d43b160569863ea01b,
     type: 2}
-  dmgMultiplier: 1
-  animation: {fileID: 0}
   buff: 1
-  statChangeAmt: 10
+  statChangeAmt: 25

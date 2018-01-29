@@ -333,7 +333,6 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\HeadBob.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\MouseLook.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\RigidbodyFirstPersonController.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\AICharacterControl.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonCharacter.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Environment\Water\Basic\Scripts\WaterBasic.cs" />
@@ -377,9 +376,9 @@
     <Compile Include="Assets\RPG Tutorial\Camera\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\RPG Tutorial\Enemy\Enemy.cs" />
     <Compile Include="Assets\RPG Tutorial\Interfaces\IDamageable.cs" />
+    <Compile Include="Assets\RPG Tutorial\Player\CharacterMovement.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\Mana.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\Player.cs" />
-    <Compile Include="Assets\RPG Tutorial\Player\PlayerMovement.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\PlayerStats.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\Spell System\AoeSpellBehaviour.cs" />
     <Compile Include="Assets\RPG Tutorial\Player\Spell System\AoeSpellConfig.cs" />

@@ -1018,7 +1018,6 @@ GameObject:
   - component: {fileID: 114584969491078718}
   - component: {fileID: 114937411281817916}
   - component: {fileID: 114810876268067102}
-  - component: {fileID: 114075721729884640}
   - component: {fileID: 114983870376265884}
   m_Layer: 8
   m_Name: Player
@@ -2607,18 +2606,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: b3daef9f9643f484886407c9105478ac, type: 2}
---- !u!114 &114075721729884640
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737699000770424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5335f0882fe4d478883cc8c58ce906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &114372103441858814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2664,14 +2651,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 180
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 6
-  m_GravityMultiplier: 1
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 0.7
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 1
+  movingTurnSpeed: 180
+  idleTurnSpeed: 90
+  runCycleOffset: 0.2
 --- !u!114 &114937411281817916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2700,6 +2682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f86f424d4b7be54299e3c9b86e01163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stoppingDistance: 1
 --- !u!124 &124655573003104560
 Behaviour:
   m_ObjectHideFlags: 1

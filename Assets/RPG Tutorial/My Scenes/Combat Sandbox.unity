@@ -1141,7 +1141,6 @@ GameObject:
   - component: {fileID: 1362449857}
   - component: {fileID: 1362449853}
   - component: {fileID: 1362449855}
-  - component: {fileID: 1362449854}
   m_Layer: 9
   m_Name: EnemySkeleton (1)
   m_TagString: Enemy
@@ -1169,19 +1168,6 @@ MonoBehaviour:
   shotPerSecond: 3
   projectile: {fileID: 1809726366236872, guid: a8a8952176441b445b63f9b0d7e23faf, type: 2}
   projectileSocket: {fileID: 542121971}
---- !u!114 &1362449854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114719759454595138, guid: 91556895ef9b243438c8c1fbb0056e63,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1362449852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5335f0882fe4d478883cc8c58ce906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1663296202}
 --- !u!114 &1362449855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1194,14 +1180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 180
-  m_StationaryTurnSpeed: 180
-  m_JumpPower: 0
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 0.1
-  m_AnimSpeedMultiplier: 1
-  m_GroundCheckDistance: 1
+  movingTurnSpeed: 180
+  idleTurnSpeed: 90
+  runCycleOffset: 0.2
 --- !u!195 &1362449856
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1432,11 +1413,6 @@ Transform:
   m_Father: {fileID: 746761814}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1663296202 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4068800635887528, guid: 742a955b27b8d4641a709872b72b307a,
-    type: 2}
-  m_PrefabInternal: {fileID: 1668421808}
 --- !u!1001 &1668421808
 Prefab:
   m_ObjectHideFlags: 0
@@ -1476,11 +1452,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114937411281817916, guid: 742a955b27b8d4641a709872b72b307a,
-        type: 2}
-      propertyPath: manaOrb
-      value: 
-      objectReference: {fileID: 1504245594}
     - target: {fileID: 4475349107029236, guid: 742a955b27b8d4641a709872b72b307a, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0.53267515
@@ -1497,6 +1468,11 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: -0.11041513
       objectReference: {fileID: 0}
+    - target: {fileID: 114937411281817916, guid: 742a955b27b8d4641a709872b72b307a,
+        type: 2}
+      propertyPath: manaOrb
+      value: 
+      objectReference: {fileID: 1504245594}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 742a955b27b8d4641a709872b72b307a, type: 2}
   m_IsPrefabParent: 0
@@ -1837,11 +1813,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114719759454595138, guid: 91556895ef9b243438c8c1fbb0056e63,
-        type: 2}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1663296202}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 91556895ef9b243438c8c1fbb0056e63, type: 2}
   m_IsPrefabParent: 0
