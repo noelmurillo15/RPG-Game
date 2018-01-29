@@ -24,7 +24,9 @@ namespace RPG {
 
 
         [Header("Spell General")]   //  Header for inspector setting grouping
-        [SerializeField] float manaCost = 10f;
+        [SerializeField]
+        float manaCost = 10f;
+        [SerializeField] GameObject particlePrefab;
         [SerializeField] float dmgMultiplier = 2f;
         [SerializeField] AnimationClip animation;
 
@@ -39,6 +41,14 @@ namespace RPG {
             behaviour.Activate(spellParams);
         }
 
-        public float GetManaCost() { return manaCost; }
+        public GameObject GetParticlePrefab()
+        {
+            return particlePrefab;
+        }
+
+        public float GetManaCost()
+        {
+            return manaCost;
+        }
     }
 }

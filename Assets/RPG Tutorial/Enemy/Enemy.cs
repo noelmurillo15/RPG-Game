@@ -77,10 +77,10 @@ public class Enemy : MonoBehaviour, IDamageable {
     void SpawnProjectile(){
         GameObject newProjectile = Instantiate(projectile, projectileSocket.transform.position, Quaternion.identity);
         Projectile newComponent = newProjectile.GetComponent<Projectile>();
-        newComponent.projectileDamage = attackDmg;
+        newComponent.damage = attackDmg;
 
         Vector3 unitVector = (player.transform.position - projectileSocket.transform.position).normalized;
-        newProjectile.GetComponent<Rigidbody>().velocity = unitVector * newComponent.projectileSpeed;
+        newProjectile.GetComponent<Rigidbody>().velocity = unitVector * newComponent.speed;
     }
 
     void OnDrawGizmos()

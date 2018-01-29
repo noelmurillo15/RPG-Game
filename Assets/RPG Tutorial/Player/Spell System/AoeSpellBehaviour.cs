@@ -1,4 +1,5 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
+using System;
 using UnityEngine;
 
 
@@ -8,6 +9,7 @@ namespace RPG {
 
 
         AoeSpellConfig config;
+        ParticleSystem myParticleSystem;
 
 
         void Start()
@@ -22,8 +24,24 @@ namespace RPG {
 
         public void Activate(SpellUseParams spellParams)
         {
-            float damageToDeal = spellParams.baseDamage + config.GetDamage();
+            PlayParticleEffect();
+            DealRadialDamage(spellParams.baseDamage);
+        }
 
+        private void PlayParticleEffect()
+        {
+            //  Instantiate particle system prefab attached to player
+            var prefab = Instantiate(config.GetParticlePrefab(), transform.position, Quaternion.identity);
+            //  Get the particle system component
+            myParticleSystem = prefab.GetComponent<ParticleSystem>();
+            //  Play particle system
+            myParticleSystem.Play();
+            //  Destroy particle system
+            Destroy(prefab, myParticleSystem.main.duration);
+        }
+
+        private void DealRadialDamage(float baseDmg)
+        {
             //  Static Sphere Cast for targets
             RaycastHit[] hits = Physics.SphereCastAll(
                 transform.position,
@@ -31,6 +49,8 @@ namespace RPG {
                 Vector3.up,
                 config.GetRadius()
             );
+
+            float damageToDeal = baseDmg + config.GetDamage();
 
             foreach (RaycastHit hit in hits)
             {
@@ -40,12 +60,11 @@ namespace RPG {
                 }
 
                 var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
-                //  TODO : AOE should not hurt player
                 if (damageable != null)
-                {                    
+                {
                     damageable.TakeDamage(damageToDeal);
                 }
-            }            
+            }
         }
     }
 }

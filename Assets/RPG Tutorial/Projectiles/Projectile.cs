@@ -1,24 +1,27 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 public class Projectile : MonoBehaviour {
 
 
-    public float projectileSpeed;
-    public float projectileDamage;
+    public float speed;
+    public float damage;
 
 
 
-    void OnTriggerEnter(Collider other)
+    public void SetDamage(float dmg)
+    {
+        damage = dmg;
+    }
+
+    void OnCollisionEnter(Collision other)
     {
         Component damageableComponent = other.gameObject.GetComponent(typeof(IDamageable));
-        //Debug.Log("Projectile Hit : " + damageableComponent);
         if (damageableComponent)
         {
-            (damageableComponent as IDamageable).TakeDamage(projectileDamage);
+            (damageableComponent as IDamageable).TakeDamage(damage);
         }
+        Destroy(gameObject, .1f);
     }
 } 
