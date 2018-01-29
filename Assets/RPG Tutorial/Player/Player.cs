@@ -1,7 +1,8 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
-using System;
 using RPG;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public class Player : MonoBehaviour, IDamageable {
@@ -74,8 +75,33 @@ public class Player : MonoBehaviour, IDamageable {
 
     public void TakeDamage(float dmg)
     {
+        ReduceHealth(dmg);
+        bool playerDead = (currentHP - dmg <= 0f);
+        if (playerDead)
+        {
+            StartCoroutine(KillPlayer());
+        }
+    }
+
+    IEnumerator KillPlayer()
+    {
+        //  Play Death Sound (Optional)
+        Debug.Log("Play Death Sound");
+        //  Trigger Death Animation (Optional)
+        Debug.Log("Play Death Animation");
+        //  Wait a bit      
+        yield return new WaitForSecondsRealtime(2f);    //  TODO : use audio clip length
+        //  Reload Scene (scenemanager)        
+        SceneManager.LoadScene(0);
+    }
+
+    void ReduceHealth(float dmg)
+    {
         currentHP = Mathf.Clamp(currentHP - dmg, 0f, maxHP);
     }
 
-	public float healthAsPercentage { get { return currentHP / maxHP; } }
+    public float GetHealthAsPercentage()
+    {
+        return currentHP / maxHP;
+    }
 }

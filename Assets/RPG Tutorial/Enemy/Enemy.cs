@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour, IDamageable {
 
     Animator anim = null;
     GameObject player = null;
+    Player playerComponent = null;
     AICharacterControl aiCharacterControl = null;
 
 
@@ -31,11 +32,18 @@ public class Enemy : MonoBehaviour, IDamageable {
         isattacking = false;
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerComponent = player.GetComponent<Player>();
         aiCharacterControl = GetComponent<AICharacterControl>();
     }
 
     void Update()
     {
+        if(playerComponent.GetHealthAsPercentage() <= Mathf.Epsilon)
+        {
+            StopAllCoroutines();
+            Destroy(this);  //  Stop enemy behaviour
+        }
+
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 
         if(distanceToPlayer <= attackradius && !isattacking)

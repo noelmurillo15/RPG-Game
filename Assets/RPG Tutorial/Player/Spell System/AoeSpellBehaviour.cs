@@ -34,10 +34,15 @@ namespace RPG {
 
             foreach (RaycastHit hit in hits)
             {
-                var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
-
-                if (damageable != null)
+                if (hit.collider.CompareTag("Player"))
                 {
+                    continue;
+                }
+
+                var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+                //  TODO : AOE should not hurt player
+                if (damageable != null)
+                {                    
                     damageable.TakeDamage(damageToDeal);
                 }
             }            

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Mana : MonoBehaviour {
 
 
-    [SerializeField] RawImage manabar = null;
+    [SerializeField] Image manaOrb;
     [SerializeField] float maxMana = 100f;
     [SerializeField] float currentMana;
     [SerializeField] float regenAmount = 1f;
@@ -49,9 +49,7 @@ public class Mana : MonoBehaviour {
 
     void UpdateManaBar()
     {
-        //  TODO : remove magic numbers
-        float xValue = -(ManaPercentage() / 2f) - .5f;
-        manabar.uvRect = new Rect(xValue, 0f, .5f, 1f);
+        manaOrb.fillAmount = ManaPercentage();
     }
 
     public float ManaPercentage()

@@ -15,6 +15,8 @@ public class CameraRaycaster : MonoBehaviour {
     const int WALKABLE_LAYER = 9; //  Must match walkable layer in unity
     float maxRaycastDepth = 100f; // Hard coded value
 
+    Rect screenRect = new Rect(0,0, Screen.width, Screen.height);   //  TODO : Screen resize
+
 	// Setup delegates for broadcasting layer changes to other classes
     public delegate void OnMouseOverTerrain(Vector3 destination); // declare new delegate type
     public event OnMouseOverTerrain onMouseOverTerrain; // instantiate an observer set
@@ -41,11 +43,14 @@ public class CameraRaycaster : MonoBehaviour {
 
     void PerformRaycasts()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (screenRect.Contains(Input.mousePosition))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        //  Specify Layer Priorities
-        if (RaycastForEnemy(ray)) { return; }   //  Enemies are top priority
-        if (RaycastForTerrain(ray)) { return; }
+            //  Specify Layer Priorities
+            if (RaycastForEnemy(ray)) { return; }   //  Enemies are top priority
+            if (RaycastForTerrain(ray)) { return; }
+        }
     }
 
     bool RaycastForEnemy(Ray ray)
