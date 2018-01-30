@@ -1016,9 +1016,9 @@ GameObject:
   - component: {fileID: 54243338411173662}
   - component: {fileID: 136124503148272592}
   - component: {fileID: 114584969491078718}
-  - component: {fileID: 114937411281817916}
-  - component: {fileID: 114810876268067102}
   - component: {fileID: 114983870376265884}
+  - component: {fileID: 114810289116777918}
+  - component: {fileID: 114937411281817916}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -2633,14 +2633,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a551862a78b859a45aabb5de02c0d0e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 100
-  baseDmg: 10
-  spells:
-  - {fileID: 11400000, guid: 105dd509c6852934096a19ec4de21884, type: 2}
-  - {fileID: 11400000, guid: ea10e870d9675d14ea363cd741ccc497, type: 2}
-  - {fileID: 11400000, guid: ff60839cffad7df47b6e8381f7b36c41, type: 2}
---- !u!114 &114810876268067102
+  meleeBaseDmg: 10
+  meleeRange: 5
+  magicBaseDmg: 20
+  magicRange: 5
+  attackRate: 0.5
+--- !u!114 &114810289116777918
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2648,12 +2646,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1737699000770424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
+  m_Script: {fileID: 11500000, guid: 19ca9f42b29ecd046b980ba4c08137dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movingTurnSpeed: 180
-  idleTurnSpeed: 90
-  runCycleOffset: 0.2
+  currentHP: 0
+  maxHP: 100
+  deathVanishSeconds: 0
+  healthOrb: {fileID: 0}
+  damageSounds: []
+  deathSounds: []
 --- !u!114 &114937411281817916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2666,11 +2667,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manaOrb: {fileID: 0}
-  maxMana: 100
   currentMana: 0
-  regenAmount: 1
-  manaCriticalPercent: 0.15
+  maxMana: 100
+  manaPerSec: 0.5
+  regenTimer: 0.1
   manaRegenActive: 0
+  manaCriticalPercent: 0.15
+  outOfMana: {fileID: 0}
+  audioSource: {fileID: 0}
+  spells:
+  - {fileID: 11400000, guid: 105dd509c6852934096a19ec4de21884, type: 2}
+  - {fileID: 11400000, guid: ea10e870d9675d14ea363cd741ccc497, type: 2}
+  - {fileID: 11400000, guid: ff60839cffad7df47b6e8381f7b36c41, type: 2}
 --- !u!114 &114983870376265884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2682,7 +2690,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f86f424d4b7be54299e3c9b86e01163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idleTurnSpeed: 90
+  movingTurnSpeed: 180
   stoppingDistance: 1
+  moveSpeedMultiplier: 1
 --- !u!124 &124655573003104560
 Behaviour:
   m_ObjectHideFlags: 1

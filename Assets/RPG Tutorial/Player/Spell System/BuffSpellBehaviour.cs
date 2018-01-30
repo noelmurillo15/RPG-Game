@@ -7,13 +7,16 @@ namespace RPG {
     public class BuffSpellBehaviour : SpellBehaviour {
 
 
-        public override void Activate(SpellUseParams spellParams)
+        public override void Activate(GameObject spellParams)
         {
-            var buffSpellConfig = (config as BuffSpellConfig);           
+            ApplyBuff(spellParams);
+        }
 
-            spellParams.target.StatChange(
-                buffSpellConfig.GetBuffType(),
-                buffSpellConfig.GetStatChangeAmount());
+        private void ApplyBuff(GameObject spellParams)
+        {
+            var buffSpellConfig = (config as BuffSpellConfig);
+
+            spellParams.GetComponent<HealthSystem>().Heal(buffSpellConfig.GetStatChangeAmount());
 
             PlayParticleEffect();
         }

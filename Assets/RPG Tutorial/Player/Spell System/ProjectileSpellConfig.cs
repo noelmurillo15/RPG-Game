@@ -8,7 +8,7 @@ namespace RPG {
     public class ProjectileSpellConfig : SpellConfig {
 
 
-        [Header("Projectile Settings")]   //  Header for inspector setting grouping
+        [Header("Projectile Settings")]  
         [SerializeField] float damage;
 
 

@@ -8,7 +8,7 @@ namespace RPG {
     public class BuffSpellConfig : SpellConfig {
 
 
-        [Header("Buff Settings")]   //  Header for inspector setting grouping
+        [Header("Buff Settings")]   
         [SerializeField] BuffType buff;
         [SerializeField] float statChangeAmt = 1f;
 

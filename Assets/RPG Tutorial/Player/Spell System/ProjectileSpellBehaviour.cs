@@ -7,12 +7,26 @@ namespace RPG {
     public class ProjectileSpellBehaviour : SpellBehaviour {
 
 
-        public override void Activate(SpellUseParams spellParams)
+        [SerializeField] Player caster;
+
+
+
+        private void Start()
+        {
+            caster = GetComponent<Player>();
+        }
+
+        public override void Activate(GameObject spellParams)
+        {
+            FireProjectile(spellParams);
+        }
+
+        private void FireProjectile(GameObject spellParams)
         {
             var projectileSpellConfig = (config as ProjectileSpellConfig);
 
-            float damageToDeal = spellParams.baseDamage + projectileSpellConfig.GetDamage();
-            spellParams.target.AdjustHealth(damageToDeal * -1f);
+            float damageToDeal = caster.BaseDamage + projectileSpellConfig.GetDamage();
+            spellParams.GetComponent<HealthSystem>().TakeDamage(damageToDeal);
 
             PlayParticleEffect();
         }

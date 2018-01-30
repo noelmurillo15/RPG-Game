@@ -8,17 +8,21 @@ namespace RPG {
     public abstract class SpellBehaviour : MonoBehaviour {
 
 
+        #region Properties
         protected SpellConfig config;
         const float PARTICLE_CLEANUP_DELAY = 10f;
+        #endregion
 
 
-        public abstract void Activate(SpellUseParams spell);
+
+        public abstract void Activate(GameObject spell = null);
 
         public void SetConfig(SpellConfig configToAttach)
         {
             config = configToAttach;
         }
 
+        #region Particles
         protected void PlayParticleEffect()
         {
             var particles = config.GetParticles();
@@ -41,5 +45,6 @@ namespace RPG {
             Destroy(particlePrefab);
             yield return new WaitForEndOfFrame();
         }
+        #endregion
     }
 }

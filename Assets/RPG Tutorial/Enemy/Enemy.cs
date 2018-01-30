@@ -1,30 +1,32 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
 using RPG;
 using UnityEngine;
-using System.Collections;
-using UnityStandardAssets.Characters.ThirdPerson;
 
 
-public class Enemy : MonoBehaviour, IDamageable {
+public class Enemy : MonoBehaviour {
 
 
-    [SerializeField] float currentHP = 100f;
-    [SerializeField] float maxHP = 100f;
-
+    #region Properties
+    //  Detection
     [SerializeField] float detectionradius;
     [SerializeField] float attackradius;
 
+    //  Attack
     [SerializeField] float attackDmg = 5f;
     [SerializeField] float shotPerSecond = 2.5f;
+    [SerializeField] bool isattacking = false;
 
     [SerializeField] GameObject projectile;
     [SerializeField] GameObject projectileSocket;
 
-    private bool isattacking = false;
 
+    //  Health
+    HealthSystem myHealth;
+
+    //  References
     Animator anim = null;
     GameObject player = null;
-    Player playerComponent = null;
+    #endregion
 
 
 
@@ -32,18 +34,12 @@ public class Enemy : MonoBehaviour, IDamageable {
     {
         isattacking = false;
         anim = GetComponent<Animator>();
+        myHealth = GetComponent<HealthSystem>();
         player = GameObject.FindGameObjectWithTag("Player");
-        playerComponent = player.GetComponent<Player>();
-    }
+    }    
 
     void Update()
     {
-        if(playerComponent.GetHealthAsPercentage() <= Mathf.Epsilon)
-        {
-            StopAllCoroutines();
-            Destroy(this);  //  Stop enemy behaviour
-        }
-
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 
         if(distanceToPlayer <= attackradius && !isattacking)
@@ -61,6 +57,7 @@ public class Enemy : MonoBehaviour, IDamageable {
 
         if(distanceToPlayer <= detectionradius)
         {
+            //  TODO : Enemy Movement 
             //Debug.Log("I have seen the player");
             //aiCharacterControl.SetTarget(player.transform);
             anim.SetBool("Attack", isattacking);
@@ -74,6 +71,7 @@ public class Enemy : MonoBehaviour, IDamageable {
         }
     }
 
+    #region Shoot
     void SpawnProjectile(){
         GameObject newProjectile = Instantiate(projectile, projectileSocket.transform.position, Quaternion.identity);
         Projectile newComponent = newProjectile.GetComponent<Projectile>();
@@ -82,7 +80,9 @@ public class Enemy : MonoBehaviour, IDamageable {
         Vector3 unitVector = (player.transform.position - projectileSocket.transform.position).normalized;
         newProjectile.GetComponent<Rigidbody>().velocity = unitVector * newComponent.speed;
     }
+    #endregion
 
+    #region Gizmos
     void OnDrawGizmos()
     {
         //  Draw Attack Radius
@@ -92,39 +92,16 @@ public class Enemy : MonoBehaviour, IDamageable {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionradius);
     }
+    #endregion
 
-    public float healthAsPercentage { get {  return currentHP / maxHP; } }
-
-    public void AdjustHealth(float amt)
-    {
-        currentHP = Mathf.Clamp(currentHP + amt, 0f, maxHP);
-        bool enemyDead = (currentHP <= 0f);
-        if (enemyDead)
-        {
-            StartCoroutine(KillEnemy());
-        }
-    }
-
-    IEnumerator KillEnemy()
-    {
-        //  Play Death Sound (Optional)
-        Debug.Log("Play Enemy Death Sound");
-        //  Trigger Death Animation (Optional)
-        Debug.Log("Play Enemy Death Animation");
-        //  Wait a bit      
-        yield return new WaitForSecondsRealtime(1f);    //  TODO : use animation length
-
-        StopAllCoroutines();
-        Destroy(gameObject);
-    }
-
+    #region Stats
     public void StatChange(BuffType buff, float statAmt)
     {
         //  TODO : implement and modify stat change
         switch (buff)
         {
             case BuffType.HP:
-                AdjustHealth(statAmt);
+                myHealth.Heal(statAmt);
                 break;
             case BuffType.MANA:
                 break;
@@ -133,4 +110,5 @@ public class Enemy : MonoBehaviour, IDamageable {
                 break;
         }
     }
+    #endregion
 }

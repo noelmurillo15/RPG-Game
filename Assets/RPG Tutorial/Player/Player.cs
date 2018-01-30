@@ -1,133 +1,70 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
 using RPG;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
 
 
-public class Player : MonoBehaviour, IDamageable {
+public class Player : MonoBehaviour {
 
 
-    [SerializeField] float maxHP = 100f;
-    [SerializeField] float currentHP = 100f;
-    [SerializeField] float baseDmg = 10f;
+    #region Properties
+    //  Attack
+    [SerializeField] float meleeBaseDmg = 10f;
+    [SerializeField] float meleeRange = 5f;
+    [SerializeField] float magicBaseDmg = 20f;
+    [SerializeField] float magicRange = 5f;
+    [SerializeField] float attackRate = .5f;
 
-    IDamageable myTarget = null;
-
-    CameraRaycaster camRaycaster = null;
     float lastHitTime = 0f;
-    float minTimeBetweenHits = .5f;
-    float maxAttackRange = 5f;
 
-    //  Temporarily Serialized for dubbing
-    [SerializeField] SpellConfig[] spells;
-    PlayerStats stats;
+    //  References
+    SpellSystem myMana;
+    HealthSystem myHealth;
+    GameObject myTarget;
+    CameraRaycaster camRaycaster;
+    #endregion
 
-    
+
 
     void Start()
     {
-        stats = GetComponent<PlayerStats>();
-        camRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+        myMana = GetComponent<SpellSystem>();
+        myHealth = GetComponent<HealthSystem>();
+        camRaycaster = Camera.main.GetComponent<CameraRaycaster>();        
 
         camRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
-        camRaycaster.onMouseOverPlayer += OnMouseOverPlayer;
-        AttachInitialSpells();
+        camRaycaster.onMouseOverPlayer += OnMouseOverPlayer;        
     }
 
-    private void AttachInitialSpells()
-    {
-        for (int spellIndex = 0; spellIndex < spells.Length; spellIndex++)
-        {
-            spells[spellIndex].AttachSpell(gameObject);
-        }
-    }
+    #region Attack
+    public float BaseDamage  { get { return meleeBaseDmg; } }
+    public float BaseMagicDamage { get { return magicBaseDmg; } }
 
-    public float GetHealthAsPercentage()
-    {
-        return currentHP / maxHP;
-    }
-
-    private void ScanForSpellKeyDown()
-    {
-        for (int keyIndex = 0; keyIndex < spells.Length + 1; keyIndex++)
-        {
-            if (Input.GetKeyDown(keyIndex.ToString()))
-            {
-                AttemptSpell(keyIndex - 1);
-            }
-        }
-    }
-
-    private void AttemptSpell(int spellIndex)
-    {
-        if (myTarget == null)
-        {
-            Debug.Log("My Target is null");
-            return;
-        }
-
-        var manaComponent = GetComponent<Mana>();
-        var mySpell = spells[spellIndex];        
-
-        if (manaComponent.IsManaAvailable(mySpell.GetManaCost()))
-        {            
-            var spellParams = new SpellUseParams(myTarget, baseDmg);
-            spells[spellIndex].Activate(spellParams);
-            manaComponent.AdjustMana(mySpell.GetManaCost() * -1);
-        }
-    }
-
-    private bool IsTargetInRange(GameObject target)
+    bool IsTargetInRange(GameObject target)
     {
         float distToTarget = (target.transform.position - transform.position).magnitude;
-        return distToTarget <= maxAttackRange;
+        return distToTarget <= meleeRange;
     }
 
     void AttackTarget()
     {
-        if (Time.time - lastHitTime > minTimeBetweenHits)
+        if (Time.time - lastHitTime > attackRate)
         {
-            myTarget.AdjustHealth(baseDmg * -1f);
+            myTarget.GetComponent<HealthSystem>().TakeDamage(meleeBaseDmg);
             lastHitTime = Time.time;
         }
     }
+    #endregion
 
-    public void AdjustHealth(float amt)
-    {
-        currentHP = Mathf.Clamp(currentHP + amt, 0f, maxHP);
-        bool playerDead = (currentHP <= 0f);
-        if (playerDead)
-        {
-            StartCoroutine(KillPlayer());
-        }
-    }
-
-    public void StatChange(BuffType buff, float statAmt)
-    {
-        //  TODO : implement and modify stat change
-        switch (buff)
-        {
-            case BuffType.HP:
-                AdjustHealth(statAmt);
-                break;
-            case BuffType.MANA:
-                break;
-            default:
-                Debug.Log("Buff type not implemented");
-                break;
-        }
-    }
-
+    #region Input Events   
     void OnMouseOverEnemy(Enemy enemyToSet)
     {
-        myTarget = enemyToSet;
+        myTarget = enemyToSet.gameObject;
         if (Input.GetMouseButtonDown(0) && IsTargetInRange(enemyToSet.gameObject))
         {
             AttackTarget();
         }
 
-        if (GetHealthAsPercentage() > Mathf.Epsilon)
+        if (myHealth.GetHealthAsPercentage() > Mathf.Epsilon)
         {
             ScanForSpellKeyDown();
         }
@@ -135,25 +72,40 @@ public class Player : MonoBehaviour, IDamageable {
 
     void OnMouseOverPlayer()
     {
-        myTarget = this;
-        if (GetHealthAsPercentage() > Mathf.Epsilon)
+        myTarget = gameObject;
+        if (myHealth.GetHealthAsPercentage() > Mathf.Epsilon)
         {
             ScanForSpellKeyDown();
         }
     }
 
-    IEnumerator KillPlayer()
+    void ScanForSpellKeyDown()
     {
-        //  Play Death Sound (Optional)
-        Debug.Log("Play Death Sound");
-        //  Trigger Death Animation (Optional)
-        Debug.Log("Play Death Animation");
-        //  Wait a bit      
-        yield return new WaitForSecondsRealtime(2f);    //  TODO : use audio clip length
-        //  De-register from event listeners
-        camRaycaster.onMouseOverEnemy -= OnMouseOverEnemy;
-        camRaycaster.onMouseOverPlayer -= OnMouseOverPlayer;
-        //  Reload Scene (scenemanager)        
-        SceneManager.LoadScene(0);
-    }    
+        for (int keyIndex = 0; keyIndex < myMana.GetSpellList().Length + 1; keyIndex++)
+        {
+            if (Input.GetKeyDown(keyIndex.ToString()))
+            {
+                myMana.AttemptSpell(keyIndex - 1, myTarget);
+            }
+        }
+    }
+    #endregion
+
+    #region Stats
+    public void StatChange(BuffType buff, float statAmt)
+    {
+        switch (buff)
+        {
+            case BuffType.HP:
+                myHealth.Heal(statAmt);
+                break;
+            case BuffType.MANA:
+                myMana.GainMana(statAmt);
+                break;
+            default:
+                Debug.Log("Buff type not implemented");
+                break;
+        }
+    }
+    #endregion
 }

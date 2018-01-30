@@ -8,7 +8,7 @@ namespace RPG {
     public class AoeSpellConfig : SpellConfig {
 
 
-        [Header("Area of Effect Settings")]   //  Header for inspector setting grouping
+        [Header("Area of Effect Settings")]   
         [SerializeField] float radius = 5f;
         [SerializeField] float damage = 15f;
 

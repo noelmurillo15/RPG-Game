@@ -23,10 +23,10 @@ public class Projectile : MonoBehaviour {
             return;
         }
 
-        Component damageableComponent = other.gameObject.GetComponent(typeof(RPG.IDamageable));
+        Component damageableComponent = other.gameObject.GetComponent(typeof(HealthSystem));
         if (damageableComponent)
         {
-            (damageableComponent as RPG.IDamageable).AdjustHealth(damage * -1f);
+            (damageableComponent as HealthSystem).TakeDamage(damage);
         }
         Destroy(gameObject, .01f);
     }

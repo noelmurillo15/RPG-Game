@@ -7,11 +7,21 @@ namespace RPG {
     public class AoeSpellBehaviour : SpellBehaviour {
 
 
-        public override void Activate(SpellUseParams spellParams)
+        [SerializeField] Player caster;
+
+
+
+        private void Start()
         {
-            DealRadialDamage(spellParams.baseDamage);
+            caster = GetComponent<Player>();
         }
-     
+
+        public override void Activate(GameObject spellParams)
+        {
+            DealRadialDamage(caster.BaseMagicDamage);
+        }
+
+        #region Area Attack
         private void DealRadialDamage(float baseDmg)
         {
             var aoeSpellConfig = (config as AoeSpellConfig);
@@ -33,13 +43,14 @@ namespace RPG {
                     continue;
                 }
 
-                var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+                var damageable = hit.collider.gameObject.GetComponent<HealthSystem>();
                 if (damageable != null)
                 {
-                    damageable.AdjustHealth(damageToDeal * -1f);
+                    damageable.TakeDamage(damageToDeal);
                 }
             }
             PlayParticleEffect();
         }
+        #endregion
     }
 }
