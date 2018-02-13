@@ -38,12 +38,12 @@ namespace RPG {
         void OnEnable()
         {
             Initialize();
-            mobMaster.EventMobDie += DisableThis;
+            mobMaster.EventCharacterDie += DisableThis;
         }
 
         void OnDisable()
         {
-            mobMaster.EventMobDie -= DisableThis;
+            mobMaster.EventCharacterDie -= DisableThis;
         }
 
         void Update()
@@ -72,7 +72,7 @@ namespace RPG {
 
                             if (Vector3.Distance(mobMaster.transform.position, potentialTarget.transform.position) < detectBehindRadius)
                             {
-                                mobMaster.CallEventMobSetNavTarget(potentialTarget.transform);
+                                mobMaster.CallEventSetCharacterNavTarget(potentialTarget.transform);
                                 break;
                             }
 
@@ -85,7 +85,7 @@ namespace RPG {
                 }
                 else
                 {
-                    mobMaster.CallEventMobLostTarget();
+                    mobMaster.CallEventCharacterLostTarget();
                 }
             }
         }
@@ -97,18 +97,18 @@ namespace RPG {
             {
                 if (hit.transform == potentialTarget)
                 {
-                    mobMaster.CallEventMobSetNavTarget(potentialTarget);
+                    mobMaster.CallEventSetCharacterNavTarget(potentialTarget);
                     return true;
                 }
                 else
                 {
-                    mobMaster.CallEventMobLostTarget();
+                    mobMaster.CallEventCharacterLostTarget();
                     return false;
                 }
             }
             else
             {
-                mobMaster.CallEventMobLostTarget();
+                mobMaster.CallEventCharacterLostTarget();
                 return false;
             }
         }

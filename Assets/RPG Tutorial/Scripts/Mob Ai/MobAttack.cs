@@ -36,14 +36,14 @@ namespace RPG
         void OnEnable()
         {
             Initialize();
-            mobMaster.EventMobDie += DisableThis;
-            mobMaster.EventMobSetNavTarget += SetAttackTarget;
+            mobMaster.EventCharacterDie += DisableThis;
+            mobMaster.EventSetCharacterNavTarget += SetAttackTarget;
         }
 
         void OnDisable()
         {
-            mobMaster.EventMobDie -= DisableThis;
-            mobMaster.EventMobSetNavTarget -= SetAttackTarget;
+            mobMaster.EventCharacterDie -= DisableThis;
+            mobMaster.EventSetCharacterNavTarget -= SetAttackTarget;
         }
 
         void SetAttackTarget(Transform target)
@@ -66,7 +66,7 @@ namespace RPG
                         //Debug.Log("Attacking!");
                         Vector3 lookatVector = new Vector3(myTarget.position.x, myTransform.position.y, myTarget.position.z);
                         myTransform.LookAt(lookatVector);
-                        mobMaster.CallEventMobAttack();
+                        mobMaster.CallEventCharacterAttack();
                         mobMaster.IsOnRoute = false;
                         mobMaster.IsAttacking = true;
                     }
@@ -80,7 +80,7 @@ namespace RPG
             if (myTarget != null)
             {
                 mobMaster.IsAttacking = false;
-                mobMaster.CallEventMobExpUp(1);
+                mobMaster.CallEventCharacterGainExperience(1);
                 int damageToApply = mobStats.PhysicalDamage;
                 if (Random.Range(0, 100) < mobStats.CriticalRate)
                 {

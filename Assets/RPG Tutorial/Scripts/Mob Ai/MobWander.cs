@@ -3,10 +3,10 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-namespace RPG
-{
-    public class MobWander : MonoBehaviour
-    {
+namespace RPG {
+
+    public class MobWander : MonoBehaviour {
+
 
         MobMaster mobMaster;
         NavMeshHit navHit;
@@ -34,12 +34,12 @@ namespace RPG
         void OnEnable()
         {
             Initialize();
-            mobMaster.EventMobDie += DisableThis;
+            mobMaster.EventCharacterDie += DisableThis;
         }
 
         void OnDisable()
         {
-            mobMaster.EventMobDie -= DisableThis;
+            mobMaster.EventCharacterDie -= DisableThis;
         }
 
         void Update()
@@ -53,13 +53,13 @@ namespace RPG
 
         void CheckWander()
         {
-            if (mobMaster.MobTarget == null && !mobMaster.IsOnRoute && !mobMaster.IsNavPaused)
+            if (mobMaster.AttackTarget == null && !mobMaster.IsOnRoute && !mobMaster.IsNavPaused)
             {
                 if (RandomWanderTarget(myTransform.position, wanderRange, out wanderTarget))
                 {
                     myNavMeshAgent.SetDestination(wanderTarget);
                     mobMaster.IsOnRoute = true;
-                    mobMaster.CallEventMobWalking();
+                    mobMaster.CallEventCharacterWalking();
                 }
             }
         }

@@ -27,17 +27,17 @@ namespace RPG
         void OnEnable()
         {
             Initialize();
-            mobMaster.EventMobDie += DisableThis;
-            mobMaster.EventMobDeductHealth += PauseNavMeshAgent;
+            mobMaster.EventCharacterDie += DisableThis;
+            mobMaster.EventCharacterTakeDamage += PauseNavMeshAgent;
         }
 
         void OnDisable()
         {
-            mobMaster.EventMobDie -= DisableThis;
-            mobMaster.EventMobDeductHealth -= PauseNavMeshAgent;
+            mobMaster.EventCharacterDie -= DisableThis;
+            mobMaster.EventCharacterTakeDamage -= PauseNavMeshAgent;
         }
 
-        void PauseNavMeshAgent(int num)
+        void PauseNavMeshAgent(float dummy)
         {
             if (myNavMeshAgent != null)
             {

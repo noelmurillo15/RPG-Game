@@ -24,20 +24,20 @@ namespace RPG {
         void OnEnable()
         {
             Initialize();
-            mobMaster.EventMobDie += DisableAnimator;
-            mobMaster.EventMobWalking += SetAnimationWalk;
-            mobMaster.EventMobReachedNavTarget += SetAnimationIdle;
-            mobMaster.EventMobAttack += SetAnimationAttack;
-            mobMaster.EventMobDeductHealth += SetAnimationGetHit;
+            mobMaster.EventCharacterDie += DisableAnimator;
+            mobMaster.EventCharacterWalking += SetAnimationWalk;
+            mobMaster.EventCharacterReachedNavTarget += SetAnimationIdle;
+            mobMaster.EventCharacterAttack += SetAnimationAttack;
+            mobMaster.EventCharacterTakeDamage += SetAnimationGetHit;
         }
 
         void OnDisable()
         {
-            mobMaster.EventMobDie -= DisableAnimator;
-            mobMaster.EventMobWalking -= SetAnimationWalk;
-            mobMaster.EventMobReachedNavTarget -= SetAnimationIdle;
-            mobMaster.EventMobAttack -= SetAnimationAttack;
-            mobMaster.EventMobDeductHealth -= SetAnimationGetHit;
+            mobMaster.EventCharacterDie -= DisableAnimator;
+            mobMaster.EventCharacterWalking -= SetAnimationWalk;
+            mobMaster.EventCharacterReachedNavTarget -= SetAnimationIdle;
+            mobMaster.EventCharacterAttack -= SetAnimationAttack;
+            mobMaster.EventCharacterTakeDamage -= SetAnimationGetHit;
         }
 
         #region Animations
@@ -74,7 +74,7 @@ namespace RPG {
             }
         }
 
-        void SetAnimationGetHit(int num)
+        void SetAnimationGetHit(float dummy)
         {
             if (myAnimator != null)
             {

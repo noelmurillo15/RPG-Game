@@ -58,18 +58,18 @@ namespace RPG {
         void OnEnable()
         {
             Initialize();
-            mobMaster.EventMobAddExperience += ExperienceUp;
+            mobMaster.EventCharacterGainExperience += ExperienceUp;
         }
 
         void OnDisable()
         {
-            mobMaster.EventMobAddExperience -= ExperienceUp;
+            mobMaster.EventCharacterGainExperience -= ExperienceUp;
         }
 
         #region Accessors & Modifiers
         public int Level { get { return mobLevel; } }
 
-        public void ExperienceUp(int exp)
+        public void ExperienceUp(float exp)
         {
             mobExperience += exp * mobExpMult;
             if (mobExperience > mobNextLvlExp)

@@ -9,19 +9,20 @@ namespace RPG {
 
 
         RawImage healthBarRawImage = null;
-        MobMaster mob = null;
+        HealthSystem mob = null;
+        [SerializeField] Transform player;
 
 
 
         void Start()
         {
-            mob = GetComponentInParent<MobMaster>();
+            mob = GetComponentInParent<HealthSystem>();
             healthBarRawImage = GetComponent<RawImage>();
         }
 
         void Update()
         {
-            float xValue = -(mob.MobHealthSystem.GetHealthAsPercentage() / 2f) - 0.5f;
+            float xValue = -(mob.GetHealthAsPercentage() / 2f) - 0.5f;
             healthBarRawImage.uvRect = new Rect(xValue, 0f, 0.5f, 1f);
         }
     }

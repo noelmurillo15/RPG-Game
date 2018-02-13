@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RPG {
 
     [System.Serializable]
-    public class MobMaster : MonoBehaviour {
+    public class MobMaster : Character {
 
         #region Properties
         [SerializeField] string mobTag;
@@ -19,31 +19,10 @@ namespace RPG {
         [SerializeField] bool isCriticallyHit;
 
         //[SerializeField] Icon mobIcon;
-        [SerializeField] Transform mobAttackTarget;
+        
 
         GameObject player;
-        HealthSystem myHealth;
         #endregion
-
-        #region Events
-        //  Delegates
-        public delegate void GeneralEventHandler();
-        public delegate void StatsEventHandler(int hp);
-        public delegate void NavTargetEventHandler(Transform targetTransform);
-
-        //  Animation Events
-        public event GeneralEventHandler EventMobDie;
-        public event GeneralEventHandler EventMobWalking;
-        public event GeneralEventHandler EventMobReachedNavTarget;
-        public event GeneralEventHandler EventMobAttack;
-        public event GeneralEventHandler EventMobLostTarget;
-        //  Stat Events
-        public event StatsEventHandler EventMobDeductHealth;
-        public event StatsEventHandler EventMobAddExperience;
-        //  Nav Events
-        public event NavTargetEventHandler EventMobSetNavTarget;
-        #endregion
-
 
 
         private void Awake()
@@ -52,13 +31,12 @@ namespace RPG {
             mobRank = MobRanks.MINION;
             mobClass = MobClass.NONE;
 
-            myHealth = GetComponent<HealthSystem>();
+            
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
         #region Accessors & Modifiers
         public string MobTag { get { return mobTag; } }
-        public HealthSystem MobHealthSystem { get{ return myHealth; } }
 
         public MobTypes MobType { get { return mobType; } set { mobType = value; } }
         public MobRanks MobRank { get { return mobRank; } set { mobRank = value; } }
@@ -70,8 +48,7 @@ namespace RPG {
         public bool IsCriticallyHit { get { return isCriticallyHit; } set { isCriticallyHit = value; } }
 
         //public Icon Thumnail { get { return mobIcon; } set { mobIcon = value; } }
-        public Transform MobTarget { get { return mobAttackTarget; } set { mobAttackTarget = value; } }
-
+       
         public void RankUp(int myLevel)
         {
             switch (myLevel)
@@ -97,73 +74,6 @@ namespace RPG {
                 default:
                     break;
             }
-        }
-        #endregion
-
-        #region Events
-        public void CallEventMobDeductHealth(int hp)
-        {
-            if (EventMobDeductHealth != null)
-            {
-                EventMobDeductHealth(hp);
-            }
-        }
-        public void CallEventMobExpUp(int exp)
-        {
-            if (EventMobAddExperience != null)
-            {
-                EventMobAddExperience(exp);
-            }
-        }
-        public void CallEventMobSetNavTarget(Transform targetTransform)
-        {
-            if (EventMobSetNavTarget != null)
-            {
-                EventMobSetNavTarget(targetTransform);
-            }
-
-            mobAttackTarget = targetTransform;
-        }
-
-        public void CallEventMobDie()
-        {
-            if (EventMobDie != null)
-            {
-                EventMobDie();
-            }
-        }
-
-        public void CallEventMobWalking()
-        {
-            if (EventMobWalking != null)
-            {
-                EventMobWalking();
-            }
-        }
-
-        public void CallEventMobReachedNavTarget()
-        {
-            if (EventMobReachedNavTarget != null)
-            {
-                EventMobReachedNavTarget();
-            }
-        }
-
-        public void CallEventMobAttack()
-        {
-            if (EventMobAttack != null)
-            {
-                EventMobAttack();
-            }
-        }
-
-        public void CallEventMobLostTarget()
-        {
-            if (EventMobLostTarget != null)
-            {
-                EventMobLostTarget();
-            }
-            mobAttackTarget = null;
         }
         #endregion
     }    

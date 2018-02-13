@@ -7,13 +7,13 @@ namespace RPG {
     public class ProjectileSpellBehaviour : SpellBehaviour {
 
 
-        [SerializeField] Player caster;
+        [SerializeField] PlayerMaster caster;
 
 
 
         private void Start()
         {
-            caster = GetComponent<Player>();
+            caster = GetComponent<PlayerMaster>();
         }
 
         public override void Activate(GameObject spellParams)

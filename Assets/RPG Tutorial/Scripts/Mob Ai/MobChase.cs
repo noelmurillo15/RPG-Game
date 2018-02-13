@@ -29,12 +29,12 @@ namespace RPG
         void OnEnable()
         {
             Initialize();
-            mobMaster.EventMobDie += DisableThis;
+            mobMaster.EventCharacterDie += DisableThis;
         }
 
         void OnDisable()
         {
-            mobMaster.EventMobDie -= DisableThis;
+            mobMaster.EventCharacterDie -= DisableThis;
         }
 
         void Update()
@@ -48,13 +48,13 @@ namespace RPG
 
         void TryChaseTarget()
         {
-            if (mobMaster.MobTarget != null && myNavMeshAgent != null && !mobMaster.IsNavPaused)
+            if (mobMaster.AttackTarget != null && myNavMeshAgent != null && !mobMaster.IsNavPaused)
             {
-                myNavMeshAgent.SetDestination(mobMaster.MobTarget.position);
+                myNavMeshAgent.SetDestination(mobMaster.AttackTarget.position);
 
                 if (myNavMeshAgent.remainingDistance > myNavMeshAgent.stoppingDistance)
                 {
-                    mobMaster.CallEventMobWalking();
+                    mobMaster.CallEventCharacterWalking();
                     mobMaster.IsOnRoute = true;
                 }
             }

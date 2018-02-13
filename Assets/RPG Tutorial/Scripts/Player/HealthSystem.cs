@@ -8,6 +8,7 @@ public class HealthSystem : MonoBehaviour {
 
 
     #region Properties
+    [SerializeField] Character characterMaster;
     //  Health System
     [SerializeField] float currentHP;
     [SerializeField] float maxHP = 100f;
@@ -24,18 +25,28 @@ public class HealthSystem : MonoBehaviour {
     Animator myAnimator;
     //  TODO Audio Source for Player
     //AudioSource audioSource;  
-    CharacterMovement characterMove;
     #endregion
 
-
-
-    void Start()
+        
+    void Initialize()
     {
+        currentHP = maxHP;
         myAnimator = GetComponent<Animator>();
         //audioSource = GetComponent<AudioSource>();
-        characterMove = GetComponent<CharacterMovement>();
+        characterMaster = GetComponent<Character>();
+    }
 
-        currentHP = maxHP;
+    void OnEnable()
+    {
+        Initialize();
+        characterMaster.EventCharacterHeal += Heal;
+        characterMaster.EventCharacterTakeDamage += TakeDamage;
+    }
+
+    void OnDisable()
+    {
+        characterMaster.EventCharacterHeal -= Heal;
+        characterMaster.EventCharacterTakeDamage -= TakeDamage;
     }
 
     #region Health System
@@ -80,10 +91,9 @@ public class HealthSystem : MonoBehaviour {
     IEnumerator KillCharacter()
     {
         StopAllCoroutines();
-        characterMove.Kill();
         myAnimator.SetTrigger(DEATH_TRIGGER);
        
-        var playerComponent = GetComponent<Player>();
+        var playerComponent = GetComponent<PlayerMaster>();
         if (playerComponent && playerComponent.isActiveAndEnabled)  //  relying on lazy envaluation
         {
             //  TODO : Audio Player Death
