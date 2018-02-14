@@ -1,28 +1,29 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// MobChase.cs
+/// </summary>
 using UnityEngine;
-using UnityEngine.AI;
 
 
-namespace RPG
-{
-    public class MobChase : MonoBehaviour
-    {
+namespace RPG {
+
+    public class MobChase : MonoBehaviour {
 
 
-        private MobMaster mobMaster;
-        private NavMeshAgent myNavMeshAgent;
+        Character mobMaster;
+        Transform chaseRef;
 
         private float checkRate;
         private float nextCheck;
 
 
+
         void Initialize()
         {
-            mobMaster = GetComponent<MobMaster>();
-            if (GetComponent<NavMeshAgent>() != null)
-            {
-                myNavMeshAgent = GetComponent<NavMeshAgent>();
-            }
+            chaseRef = null;
+            mobMaster = GetComponent<Character>();
             checkRate = Random.Range(0.1f, 0.2f);
         }
 
@@ -30,11 +31,13 @@ namespace RPG
         {
             Initialize();
             mobMaster.EventCharacterDie += DisableThis;
+            mobMaster.EventSetCharacterNavTarget += SetChaseTarget;
         }
 
         void OnDisable()
         {
             mobMaster.EventCharacterDie -= DisableThis;
+            mobMaster.EventSetCharacterNavTarget -= SetChaseTarget;
         }
 
         void Update()
@@ -46,27 +49,36 @@ namespace RPG
             }
         }
 
+        #region Chase
+        void SetChaseTarget(Transform target)
+        {
+            chaseRef = target;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         void TryChaseTarget()
         {
-            if (mobMaster.AttackTarget != null && myNavMeshAgent != null && !mobMaster.IsNavPaused)
+            if (chaseRef != null && mobMaster.MyNavAgent != null && !mobMaster.IsNavPaused)
             {
-                myNavMeshAgent.SetDestination(mobMaster.AttackTarget.position);
-
-                if (myNavMeshAgent.remainingDistance > myNavMeshAgent.stoppingDistance)
+                if (mobMaster.MyNavAgent.remainingDistance > mobMaster.MyNavAgent.stoppingDistance)
                 {
                     mobMaster.CallEventCharacterWalking();
                     mobMaster.IsOnRoute = true;
                 }
             }
         }
-
+        /// <summary>
+        /// Disables Upon Death
+        /// </summary>
         void DisableThis()
         {
-            if (myNavMeshAgent != null)
+            if (mobMaster.MyNavAgent != null)
             {
-                myNavMeshAgent.enabled = false;
+                mobMaster.MyNavAgent.enabled = false;
             }
             this.enabled = false;
         }
+        #endregion
     }
 }

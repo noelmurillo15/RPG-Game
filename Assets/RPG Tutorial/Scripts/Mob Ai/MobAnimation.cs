@@ -1,24 +1,24 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// MobAnimation.cs
+/// </summary>
 using UnityEngine;
 
 
 namespace RPG {
 
-    [RequireComponent(typeof(MobMaster))]
-    [RequireComponent(typeof(Animator))]
     public class MobAnimation : MonoBehaviour {
 
-        MobMaster mobMaster;
-        Animator myAnimator;
+
+        Character mobMaster;
+
 
 
         void Initialize()
         {
-            mobMaster = GetComponent<MobMaster>();
-            if (GetComponent<Animator>() != null)
-            {
-                myAnimator = GetComponent<Animator>();
-            }
+            mobMaster = GetComponent<Character>();
         }
 
         void OnEnable()
@@ -43,59 +43,64 @@ namespace RPG {
         #region Animations
         void SetAnimationIdle()
         {
-            if (myAnimator != null)
+            if (mobMaster.MyAnim != null)
             {
-                if (myAnimator.enabled)
+                if (mobMaster.MyAnim.enabled)
                 {
-                    myAnimator.SetBool("isPursuing", false);
+                    mobMaster.MyAnim.SetBool("isPursuing", false);
                 }
             }
         }
 
         void SetAnimationWalk()
         {
-            if (myAnimator != null)
+            if (mobMaster.MyAnim != null)
             {
-                if (myAnimator.enabled)
+                if (mobMaster.MyAnim.enabled)
                 {
-                    myAnimator.SetBool("isPursuing", true);
+                    mobMaster.MyAnim.SetBool("isPursuing", true);
                 }
             }
         }
 
         void SetAnimationAttack()
         {
-            if (myAnimator != null)
+            if (mobMaster.MyAnim != null)
             {
-                if (myAnimator.enabled)
+                if (mobMaster.MyAnim.enabled)
                 {
-                    myAnimator.SetTrigger("Attack");
+                    mobMaster.MyAnim.SetTrigger("Attack");
                 }
             }
         }
 
         void SetAnimationGetHit(float dummy)
         {
-            if (myAnimator != null)
+            if (mobMaster.MyAnim != null)
             {
-                if (myAnimator.enabled && !mobMaster.IsCriticallyHit)
+                if (mobMaster.MyAnim.enabled && !mobMaster.IsCriticallyHit)
                 {
                     mobMaster.IsCriticallyHit = true;
-                    myAnimator.SetTrigger("GetHit");
+                    mobMaster.MyAnim.SetTrigger("GetHit");
                 }
             }
         }
-        //  TODO : Gethit animation must have event to use this function
+        /// <summary>
+        /// GetHit Animation MUST call this function
+        /// through the animation event sytem
+        /// </summary>
         void OnMobGetHit()
         {
             mobMaster.IsCriticallyHit = false;
         }
-
+        /// <summary>
+        /// Disables Upon Death
+        /// </summary>
         void DisableAnimator()
         {
-            if (myAnimator != null)
+            if (mobMaster.MyAnim != null)
             {
-                myAnimator.enabled = false;
+                mobMaster.MyAnim.enabled = false;
             }
         }
         #endregion

@@ -25,7 +25,7 @@ namespace RPG {
         {
             var projectileSpellConfig = (config as ProjectileSpellConfig);
 
-            float damageToDeal = caster.BaseDamage + projectileSpellConfig.GetDamage();
+            float damageToDeal = caster.MagicalAttack + projectileSpellConfig.GetDamage();
             spellParams.GetComponent<HealthSystem>().TakeDamage(damageToDeal);
 
             PlayParticleEffect();

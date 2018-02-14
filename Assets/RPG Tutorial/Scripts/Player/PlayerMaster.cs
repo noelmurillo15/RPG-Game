@@ -1,87 +1,85 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
-using RPG;
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// PlayerMaster.cs
+/// </summary>
 using UnityEngine;
 
 
-public class PlayerMaster : Character {
+namespace RPG {
+
+    public class PlayerMaster : Character {
 
 
-    #region Properties
-    //  Attack
-    [SerializeField] float meleeBaseDmg = 10f;
-    [SerializeField] float meleeRange = 5f;
-    [SerializeField] float magicBaseDmg = 20f;
-    [SerializeField] float magicRange = 5f;
-    [SerializeField] float attackRate = .5f;
-
-    float lastHitTime = 0f;
-
-    SpellSystem myMana;
-    CameraRaycaster camRaycaster;
-    #endregion
+        #region Properties
+        SpellSystem myMana;
+        CameraRaycaster camRaycaster;
+        private float lastHitTime = 0f;
+        #endregion
 
 
 
-    void Start()
-    {
-        myMana = GetComponent<SpellSystem>();
-        camRaycaster = Camera.main.GetComponent<CameraRaycaster>();        
-
-        camRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
-        camRaycaster.onMouseOverPlayer += OnMouseOverPlayer;        
-    }
-
-    #region Attack
-    public float BaseDamage  { get { return meleeBaseDmg; } }
-    public float BaseMagicDamage { get { return magicBaseDmg; } }
-
-    bool IsTargetInRange(Transform target)
-    {
-        float distToTarget = (target.position - transform.position).magnitude;
-        return distToTarget <= meleeRange;
-    }
-
-    void AttackSelectedTarget()
-    {
-        if (Time.time - lastHitTime > attackRate)
+        void Awake()
         {
-            if (AttackTarget.GetComponent<Character>())
-            {
-                Debug.Log("Player has dealt damage to attack target");
-                AttackTarget.GetComponent<Character>().CallEventCharacterTakeDamage(BaseDamage);
-            }   
-            lastHitTime = Time.time;
+            myMana = GetComponent<SpellSystem>();
+            camRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+
+            camRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
+            camRaycaster.onMouseOverPlayer += OnMouseOverPlayer;
+
+            Initialize();
         }
-    }
-    #endregion
 
-    #region Input Events   
-    void OnMouseOverEnemy(MobMaster enemyToSet)
-    {
-        AttackTarget = enemyToSet.transform;
-        CallEventSetCharacterNavTarget(AttackTarget);
-        if (Input.GetMouseButtonDown(0) && IsTargetInRange(AttackTarget))
+        #region Attack   
+        bool IsTargetInRange(Transform target)
         {
-            AttackSelectedTarget();
+            float distToTarget = (target.position - transform.position).magnitude;
+            return distToTarget <= MeleeRange;
         }
-        ScanForSpellKeyDown();
-    }
 
-    void OnMouseOverPlayer()
-    {
-        AttackTarget = gameObject.transform;
-        ScanForSpellKeyDown();        
-    }
-
-    void ScanForSpellKeyDown()
-    {
-        for (int keyIndex = 0; keyIndex < myMana.GetSpellList().Length + 1; keyIndex++)
+        void AttackSelectedTarget()
         {
-            if (Input.GetKeyDown(keyIndex.ToString()))
+            if (Time.time - lastHitTime > AttackRate)
             {
-                myMana.AttemptSpell(keyIndex - 1, AttackTarget.gameObject);
+                if (AttackTarget.GetComponent<Character>())
+                {
+                    Debug.Log("Melee Damage");
+                    AttackTarget.GetComponent<Character>().CallEventCharacterTakeDamage(PhysicalAttack);
+                }
+                lastHitTime = Time.time;
             }
         }
+        #endregion
+
+        #region Input Events   
+        void OnMouseOverEnemy(Character enemyToSet)
+        {
+            AttackTarget = enemyToSet.transform;
+            CallEventSetCharacterNavTarget(AttackTarget);
+            if (Input.GetMouseButtonDown(0) && IsTargetInRange(AttackTarget))
+            {
+                AttackSelectedTarget();
+            }
+            ScanForSpellKeyDown();
+        }
+
+        void OnMouseOverPlayer()
+        {
+            AttackTarget = gameObject.transform;
+            ScanForSpellKeyDown();
+        }
+
+        void ScanForSpellKeyDown()
+        {
+            for (int keyIndex = 0; keyIndex < myMana.GetSpellList().Length + 1; keyIndex++)
+            {
+                if (Input.GetKeyDown(keyIndex.ToString()))
+                {
+                    myMana.AttemptSpell(keyIndex - 1, AttackTarget.gameObject);
+                }
+            }
+        }
+        #endregion
     }
-    #endregion
 }

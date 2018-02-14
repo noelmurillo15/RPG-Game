@@ -1,31 +1,40 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// MobAttack.cs
+/// </summary>
 using UnityEngine;
 
 
-namespace RPG
-{
-    [RequireComponent(typeof(MobMaster))]
-    [RequireComponent(typeof(MobStats))]
-    public class MobAttack : MonoBehaviour
-    {
+namespace RPG {
 
-        private MobMaster mobMaster;
-        private MobStats mobStats;
-        private Transform myTarget;
-        private Transform myTransform;
+    public class MobAttack : MonoBehaviour {
 
-        [SerializeField] float attackRate = 1;
-        [SerializeField] float attackRange = 8f;
+
+        Character mobMaster;
+        Transform lockedTarget;
         private float nextAttack;
 
 
 
         void Initialize()
         {
-            attackRate = Random.Range(2.25f, 3.25f);
-            mobMaster = GetComponent<MobMaster>();
-            mobStats = GetComponent<MobStats>();
-            myTransform = transform;
+            lockedTarget = null;
+            mobMaster = GetComponent<Character>();
+        }        
+
+        void OnEnable()
+        {
+            Initialize();
+            mobMaster.EventCharacterDie += DisableThis;
+            mobMaster.EventSetAttackTarget += SetAttackTarget;
+        }
+
+        void OnDisable()
+        {
+            mobMaster.EventCharacterDie -= DisableThis;
+            mobMaster.EventSetAttackTarget -= SetAttackTarget;
         }
 
         void Update()
@@ -33,39 +42,34 @@ namespace RPG
             TryAttack();
         }
 
-        void OnEnable()
-        {
-            Initialize();
-            mobMaster.EventCharacterDie += DisableThis;
-            mobMaster.EventSetCharacterNavTarget += SetAttackTarget;
-        }
-
-        void OnDisable()
-        {
-            mobMaster.EventCharacterDie -= DisableThis;
-            mobMaster.EventSetCharacterNavTarget -= SetAttackTarget;
-        }
-
+        #region Attack
+        /// <summary>
+        /// Keeps a reference of my Attack Target
+        /// Called when Character Nav Target is Set
+        /// </summary>
+        /// <param name="target"></param>
         void SetAttackTarget(Transform target)
         {
-            myTarget = target;
+            lockedTarget = target;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         void TryAttack()
         {
             //Debug.Log("Attack Sequence Initialized");
-            if (myTarget != null)
+            if (lockedTarget != null)
             {
                 //Debug.Log("Target Locked");
                 if (Time.time > nextAttack && !mobMaster.IsCriticallyHit)
                 {
                     //Debug.Log("Preparing an attack");
-                    nextAttack = Time.time + attackRate;
-                    if (Vector3.Distance(myTransform.position, myTarget.position) <= attackRange)
+                    nextAttack = Time.time + mobMaster.AttackRate;
+                    if (Vector3.Distance(mobMaster.MyTransformRef.position, lockedTarget.position) <= mobMaster.MeleeRange)
                     {
                         //Debug.Log("Attacking!");
-                        Vector3 lookatVector = new Vector3(myTarget.position.x, myTransform.position.y, myTarget.position.z);
-                        myTransform.LookAt(lookatVector);
+                        Vector3 lookatVector = new Vector3(lockedTarget.position.x, mobMaster.MyTransformRef.position.y, lockedTarget.position.z);
+                        mobMaster.MyTransformRef.LookAt(lookatVector);
                         mobMaster.CallEventCharacterAttack();
                         mobMaster.IsOnRoute = false;
                         mobMaster.IsAttacking = true;
@@ -73,31 +77,36 @@ namespace RPG
                 }
             }
         }
-
-        //  TODO : Attack animation must have event to use this function
+        /// <summary>
+        /// Attack Animation MUST call OnEnemyAttack
+        /// through the animation event system
+        /// </summary>
         void OnEnemyAttack()
         {
-            if (myTarget != null)
+            if (mobMaster.AttackTarget != null && lockedTarget == mobMaster.AttackTarget)
             {
-                mobMaster.IsAttacking = false;
-                mobMaster.CallEventCharacterGainExperience(1);
-                int damageToApply = mobStats.PhysicalDamage;
-                if (Random.Range(0, 100) < mobStats.CriticalRate)
+                int damageToApply = mobMaster.PhysicalAttack;
+                if (Random.Range(0, 100) < mobMaster.CriticalRate)
                 {
-                    damageToApply += mobStats.PhysicalDamage + mobStats.CriticalDamage;
+                    damageToApply += damageToApply + mobMaster.CriticalDamage;
                 }
 
-                if (myTarget.GetComponent<HealthSystem>() != null)
+                if (lockedTarget.GetComponent<HealthSystem>() != null)
                 {
-                    myTarget.GetComponent<HealthSystem>().TakeDamage(damageToApply);
-                    return;
+                    lockedTarget.GetComponent<HealthSystem>().TakeDamage(damageToApply);
                 }
             }
+            mobMaster.IsAttacking = false;
+            mobMaster.AttackTarget = null;
+            lockedTarget = null;
         }
-
+        /// <summary>
+        /// Disables Upon Death
+        /// </summary>
         void DisableThis()
         {
             this.enabled = false;
         }
+        #endregion
     }
 }

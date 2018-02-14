@@ -27,7 +27,7 @@ public class CameraRaycaster : MonoBehaviour {
     public delegate void OnMouseOverTerrain(Vector3 destination); // declare new delegate type
     public event OnMouseOverTerrain onMouseOverTerrain; // instantiate an observer set
 
-	public delegate void OnMouseOverEnemy(MobMaster mob); // declare new delegate type
+	public delegate void OnMouseOverEnemy(Character mob); // declare new delegate type
 	public event OnMouseOverEnemy onMouseOverEnemy; // instantiate an observer set
     #endregion
 
@@ -67,7 +67,7 @@ public class CameraRaycaster : MonoBehaviour {
         {
 
             var gameObjectHit = hitInfo.collider.gameObject;
-            var enemyhit = gameObjectHit.GetComponent<MobMaster>();
+            var enemyhit = gameObjectHit.GetComponent<Character>();
 
             if (enemyhit)
             {

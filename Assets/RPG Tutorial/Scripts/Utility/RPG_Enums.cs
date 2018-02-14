@@ -1,16 +1,16 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
 
 
-namespace RPG
-{
-    public enum MobTypes
+namespace RPG {
+
+    public enum CharacterTypes
     {
         PLAYER, //  Me
         NPC,    //  Advanced Ai
         ENEMY   //  Basic Ai 
     }
 
-    public enum MobRanks
+    public enum CharacterRanks
     {               //  AI Behaviours
         MINION,     //  Green,  Lv 1-5      Scared of all other Ranks, fight amongst themselves
         COMMON,     //  Grey,   Lv 6-10     Hunt MINION & COMMON, Scared of ELITE, LEGENDARY, UBER & BOSS        
@@ -20,7 +20,7 @@ namespace RPG
         BOSS        //  Black,  Lv 26-30    Wrecks Havoc
     }
 
-    public enum MobClass
+    public enum CharacterClasses
     {               // Based on Attribute Distribution
         NONE,
         FIGHTER,    // + 10 in Strength
@@ -31,7 +31,7 @@ namespace RPG
         TANK        // DEFENDER +10 in any other stat or Lv 26    
     }
 
-    public enum MobPhysique
+    public enum CharacterPhysique
     {               //  AI Stats
         HEALTH,     //  Hit pts  ~ Affected when Hungry, Thirsty & Tired
         MANA       //  Mana Pts ~ Affected when Hungry & Thirsty
@@ -42,7 +42,7 @@ namespace RPG
         //SLEEP,      //  0-100, Affects STAMINA recharge   
     }
 
-    public enum MobAttributes
+    public enum CharacterAttributes
     {               //  AI Permanent Buffs  //  start with 0pts, each lv gain 1 pt
         STRENGTH,   //  Affects : Physical dmg, HP
         WISDOM,     //  Affects : Magic dmg, Mana

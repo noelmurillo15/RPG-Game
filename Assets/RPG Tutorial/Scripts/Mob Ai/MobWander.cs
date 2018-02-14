@@ -1,4 +1,9 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// MobWander.cs
+/// </summary>
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,27 +13,20 @@ namespace RPG {
     public class MobWander : MonoBehaviour {
 
 
-        MobMaster mobMaster;
+        Character mobMaster;
+        Vector3 wanderTarget;
         NavMeshHit navHit;
-        Transform myTransform;
-        NavMeshAgent myNavMeshAgent;
 
         private float checkRate;
         private float nextCheck;
-
         [SerializeField] float wanderRange = 20f;
-        [SerializeField] Vector3 wanderTarget;
+
 
 
         void Initialize()
         {
-            mobMaster = GetComponent<MobMaster>();
-            if (GetComponent<NavMeshAgent>() != null)
-            {
-                myNavMeshAgent = GetComponent<NavMeshAgent>();
-            }
+            mobMaster = GetComponent<Character>();
             checkRate = Random.Range(0.1f, 0.3f);
-            myTransform = transform;
         }
 
         void OnEnable()
@@ -51,19 +49,29 @@ namespace RPG {
             }
         }
 
+        #region Wander
+        /// <summary>
+        /// 
+        /// </summary>
         void CheckWander()
         {
             if (mobMaster.AttackTarget == null && !mobMaster.IsOnRoute && !mobMaster.IsNavPaused)
             {
-                if (RandomWanderTarget(myTransform.position, wanderRange, out wanderTarget))
+                if (RandomWanderTarget(mobMaster.MyTransformRef.position, wanderRange, out wanderTarget))
                 {
-                    myNavMeshAgent.SetDestination(wanderTarget);
+                    mobMaster.MyNavAgent.SetDestination(wanderTarget);
                     mobMaster.IsOnRoute = true;
                     mobMaster.CallEventCharacterWalking();
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="range"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
         bool RandomWanderTarget(Vector3 center, float range, out Vector3 result)
         {
             Vector3 randomPoint = center + Random.insideUnitSphere * wanderRange;
@@ -76,10 +84,13 @@ namespace RPG {
             result = center;
             return false;
         }
-
+        /// <summary>
+        /// Disables Upon Death
+        /// </summary>
         void DisableThis()
         {
             this.enabled = false;
         }
+        #endregion
     }
 }

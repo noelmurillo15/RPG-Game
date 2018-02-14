@@ -18,7 +18,7 @@ namespace RPG {
 
         public override void Activate(GameObject spellParams)
         {
-            DealRadialDamage(caster.BaseMagicDamage);
+            DealRadialDamage(caster.MagicalAttack);
         }
 
         #region Area Attack
@@ -29,9 +29,9 @@ namespace RPG {
             //  Static Sphere Cast for targets
             RaycastHit[] hits = Physics.SphereCastAll(
                 transform.position,
-                aoeSpellConfig.GetRadius(),
+                aoeSpellConfig.GetRadius() + caster.MagicRange,
                 Vector3.up,
-                aoeSpellConfig.GetRadius()
+                aoeSpellConfig.GetRadius() + caster.MagicRange
             );
 
             float damageToDeal = baseDmg + aoeSpellConfig.GetDamage();

@@ -1,101 +1,109 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
-using RPG;
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// SpellSystem.cs
+/// </summary>
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
 
-public class SpellSystem : MonoBehaviour {
+namespace RPG {
+
+    public class SpellSystem : MonoBehaviour {
 
 
-    #region Properties
-    //  Mana System
-    [SerializeField] Image manaOrb;
-    [SerializeField] float currentMana;
-    [SerializeField] float maxMana = 100f;
-    [SerializeField] float manaPerSec = 1f;
-    [SerializeField] float regenTimer = .1f;
-    [SerializeField] bool manaRegenActive = false;
-    [SerializeField] float manaCriticalPercent = .1f;
-    [SerializeField] AudioClip outOfMana;
-    [SerializeField] AudioSource audioSource;
+        #region Properties
+        [Header("Mana")]
+        [SerializeField] float currentMana = 0f;
+        [SerializeField] float maxMana = 100f;
+        [SerializeField] float manaCriticalPercent = .1f;
+        [SerializeField] float manaPerSec = 1f;
+        [SerializeField] float regenTimer = .1f;
+        [SerializeField] bool manaRegenActive = false;
+        [SerializeField] Image manaOrb;
+        [SerializeField] AudioClip outOfMana;
+        [SerializeField] AudioSource audioSource;
 
-    //  Temporarily Serialized for debugging
-    [SerializeField] SpellConfig[] spells;
-    #endregion
+        [Header("Spells")]
+        [SerializeField] SpellConfig[] spells;
+        #endregion
 
 
 
-    void Start()
-    {
-        currentMana = maxMana;
-        AttachInitialSpells();
-    }
-
-    #region Mana System
-    float EnergyAsPercent { get { return currentMana / maxMana; } }
-
-    void UpdateManaBar()
-    {
-        manaOrb.fillAmount = EnergyAsPercent;
-    }
-
-    IEnumerator ManaRegen()
-    {
-        manaRegenActive = true;
-        while (currentMana < maxMana)
+        void Start()
         {
-            GainMana(manaPerSec);
-            yield return new WaitForSeconds(regenTimer);
+            currentMana = maxMana;
+            AttachInitialSpells();
         }
-        manaRegenActive = false;
-    }
 
-    public SpellConfig[] GetSpellList() { return spells; }
+        #region Accessors
+        public SpellConfig[] GetSpellList() { return spells; }
+        public float ManaAsPercent { get { return currentMana / maxMana; } }
+        #endregion
 
-    public bool IsManaAvailable(float amt)
-    {
-        return amt <= currentMana;
-    }
-
-    public void LoseMana(float amt)
-    {
-        currentMana = Mathf.Clamp(currentMana - amt, 0f, maxMana);
-        if (EnergyAsPercent < manaCriticalPercent)
+        #region Mana System
+        void UpdateManaBar()
         {
-            if (audioSource && !audioSource.isPlaying)
+            manaOrb.fillAmount = ManaAsPercent;
+        }
+
+        public bool IsManaAvailable(float mana)
+        {
+            return mana <= currentMana;
+        }
+
+        public void GainMana(float mana)
+        {
+            currentMana = Mathf.Clamp(currentMana + mana, 0f, maxMana);
+            UpdateManaBar();
+        }
+
+        public void LoseMana(float mana)
+        {
+            currentMana = Mathf.Clamp(currentMana - mana, 0f, maxMana);
+            if (ManaAsPercent < manaCriticalPercent)
             {
-                audioSource.PlayOneShot(outOfMana);
+                if (audioSource && !audioSource.isPlaying)
+                {
+                    audioSource.PlayOneShot(outOfMana);
+                }
+                StartCoroutine(ManaRegen());
             }
-            StartCoroutine(ManaRegen());
+            UpdateManaBar();
         }
-        UpdateManaBar();
-    }
 
-    public void GainMana(float amt)
-    {
-        currentMana = Mathf.Clamp(currentMana + amt, 0f, maxMana);
-        UpdateManaBar();
-    }
-    #endregion
-
-    #region Spell System
-    void AttachInitialSpells()
-    {
-        for (int spellIndex = 0; spellIndex < spells.Length; spellIndex++)
+        IEnumerator ManaRegen()
         {
-            spells[spellIndex].AttachSpell(gameObject);
+            manaRegenActive = true;
+            while (currentMana < maxMana)
+            {
+                GainMana(manaPerSec);
+                yield return new WaitForSeconds(regenTimer);
+            }
+            manaRegenActive = false;
         }
-    }
+        #endregion
 
-    public void AttemptSpell(int spellIndex, GameObject target = null)
-    {
-        var mySpell = spells[spellIndex];
-        if (IsManaAvailable(mySpell.GetManaCost()))
+        #region Spell System
+        void AttachInitialSpells()
         {
-            mySpell.Activate(target);
-            LoseMana(mySpell.GetManaCost());
+            for (int spellIndex = 0; spellIndex < spells.Length; spellIndex++)
+            {
+                spells[spellIndex].AttachSpell(gameObject);
+            }
         }
+
+        public void AttemptSpell(int spellIndex, GameObject target = null)
+        {
+            var mySpell = spells[spellIndex];
+            if (IsManaAvailable(mySpell.GetManaCost()))
+            {
+                mySpell.Activate(target);
+                LoseMana(mySpell.GetManaCost());
+            }
+        }
+        #endregion
     }
-    #endregion
 }

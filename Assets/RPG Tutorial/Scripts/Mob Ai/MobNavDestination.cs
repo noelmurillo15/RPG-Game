@@ -1,15 +1,18 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// MobNavDestination.cs
+/// </summary>
 using UnityEngine;
-using UnityEngine.AI;
 
 
-namespace RPG
-{
-    public class MobNavDestination : MonoBehaviour
-    {
+namespace RPG {
 
-        private MobMaster mobMaster;
-        private NavMeshAgent myNavMeshAgent;
+    public class MobNavDestination : MonoBehaviour {
+
+
+        Character mobMaster;
 
         private float checkRate;
         private float nextCheck;
@@ -17,11 +20,7 @@ namespace RPG
 
         void Initialize()
         {
-            mobMaster = GetComponent<MobMaster>();
-            if (GetComponent<NavMeshAgent>() != null)
-            {
-                myNavMeshAgent = GetComponent<NavMeshAgent>();
-            }
+            mobMaster = GetComponent<Character>();
             checkRate = Random.Range(0.3f, 0.4f);
         }
 
@@ -45,21 +44,28 @@ namespace RPG
             }
         }
 
+        #region Check Destination
+        /// <summary>
+        /// 
+        /// </summary>
         void CheckIfDestinationReached()
         {
             if (mobMaster.IsOnRoute)
             {
-                if (myNavMeshAgent.remainingDistance < myNavMeshAgent.stoppingDistance)
+                if (mobMaster.MyNavAgent.remainingDistance < mobMaster.MyNavAgent.stoppingDistance)
                 {
                     mobMaster.IsOnRoute = false;
                     mobMaster.CallEventCharacterReachedNavTarget();
                 }
             }
         }
-
+        /// <summary>
+        /// Disables Upon Death
+        /// </summary>
         void DisableThis()
         {
             this.enabled = false;
         }
+        #endregion
     }
 }

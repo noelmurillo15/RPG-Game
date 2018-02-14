@@ -1,27 +1,26 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// MobNavPause.cs
+/// </summary>
 using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
 
 
-namespace RPG
-{
-    public class MobNavPause : MonoBehaviour
-    {
+namespace RPG {
 
-        private MobMaster mobMaster;
-        private NavMeshAgent myNavMeshAgent;
+    public class MobNavPause : MonoBehaviour {
 
-        [SerializeField] float pauseTime = 1f;
+
+        Character mobMaster;
+        float pauseTime = 1f;
+
 
 
         void Initialize()
         {
-            mobMaster = GetComponent<MobMaster>();
-            if (GetComponent<NavMeshAgent>() != null)
-            {
-                myNavMeshAgent = GetComponent<NavMeshAgent>();
-            }
+            mobMaster = GetComponent<Character>();
         }
 
         void OnEnable()
@@ -37,28 +36,39 @@ namespace RPG
             mobMaster.EventCharacterTakeDamage -= PauseNavMeshAgent;
         }
 
+        #region Navigation Pause
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dummy"></param>
         void PauseNavMeshAgent(float dummy)
         {
-            if (myNavMeshAgent != null)
+            if (mobMaster.MyNavAgent != null)
             {
-                if (myNavMeshAgent.enabled)
+                if (mobMaster.MyNavAgent.enabled)
                 {
-                    myNavMeshAgent.ResetPath();
+                    mobMaster.MyNavAgent.ResetPath();
                     mobMaster.IsNavPaused = true;
                     StartCoroutine(RestartNavMeshAgent());
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         IEnumerator RestartNavMeshAgent()
         {
             yield return new WaitForSeconds(pauseTime);
             mobMaster.IsNavPaused = false;
         }
-
+        /// <summary>
+        /// Disables Upon Death
+        /// </summary>
         void DisableThis()
         {
             StopAllCoroutines();
         }
+        #endregion
     }
 }

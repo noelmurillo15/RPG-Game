@@ -1,4 +1,9 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// MobUi.cs
+/// </summary>
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +15,6 @@ namespace RPG {
 
         RawImage healthBarRawImage = null;
         HealthSystem mob = null;
-        [SerializeField] Transform player;
 
 
 
@@ -20,7 +24,7 @@ namespace RPG {
             healthBarRawImage = GetComponent<RawImage>();
         }
 
-        void Update()
+        void LateUpdate()
         {
             float xValue = -(mob.GetHealthAsPercentage() / 2f) - 0.5f;
             healthBarRawImage.uvRect = new Rect(xValue, 0f, 0.5f, 1f);

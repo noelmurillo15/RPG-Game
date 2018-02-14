@@ -1,4 +1,9 @@
-﻿// Allan Murillo : Unity RPG Core Test Project
+﻿/// <summary>
+/// 2/13/18
+/// Allan Murillo
+/// RPG Core Project
+/// MobDetection.cs
+/// </summary>
 using UnityEngine;
 
 
@@ -7,12 +12,10 @@ namespace RPG {
     public class MobDetection : MonoBehaviour {
 
 
-        MobMaster mobMaster;
-        Transform myTransform;
+        Character mobMaster;
         RaycastHit hit;
 
         [SerializeField] Transform head;
-        [SerializeField] LayerMask playerLayer;
         [SerializeField] LayerMask sightLayer;
         [SerializeField] float detectRadius = 80f;
         [SerializeField] float detectBehindRadius = 10f;
@@ -24,12 +27,12 @@ namespace RPG {
 
         void Initialize()
         {
-            mobMaster = GetComponent<MobMaster>();
-            myTransform = transform;
+            mobMaster = GetComponent<Character>();
 
             if (head == null)
             {
-                head = myTransform;
+                Debug.Log("Head has not been assigned in Inspector");
+                head = mobMaster.MyTransformRef;
             }
 
             checkRate = Random.Range(.75f, 1.25f);
@@ -51,13 +54,17 @@ namespace RPG {
             CarryOutDetection();
         }
 
+        #region Detection
+        /// <summary>
+        /// 
+        /// </summary>
         void CarryOutDetection()
         {
             if (Time.time > nextCheck)
             {
                 nextCheck = Time.time + checkRate;
 
-                Collider[] colliders = Physics.OverlapSphere(myTransform.position, detectRadius, sightLayer);
+                Collider[] colliders = Physics.OverlapSphere(mobMaster.MyTransformRef.position, detectRadius, sightLayer);
 
                 if (colliders.Length > 0)
                 {
@@ -72,6 +79,7 @@ namespace RPG {
 
                             if (Vector3.Distance(mobMaster.transform.position, potentialTarget.transform.position) < detectBehindRadius)
                             {
+                                mobMaster.CallEventSetAttackTarget(potentialTarget.transform);
                                 mobMaster.CallEventSetCharacterNavTarget(potentialTarget.transform);
                                 break;
                             }
@@ -89,7 +97,11 @@ namespace RPG {
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="potentialTarget"></param>
+        /// <returns></returns>
         bool CanPotentialTargetsBeSeen(Transform potentialTarget)
         {
 
@@ -97,6 +109,7 @@ namespace RPG {
             {
                 if (hit.transform == potentialTarget)
                 {
+                    mobMaster.CallEventSetAttackTarget(potentialTarget);
                     mobMaster.CallEventSetCharacterNavTarget(potentialTarget);
                     return true;
                 }
@@ -112,10 +125,13 @@ namespace RPG {
                 return false;
             }
         }
-
+        /// <summary>
+        /// Disables Upon Death
+        /// </summary>
         void DisableThis()
         {
             this.enabled = false;
         }
+        #endregion
     }
 }
