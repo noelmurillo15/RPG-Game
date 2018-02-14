@@ -14,38 +14,37 @@ namespace RPG {
 
         #region Properties
         SpellSystem myMana;
-        CameraRaycaster camRaycaster;
+        CharacterStats characterStats;
         private float lastHitTime = 0f;
         #endregion
 
 
 
-        void Awake()
+        void Start()
         {
             myMana = GetComponent<SpellSystem>();
-            camRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+            characterStats = GetComponent<CharacterStats>();
 
+            CameraRaycaster camRaycaster = Camera.main.GetComponent<CameraRaycaster>();
             camRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
             camRaycaster.onMouseOverPlayer += OnMouseOverPlayer;
-
-            Initialize();
+            camRaycaster.onMouseOverTerrain += OnMouseOverTerrain;
         }
 
         #region Attack   
         bool IsTargetInRange(Transform target)
         {
             float distToTarget = (target.position - transform.position).magnitude;
-            return distToTarget <= MeleeRange;
+            return distToTarget <= characterStats.MeleeRange;
         }
 
         void AttackSelectedTarget()
         {
-            if (Time.time - lastHitTime > AttackRate)
+            if (Time.time - lastHitTime > characterStats.AttackRate)
             {
                 if (AttackTarget.GetComponent<Character>())
                 {
-                    Debug.Log("Melee Damage");
-                    AttackTarget.GetComponent<Character>().CallEventCharacterTakeDamage(PhysicalAttack);
+                    AttackTarget.GetComponent<Character>().CallEventCharacterTakeDamage(characterStats.PhysicalAttack);
                 }
                 lastHitTime = Time.time;
             }
@@ -55,19 +54,30 @@ namespace RPG {
         #region Input Events   
         void OnMouseOverEnemy(Character enemyToSet)
         {
-            AttackTarget = enemyToSet.transform;
-            CallEventSetCharacterNavTarget(AttackTarget);
-            if (Input.GetMouseButtonDown(0) && IsTargetInRange(AttackTarget))
+            myAttackTarget = enemyToSet.transform;
+            if (Input.GetMouseButtonDown(0))
             {
-                AttackSelectedTarget();
+                if (IsTargetInRange(enemyToSet.transform))
+                {
+                    AttackSelectedTarget();
+                }
             }
             ScanForSpellKeyDown();
         }
 
         void OnMouseOverPlayer()
         {
-            AttackTarget = gameObject.transform;
+            myAttackTarget = gameObject.transform;
             ScanForSpellKeyDown();
+        }
+
+        void OnMouseOverTerrain(Vector3 dest)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                myAttackTarget = null;
+                MyNavAgent.SetDestination(dest);
+            }
         }
 
         void ScanForSpellKeyDown()

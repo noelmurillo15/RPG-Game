@@ -14,6 +14,7 @@ namespace RPG {
 
 
         Character mobMaster;
+        CharacterMovement characterMovement;
         Vector3 wanderTarget;
         NavMeshHit navHit;
 
@@ -26,6 +27,7 @@ namespace RPG {
         void Initialize()
         {
             mobMaster = GetComponent<Character>();
+            characterMovement = GetComponent<CharacterMovement>();
             checkRate = Random.Range(0.1f, 0.3f);
         }
 

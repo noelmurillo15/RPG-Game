@@ -372,13 +372,13 @@
     <Compile Include="Assets\RPG Tutorial\Scripts\Camera\PivotBasedCameraRig.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Camera\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Character.cs" />
+    <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\CharacterStats.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobAnimation.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobAttack.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobChase.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobDetection.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobNavDestination.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobNavPause.cs" />
-    <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobStatePattern.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobUi.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Mob Ai\MobWander.cs" />
     <Compile Include="Assets\RPG Tutorial\Scripts\Player\CharacterMovement.cs" />

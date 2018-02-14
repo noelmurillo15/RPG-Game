@@ -358,14 +358,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4644652578747130}
   - component: {fileID: 95105005110379262}
-  - component: {fileID: 195689022458272604}
-  - component: {fileID: 54654167316928568}
-  - component: {fileID: 136120721916697142}
-  - component: {fileID: 114480829898968094}
+  - component: {fileID: 114930284120946360}
+  - component: {fileID: 114141219551860066}
   - component: {fileID: 114284758313035566}
   - component: {fileID: 114922588382801156}
-  - component: {fileID: 114505457463250824}
   - component: {fileID: 114206158795294400}
+  - component: {fileID: 114505457463250824}
   - component: {fileID: 114388695453721038}
   - component: {fileID: 114140171652620142}
   - component: {fileID: 114146352306370854}
@@ -1285,21 +1283,6 @@ Transform:
   m_Father: {fileID: 4325614374949370}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -20.332048, y: 126.36927, z: 167.19398}
---- !u!54 &54654167316928568
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439308227383442}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!95 &95105005110379262
 Animator:
   serializedVersion: 3
@@ -1328,6 +1311,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa59c93b7a9509649aee03f8c663acac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114141219551860066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1439308227383442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 160d76ba35283c047b183164d786a448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myLevel: 0
+  characterType: 1
+  characterRank: 0
+  characterClass: 0
+  currExp: 0
+  expToNextLvl: 0
+  expMultiplier: 0
+  strength: 0
+  wisdom: 0
+  endurance: 0
+  luck: 0
+  physicalAttack: 0
+  magicalAttack: 0
+  damageResist: 0
+  criticalRate: 0
+  criticalDamage: 0
+  meleeRange: 2
+  magicRange: 10
+  attackRate: 2
 --- !u!114 &114146352306370854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1427,42 +1440,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601e094fce1b5c94bb30e3a4412131e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114480829898968094
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439308227383442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e45b8640ef6d1e45ba52ad0952c1611, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myLevel: 0
-  myTag: 
-  characterType: 0
-  characterRank: 0
-  characterClass: 0
-  currExp: 0
-  expToNextLvl: 0
-  expMultiplier: 0
-  strength: 0
-  wisdom: 0
-  endurance: 0
-  luck: 0
-  physicalAttack: 0
-  magicalAttack: 0
-  damageResist: 0
-  criticalRate: 0
-  criticalDamage: 0
-  meleeRange: 3
-  magicRange: 10
-  attackRate: 2.5
-  isOnRoute: 0
-  isNavPaused: 0
-  isAttacking: 0
-  isCriticallyHit: 0
-  myAttackTarget: {fileID: 0}
 --- !u!114 &114505457463250824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1510,8 +1487,31 @@ MonoBehaviour:
   sightLayer:
     serializedVersion: 2
     m_Bits: 768
-  detectRadius: 80
-  detectBehindRadius: 12
+  detectRadius: 40
+  detectBehindRadius: 5
+--- !u!114 &114930284120946360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1439308227383442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874747bf6fffb224eb9eb19504773b50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myTag: 
+  rigidbodyMass: 100
+  colliderCenter: {x: 0, y: 0.075, z: 0}
+  colliderRadius: 0.03
+  colliderHeight: 0.16
+  steeringSpeed: 1
+  stoppingDistance: 1.8
+  isOnRoute: 0
+  isNavPaused: 0
+  isAttacking: 0
+  isCriticallyHit: 0
+  myAttackTarget: {fileID: 0}
 --- !u!114 &114965599117354958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1528,19 +1528,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!136 &136120721916697142
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439308227383442}
-  m_Material: {fileID: 13400000, guid: 52baaeb214519f347a35cf0edfd262ff, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.03
-  m_Height: 0.16
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.075, z: 0}
 --- !u!137 &137196008010614970
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1668,27 +1655,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.011821274, y: 0.005415788, z: -0.000000014901161}
     m_Extent: {x: 0.07841134, y: 0.01940385, z: 0.06694175}
   m_DirtyAABB: 0
---- !u!195 &195689022458272604
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439308227383442}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.03
-  m_Speed: 1
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 50
-  m_StoppingDistance: 2
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.16
-  m_BaseOffset: 0
-  m_WalkableMask: 3
-  m_ObstacleAvoidanceType: 1
 --- !u!222 &222584597842779786
 CanvasRenderer:
   m_ObjectHideFlags: 1

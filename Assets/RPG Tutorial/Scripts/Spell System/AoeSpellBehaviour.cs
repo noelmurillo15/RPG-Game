@@ -7,13 +7,13 @@ namespace RPG {
     public class AoeSpellBehaviour : SpellBehaviour {
 
 
-        [SerializeField] PlayerMaster caster;
+        [SerializeField] CharacterStats caster;
 
 
 
         private void Start()
         {
-            caster = GetComponent<PlayerMaster>();
+            caster = GetComponent<CharacterStats>();
         }
 
         public override void Activate(GameObject spellParams)
@@ -43,10 +43,10 @@ namespace RPG {
                     continue;
                 }
 
-                var damageable = hit.collider.gameObject.GetComponent<HealthSystem>();
+                var damageable = hit.collider.gameObject.GetComponent<Character>();
                 if (damageable != null)
                 {
-                    damageable.TakeDamage(damageToDeal);
+                    damageable.CallEventCharacterTakeDamage(damageToDeal);
                 }
             }
             PlayParticleEffect();

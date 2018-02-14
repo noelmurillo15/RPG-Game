@@ -13,6 +13,7 @@ namespace RPG {
 
 
         Character mobMaster;
+        CharacterStats mobStats;
         Transform lockedTarget;
         private float nextAttack;
 
@@ -22,6 +23,7 @@ namespace RPG {
         {
             lockedTarget = null;
             mobMaster = GetComponent<Character>();
+            mobStats = GetComponent<CharacterStats>();
         }        
 
         void OnEnable()
@@ -37,10 +39,10 @@ namespace RPG {
             mobMaster.EventSetAttackTarget -= SetAttackTarget;
         }
 
-        void Update()
-        {
-            TryAttack();
-        }
+        //void Update()
+        //{
+        //    TryAttack();
+        //}
 
         #region Attack
         /// <summary>
@@ -51,23 +53,20 @@ namespace RPG {
         void SetAttackTarget(Transform target)
         {
             lockedTarget = target;
+            TryAttack();
         }
         /// <summary>
         /// 
         /// </summary>
         void TryAttack()
         {
-            //Debug.Log("Attack Sequence Initialized");
             if (lockedTarget != null)
             {
-                //Debug.Log("Target Locked");
                 if (Time.time > nextAttack && !mobMaster.IsCriticallyHit)
                 {
-                    //Debug.Log("Preparing an attack");
-                    nextAttack = Time.time + mobMaster.AttackRate;
-                    if (Vector3.Distance(mobMaster.MyTransformRef.position, lockedTarget.position) <= mobMaster.MeleeRange)
+                    nextAttack = Time.time + mobStats.AttackRate;
+                    if (Vector3.Distance(mobMaster.MyTransformRef.position, lockedTarget.position) <= mobStats.MeleeRange)
                     {
-                        //Debug.Log("Attacking!");
                         Vector3 lookatVector = new Vector3(lockedTarget.position.x, mobMaster.MyTransformRef.position.y, lockedTarget.position.z);
                         mobMaster.MyTransformRef.LookAt(lookatVector);
                         mobMaster.CallEventCharacterAttack();
@@ -85,19 +84,20 @@ namespace RPG {
         {
             if (mobMaster.AttackTarget != null && lockedTarget == mobMaster.AttackTarget)
             {
-                int damageToApply = mobMaster.PhysicalAttack;
-                if (Random.Range(0, 100) < mobMaster.CriticalRate)
+                int damageToApply = mobStats.PhysicalAttack;
+                if (Random.Range(0, 100) < mobStats.CriticalRate)
                 {
-                    damageToApply += damageToApply + mobMaster.CriticalDamage;
+                    damageToApply += damageToApply + mobStats.CriticalDamage;
                 }
 
                 if (lockedTarget.GetComponent<HealthSystem>() != null)
                 {
-                    lockedTarget.GetComponent<HealthSystem>().TakeDamage(damageToApply);
+                    lockedTarget.GetComponent<Character>().CallEventCharacterTakeDamage(damageToApply);
                 }
             }
             mobMaster.IsAttacking = false;
-            mobMaster.AttackTarget = null;
+            mobMaster.CallEventSetAttackTarget(null);
+            mobMaster.CallEventSetCharacterNavTarget(null);
             lockedTarget = null;
         }
         /// <summary>

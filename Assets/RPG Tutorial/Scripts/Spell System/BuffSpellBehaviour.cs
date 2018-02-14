@@ -16,7 +16,7 @@ namespace RPG {
         {
             var buffSpellConfig = (config as BuffSpellConfig);
 
-            spellParams.GetComponent<HealthSystem>().Heal(buffSpellConfig.GetStatChangeAmount());
+            spellParams.GetComponent<Character>().CallEventCharacterHeal(buffSpellConfig.GetStatChangeAmount());
 
             PlayParticleEffect();
         }

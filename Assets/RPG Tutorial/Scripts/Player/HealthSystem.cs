@@ -55,6 +55,11 @@ namespace RPG {
         }
 
         #region Health System
+        public float GetHealthAsPercentage()
+        {
+            return currentHP / maxHP;
+        }
+
         void UpdateHealthBar()
         {
             if (healthOrb)
@@ -63,18 +68,13 @@ namespace RPG {
             }
         }
 
-        public float GetHealthAsPercentage()
-        {
-            return currentHP / maxHP;
-        }
-
-        public void Heal(float amt)
+        void Heal(float amt)
         {
             currentHP = Mathf.Clamp(currentHP + amt, 0f, maxHP);
             UpdateHealthBar();
         }
 
-        public void TakeDamage(float dmg)
+        void TakeDamage(float dmg)
         {
             bool characterDead = (currentHP - dmg <= 0f);
             currentHP = Mathf.Clamp(currentHP - dmg, 0f, maxHP);
@@ -87,9 +87,10 @@ namespace RPG {
 
             if (characterDead)
             {
+                characterMaster.CallEventCharacterDie();
                 StartCoroutine(KillCharacter());
             }
-        }
+        }        
         #endregion
 
         #region Death

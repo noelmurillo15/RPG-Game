@@ -79,6 +79,7 @@ namespace RPG {
 
                             if (Vector3.Distance(mobMaster.transform.position, potentialTarget.transform.position) < detectBehindRadius)
                             {
+                                Debug.Log("Mob automatically locked on to target");
                                 mobMaster.CallEventSetAttackTarget(potentialTarget.transform);
                                 mobMaster.CallEventSetCharacterNavTarget(potentialTarget.transform);
                                 break;
@@ -93,7 +94,9 @@ namespace RPG {
                 }
                 else
                 {
-                    mobMaster.CallEventCharacterLostTarget();
+                    mobMaster.CallEventSetAttackTarget(null);
+                    mobMaster.CallEventSetCharacterNavTarget(null);
+                    //mobMaster.CallEventCharacterLostTarget();
                 }
             }
         }
@@ -109,19 +112,24 @@ namespace RPG {
             {
                 if (hit.transform == potentialTarget)
                 {
+                    Debug.Log("Mob has noticed potential target");
                     mobMaster.CallEventSetAttackTarget(potentialTarget);
                     mobMaster.CallEventSetCharacterNavTarget(potentialTarget);
                     return true;
                 }
                 else
                 {
-                    mobMaster.CallEventCharacterLostTarget();
+                    mobMaster.CallEventSetAttackTarget(null);
+                    mobMaster.CallEventSetCharacterNavTarget(null);
+                    //mobMaster.CallEventCharacterLostTarget();
                     return false;
                 }
             }
             else
             {
-                mobMaster.CallEventCharacterLostTarget();
+                mobMaster.CallEventSetAttackTarget(null);
+                mobMaster.CallEventSetCharacterNavTarget(null);
+                //mobMaster.CallEventCharacterLostTarget();
                 return false;
             }
         }

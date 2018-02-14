@@ -7,13 +7,13 @@ namespace RPG {
     public class ProjectileSpellBehaviour : SpellBehaviour {
 
 
-        [SerializeField] PlayerMaster caster;
+        [SerializeField] CharacterStats caster;
 
 
 
         private void Start()
         {
-            caster = GetComponent<PlayerMaster>();
+            caster = GetComponent<CharacterStats>();
         }
 
         public override void Activate(GameObject spellParams)
@@ -26,7 +26,7 @@ namespace RPG {
             var projectileSpellConfig = (config as ProjectileSpellConfig);
 
             float damageToDeal = caster.MagicalAttack + projectileSpellConfig.GetDamage();
-            spellParams.GetComponent<HealthSystem>().TakeDamage(damageToDeal);
+            spellParams.GetComponent<Character>().CallEventCharacterTakeDamage(damageToDeal);
 
             PlayParticleEffect();
         }

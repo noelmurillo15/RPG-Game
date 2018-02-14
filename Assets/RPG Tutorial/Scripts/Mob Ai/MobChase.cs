@@ -53,6 +53,10 @@ namespace RPG {
         void SetChaseTarget(Transform target)
         {
             chaseRef = target;
+            if(chaseRef != null)
+            {
+                mobMaster.MyNavAgent.SetDestination(chaseRef.position);
+            }
         }
         /// <summary>
         /// 

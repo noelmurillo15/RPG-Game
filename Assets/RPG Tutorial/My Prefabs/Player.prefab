@@ -1012,10 +1012,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4068800635887528}
   - component: {fileID: 95789055579605554}
-  - component: {fileID: 195361086706126330}
-  - component: {fileID: 54243338411173662}
-  - component: {fileID: 136124503148272592}
   - component: {fileID: 114584969491078718}
+  - component: {fileID: 114909385386002780}
   - component: {fileID: 114983870376265884}
   - component: {fileID: 114810289116777918}
   - component: {fileID: 114937411281817916}
@@ -1933,7 +1931,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1276212079827138}
-  m_LocalRotation: {x: 0.53267515, y: 0.07034045, z: 0.83613265, w: -0.11041513}
+  m_LocalRotation: {x: 0.5326752, y: 0.070340455, z: 0.83613276, w: -0.110415146}
   m_LocalPosition: {x: 0.000022271464, y: -0.00006150465, z: 0.026027026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2555,21 +2553,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!54 &54243338411173662
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737699000770424}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!81 &81972864653363626
 AudioListener:
   m_ObjectHideFlags: 1
@@ -2633,26 +2616,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a551862a78b859a45aabb5de02c0d0e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myLevel: 0
   myTag: 
-  characterType: 1
-  characterRank: 0
-  characterClass: 0
-  currExp: 0
-  expToNextLvl: 0
-  expMultiplier: 0
-  strength: 0
-  wisdom: 0
-  endurance: 0
-  luck: 0
-  physicalAttack: 0
-  magicalAttack: 0
-  damageResist: 0
-  criticalRate: 0
-  criticalDamage: 0
-  meleeRange: 10
-  magicRange: 10
-  attackRate: 1
+  rigidbodyMass: 100
+  colliderCenter: {x: 0, y: 0.8, z: 0}
+  colliderRadius: 0.3
+  colliderHeight: 1.6
+  steeringSpeed: 1
+  stoppingDistance: 2
   isOnRoute: 0
   isNavPaused: 0
   isAttacking: 0
@@ -2675,6 +2645,36 @@ MonoBehaviour:
   healthOrb: {fileID: 0}
   damageSounds: []
   deathSounds: []
+--- !u!114 &114909385386002780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1737699000770424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 160d76ba35283c047b183164d786a448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myLevel: 0
+  characterType: 2
+  characterRank: 0
+  characterClass: 0
+  currExp: 0
+  expToNextLvl: 0
+  expMultiplier: 0
+  strength: 0
+  wisdom: 0
+  endurance: 0
+  luck: 0
+  physicalAttack: 0
+  magicalAttack: 0
+  damageResist: 0
+  criticalRate: 0
+  criticalDamage: 0
+  meleeRange: 10
+  magicRange: 10
+  attackRate: 1
 --- !u!114 &114937411281817916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2721,19 +2721,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1747540618805988}
   m_Enabled: 1
---- !u!136 &136124503148272592
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737699000770424}
-  m_Material: {fileID: 13400000, guid: 52baaeb214519f347a35cf0edfd262ff, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.3
-  m_Height: 1.6
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!137 &137777608393113854
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -2908,24 +2895,3 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.081615, y: -0.040415905, z: 0.00029075146}
     m_Extent: {x: 0.037738636, y: 0.060759716, z: 0.07119451}
   m_DirtyAABB: 0
---- !u!195 &195361086706126330
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1737699000770424}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.25
-  m_Speed: 1
-  m_Acceleration: 4
-  avoidancePriority: 50
-  m_AngularSpeed: 60
-  m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1.6
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1

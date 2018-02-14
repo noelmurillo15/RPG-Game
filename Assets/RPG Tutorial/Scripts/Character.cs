@@ -10,39 +10,27 @@ using UnityEngine.AI;
 
 namespace RPG {
 
+    [SelectionBase]
     [System.Serializable]
     public class Character : MonoBehaviour {
 
 
         #region Properties
         [Header("Character")]
-        [SerializeField] int myLevel;
         [SerializeField] string myTag;
-        [SerializeField] CharacterTypes characterType;
-        [SerializeField] CharacterRanks characterRank;
-        [SerializeField] CharacterClasses characterClass;
 
-        [Header("Experience")]
-        [SerializeField] float currExp;
-        [SerializeField] float expToNextLvl;
-        [SerializeField] float expMultiplier;
+        [Header("Rigidbody")]
+        [SerializeField]
+        int rigidbodyMass;
 
-        [Header("Attributes")]
-        [SerializeField] int strength;
-        [SerializeField] int wisdom;
-        [SerializeField] int endurance;
-        [SerializeField] int luck;
+        [Header("Capsule Collider")]
+        [SerializeField] Vector3 colliderCenter;
+        [SerializeField] float colliderRadius;
+        [SerializeField] float colliderHeight;
 
-        [Header("Stats")]
-        [SerializeField] int physicalAttack = 0;
-        [SerializeField] int magicalAttack = 0;
-        [SerializeField] int damageResist = 0;
-        [SerializeField] int criticalRate = 0;
-        [SerializeField] int criticalDamage = 0;
-
-        [SerializeField] float meleeRange = 5f;
-        [SerializeField] float magicRange = 5f;
-        [SerializeField] float attackRate = .5f;
+        [Header("NavMesh Agent")]
+        [SerializeField] float steeringSpeed = 1f;
+        [SerializeField] float stoppingDistance = 2f;
 
         [Header("Behaviours")]
         [SerializeField] bool isOnRoute;
@@ -51,11 +39,11 @@ namespace RPG {
         [SerializeField] bool isCriticallyHit;
 
         [Header("References")]
-        [SerializeField] Transform myAttackTarget;
-        protected Animator myAnimator;
-        protected Transform myTransform;
-        protected Rigidbody myRigidbody;
-        protected NavMeshAgent myNavMeshAgent;
+        Animator myAnimator;
+        Transform myTransform;
+        Rigidbody myRigidbody;
+        NavMeshAgent myNavMeshAgent;
+        [SerializeField] protected Transform myAttackTarget;
         #endregion
 
         #region Events
@@ -71,7 +59,6 @@ namespace RPG {
 
         public event StatsEventHandler EventCharacterHeal;
         public event StatsEventHandler EventCharacterTakeDamage;
-        public event StatsEventHandler EventCharacterGainExperience;
 
         public event NavTargetEventHandler EventSetAttackTarget;
         public event NavTargetEventHandler EventSetCharacterNavTarget;
@@ -79,27 +66,45 @@ namespace RPG {
 
 
 
-        #region Public Methods
-        public int Level { get { return myLevel; } }
+        void Awake()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes all Character Components
+        /// </summary>
+        void Initialize()
+        {
+            isOnRoute = false;
+            isNavPaused = false;
+            isAttacking = false;
+            isCriticallyHit = false;
+
+            myTag = gameObject.tag;
+            myTransform = transform;
+            myAnimator = GetComponent<Animator>();
+
+            myRigidbody = gameObject.AddComponent<Rigidbody>();
+            myRigidbody.mass = rigidbodyMass;
+
+            myNavMeshAgent = gameObject.AddComponent<NavMeshAgent>();
+            myNavMeshAgent.stoppingDistance = stoppingDistance;
+            myNavMeshAgent.speed = steeringSpeed;
+            myNavMeshAgent.updateRotation = true;
+            myNavMeshAgent.updatePosition = true;
+            myNavMeshAgent.autoBraking = true;
+            myNavMeshAgent.radius = colliderRadius;
+            myNavMeshAgent.height = colliderHeight;
+
+            var capCollider = gameObject.AddComponent<CapsuleCollider>();
+            capCollider.center = colliderCenter;
+            capCollider.radius = colliderRadius;
+            capCollider.height = colliderHeight;
+        }
+
+        #region Accessors & Modifiers
         public string TagReference { get { return myTag; } }
-        public CharacterTypes CharacterType { get { return characterType; } }
-        public CharacterRanks CharacterRank { get { return characterRank; } }
-        public CharacterClasses CharacterClass { get { return characterClass; } }
-
-        public int Strength { get { return strength; } }
-        public int Wisdom { get { return wisdom; } }
-        public int Endurance { get { return endurance; } }
-        public int Luck { get { return luck; } }
-
-        public int PhysicalAttack { get { return physicalAttack; } }
-        public int MagicalAttack { get { return magicalAttack; } }
-        public int DamageResist { get { return damageResist; } }
-        public int CriticalRate { get { return criticalRate; } }
-        public int CriticalDamage { get { return criticalDamage; } }
-
-        public float MeleeRange { get { return meleeRange; } }
-        public float MagicRange { get { return magicRange; } }
-        public float AttackRate { get { return attackRate; } }
 
         public bool IsOnRoute { get { return isOnRoute; } set { isOnRoute = value; } }
         public bool IsNavPaused { get { return isNavPaused; } set { isNavPaused = value; } }
@@ -110,175 +115,13 @@ namespace RPG {
         public NavMeshAgent MyNavAgent { get { return myNavMeshAgent; } }
         public Rigidbody MyRigid { get { return myRigidbody; } }
         public Animator MyAnim { get { return myAnimator; } }
-        public Transform AttackTarget { get { return myAttackTarget; } set { myAttackTarget = value; } }
-
-        public void ExperienceUp(float exp)
-        {
-            currExp += exp * expMultiplier;
-            if (currExp > expToNextLvl)
-            {
-                LevelUp();
-                currExp = 0f;
-                expToNextLvl += 1f;
-            }
-        }
+        public Transform AttackTarget { get { return myAttackTarget; } }
         #endregion
-
-        #region Protected Methods
-        protected void Initialize()
-        {
-            myLevel = 0;
-            myTag = gameObject.tag;            
-            if (myTag == "Mob")
-            {
-                characterType = CharacterTypes.ENEMY;
-            }
-            else if (myTag == "Npc")
-            {
-                characterType = CharacterTypes.NPC;
-            }
-            if (myTag == "Player")
-            {
-                characterType = CharacterTypes.PLAYER;
-            }
-
-            characterRank = CharacterRanks.MINION;
-            characterClass = CharacterClasses.NONE;
-
-            currExp = 0f;
-            expToNextLvl = 1f;
-            expMultiplier = 1f;
-
-            strength = 0;
-            wisdom = 0;
-            endurance = 0;
-            luck = 0;
-
-            physicalAttack = Random.Range(1, 10);
-            magicalAttack = Random.Range(1, 10);
-            damageResist = Random.Range(0, 5);
-            criticalRate = Random.Range(0, 5);
-            criticalDamage = Random.Range(1, 10);
-            LevelUp();
-
-            myTransform = transform;
-            myAnimator = GetComponent<Animator>();
-            myRigidbody = GetComponent<Rigidbody>();
-            myNavMeshAgent = GetComponent<NavMeshAgent>();
-        }
-        #endregion
-
-        #region Private Methods
-        void LevelUp()
-        {
-            myLevel++;
-            myLevel = Mathf.Clamp(myLevel, 0, 30);
-
-            if (TagReference == "Enemy")
-            {
-                AssignAttribute();
-                physicalAttack += 1;
-                magicalAttack += 1;
-                damageResist += 1;
-            }
-            RankUp();            
-        }
-
-        void RankUp()
-        {
-            switch (myLevel)
-            {
-                case 6:
-                    characterRank = CharacterRanks.COMMON;
-                    break;
-                case 11:
-                    characterRank = CharacterRanks.ELITE;
-                    break;
-                case 16:
-                    characterRank = CharacterRanks.LEGENDARY;
-                    break;
-                case 21:
-                    characterRank = CharacterRanks.UBER;
-                    break;
-                case 26:
-                    characterRank = CharacterRanks.BOSS;
-                    break;
-                case 30:
-                    Debug.Log(myTag + " has achieved God Rank!");
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        void AssignAttribute()
-        {
-            int ran = Random.Range(0, 4);
-            switch (ran)
-            {
-                case 0:
-                    IncreaseStrength();
-                    break;
-                case 1:
-                    IncreaseWisdom();
-                    break;
-                case 2:
-                    IncreaseEndurance();
-                    break;
-                case 3:
-                    IncreaseLuck();
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        void IncreaseStrength()
-        {
-            strength++;
-            physicalAttack += 3;
-            if (strength == 10)
-            {
-                physicalAttack += 20;
-                characterClass = CharacterClasses.ASSASSIN;
-            }
-        }
-
-        void IncreaseWisdom()
-        {
-            wisdom++;
-            magicalAttack += 3;
-            if (wisdom == 10)
-            {
-                magicalAttack += 20;
-                characterClass = CharacterClasses.WARLOCK;
-            }
-        }
-
-        void IncreaseEndurance()
-        {
-            endurance++;
-            damageResist += 2;
-            if (endurance == 10)
-            {
-                damageResist += 15;
-                characterClass = CharacterClasses.TANK;
-            }
-        }
-
-        void IncreaseLuck()
-        {
-            luck++;
-            criticalRate += 1;
-            criticalDamage += 5;
-            expMultiplier += 0.2f;
-        }
-        #endregion
-
-        #region Event Methods
+        
+        #region Event Functions
         /// <summary>
-        /// 
+        /// Called by Health System
+        /// Disables Most Mob Ai Scripts
         /// </summary>
         public void CallEventCharacterDie()
         {
@@ -288,7 +131,8 @@ namespace RPG {
             }
         }
         /// <summary>
-        /// 
+        /// Called by Mob Attack
+        /// Triggers Mob Attack Animation
         /// </summary>
         public void CallEventCharacterAttack()
         {
@@ -298,7 +142,8 @@ namespace RPG {
             }
         }
         /// <summary>
-        /// 
+        /// Called by Mob Wander & Mob Chase
+        /// Triggers Mob Walk Animation
         /// </summary>
         public void CallEventCharacterWalking()
         {
@@ -308,17 +153,20 @@ namespace RPG {
             }
         }
         /// <summary>
-        /// 
+        /// Called by Mob Detection & Mob Attack
+        /// Sets my Attack Target to null
         /// </summary>
-        public void CallEventCharacterLostTarget()
-        {
-            if (EventCharacterLostTarget != null)
-            {
-                EventCharacterLostTarget();
-            }
-        }
+        //public void CallEventCharacterLostTarget()
+        //{
+        //    if (EventCharacterLostTarget != null)
+        //    {
+        //        myAttackTarget = null;
+        //        EventCharacterLostTarget();
+        //    }
+        //}
         /// <summary>
-        /// 
+        /// Called by MobNavDestination
+        /// Triggers Mob Idle Animation
         /// </summary>
         public void CallEventCharacterReachedNavTarget()
         {
@@ -328,7 +176,8 @@ namespace RPG {
             }
         }
         /// <summary>
-        /// 
+        /// Called by Buff Spell Behaviour
+        /// HealthSystem Triggered
         /// </summary>
         /// <param name="hp"></param>
         public void CallEventCharacterHeal(float hp)
@@ -339,7 +188,8 @@ namespace RPG {
             }
         }
         /// <summary>
-        /// 
+        /// Called by Mob Attack, Player Master, Spell Behaviour
+        /// HealthSystem Triggered
         /// </summary>
         /// <param name="hp"></param>
         public void CallEventCharacterTakeDamage(float hp)
@@ -348,40 +198,29 @@ namespace RPG {
             {
                 EventCharacterTakeDamage(hp);
             }
-        }
+        }      
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="exp"></param>
-        public void CallEventCharacterGainExperience(float exp)
-        {
-            if (EventCharacterGainExperience != null)
-            {
-                ExperienceUp(exp);
-                EventCharacterGainExperience(exp);
-            }
-        }
-        /// <summary>
-        /// 
+        /// Called by Mob Detection
+        /// Mob Attack Triggered
         /// </summary>
         /// <param name="targetTransform"></param>
         public void CallEventSetAttackTarget(Transform targetTransform)
         {
+            myAttackTarget = targetTransform;
             if (EventSetAttackTarget != null)
             {
-                AttackTarget = targetTransform;
                 EventSetAttackTarget(AttackTarget);
             }
         }
         /// <summary>
-        /// 
+        /// Called by Mob Detection
+        /// Mob Chase Triggered
         /// </summary>
         /// <param name="targetTransform"></param>
         public void CallEventSetCharacterNavTarget(Transform targetTransform)
         {
             if (EventSetCharacterNavTarget != null)
             {
-                myNavMeshAgent.SetDestination(targetTransform.position);
                 EventSetCharacterNavTarget(targetTransform);
             }
         }
