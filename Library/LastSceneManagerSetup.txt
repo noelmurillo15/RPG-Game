@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/RPG Tutorial/My Scenes/Combat Sandbox.unity
+- path: Assets/RPGCore/Scenes/Level1.unity
   isLoaded: 1
   isActive: 1

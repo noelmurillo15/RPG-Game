@@ -4,8 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
-  - LevelUI
   - Mob
   layers:
   - Default
@@ -17,8 +15,8 @@ TagManager:
   - 
   - 
   - Player
-  - ClickToWalk
   - Mob
+  - 
   - 
   - 
   - 
@@ -43,31 +41,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: BG
-    uniqueID: 2169594107
-    locked: 1
-  - name: Floor
-    uniqueID: 592008731
-    locked: 0
-  - name: Range
-    uniqueID: 443483113
-    locked: 0
-  - name: Shadow
-    uniqueID: 4265663607
-    locked: 0
-  - name: Dust
-    uniqueID: 2967865075
-    locked: 0
-  - name: UnitsAndTowers
-    uniqueID: 3236399257
-    locked: 0
-  - name: Bullets
-    uniqueID: 3026330151
-    locked: 0
-  - name: Explosions
-    uniqueID: 2783282409
-    locked: 0
-  - name: HealthBars
-    uniqueID: 3302365053
     locked: 0
