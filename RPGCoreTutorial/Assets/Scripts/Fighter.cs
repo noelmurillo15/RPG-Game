@@ -32,8 +32,8 @@ namespace RPG.Combat
             if(target.IsDead()) return;
 
             if (!GetIsInRange())
-            {
-                myCharacterMove.MoveTo(target.transform.position);
+            {   //  While fighting we want fighter to move at max speed
+                myCharacterMove.MoveTo(target.transform.position, 1f);
             }
             else
             {

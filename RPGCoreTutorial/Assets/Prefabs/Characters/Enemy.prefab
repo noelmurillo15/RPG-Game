@@ -53,8 +53,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430872cdfd157f2498f96a6713297fe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  patrolPath: {fileID: 0}
   chaseDistance: 5
   suspicionTime: 5
+  waypointTolerance: 0.2
+  waypointDwellTime: 5
+  patrolSpeedFraction: 0.2
 --- !u!1001 &1095950084272986086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,7 +161,7 @@ PrefabInstance:
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
@@ -167,7 +171,7 @@ PrefabInstance:
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
@@ -182,7 +186,7 @@ PrefabInstance:
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}

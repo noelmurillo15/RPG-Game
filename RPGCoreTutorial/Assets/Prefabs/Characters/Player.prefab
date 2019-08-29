@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!136 &1776302559
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412799768036121418}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!114 &4422646040356705519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,17 +76,17 @@ PrefabInstance:
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
@@ -108,11 +122,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Acceleration
       value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8421721714742300344, guid: 7987f571b448e4a4282e9e4ce3bb3797,
-        type: 3}
-      propertyPath: weaponRange
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1991953339756221832, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}

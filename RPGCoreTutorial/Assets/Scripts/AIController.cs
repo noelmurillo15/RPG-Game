@@ -15,11 +15,12 @@ namespace RPG.Control
         CharacterMove characterMove;
 
         //  AIControl Variables
+        [SerializeField] PatrolPath patrolPath = null;
         [SerializeField] float chaseDistance = 5f;
         [SerializeField] float suspicionTime = 3f;
-        [SerializeField] PatrolPath patrolPath = null;
         [SerializeField] float waypointTolerance = 0.2f;
-        [SerializeField] float waypointDwellTime = 5f;
+        [SerializeField] float waypointDwellTime = 5f;        
+        [SerializeField] [Range(0, 1)] float patrolSpeedFraction = 0.2f;
 
         Vector3 guardLocation;
         float timeSinceLastSawPlayer = Mathf.Infinity;
@@ -77,7 +78,7 @@ namespace RPG.Control
             }
 
             if(timeSinceArrivedAtWaypoint > waypointDwellTime){
-                characterMove.MoveTo(nextPosition);
+                characterMove.MoveTo(nextPosition, patrolSpeedFraction);
             }
         }
 
