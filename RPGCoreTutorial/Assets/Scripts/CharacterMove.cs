@@ -1,4 +1,5 @@
 using RPG.Core;
+using RPG.Saving;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,9 +7,10 @@ using UnityEngine.AI;
 namespace RPG.Movement
 {    
     [RequireComponent(typeof(NavMeshAgent))]
-    public class CharacterMove : MonoBehaviour, IAction {
-        [SerializeField]float maxSpeed = 5.66f;
-        
+    public class CharacterMove : MonoBehaviour, IAction, ISaveable {
+
+        [SerializeField]float maxSpeed = 5.66f;    
+
         NavMeshAgent navMeshAgent;
         Health myHealth;
 
@@ -49,6 +51,17 @@ namespace RPG.Movement
         #region Interface Methods
         public void Cancel(){
             navMeshAgent.isStopped = true;
+        }
+
+        public object CaptureState(){
+            return new SerializableVector3(transform.position);
+        }
+
+        public void RestoreState(object state){
+            GetComponent<NavMeshAgent>().enabled = false;
+            SerializableVector3 position = (SerializableVector3)state;
+            transform.position = position.ToVector();
+            GetComponent<NavMeshAgent>().enabled = true;
         }
         #endregion
     }

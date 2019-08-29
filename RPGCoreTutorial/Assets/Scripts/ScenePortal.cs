@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 using RPG.SceneManagement;
 using UnityEngine.SceneManagement;
@@ -29,8 +30,16 @@ public class ScenePortal : MonoBehaviour {
         DontDestroyOnLoad(gameObject);    //    Only works if gameobject is at root of scene
         Fader fader = FindObjectOfType<Fader>();
 
-        yield return fader.FadeOut(fadeOutTime);        
+        yield return fader.FadeOut(fadeOutTime);       
+
+        //  Save current level
+        SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+        wrapper.Save();
+
         yield return SceneManager.LoadSceneAsync(sceneToLoad);
+
+        //  Load current level
+        wrapper.Load();
 
         ScenePortal otherPortal = GetOtherPortal();
         UpdatePlayer(otherPortal);
@@ -43,8 +52,10 @@ public class ScenePortal : MonoBehaviour {
     void UpdatePlayer(ScenePortal _otherPortal)
     {
         GameObject go = GameObject.FindGameObjectWithTag("Player");
+        go.GetComponent<NavMeshAgent>().enabled = false;
         go.transform.position = _otherPortal.transform.GetChild(0).position;
         go.transform.rotation = _otherPortal.transform.GetChild(0).rotation;
+        go.GetComponent<NavMeshAgent>().enabled = true;
     }
 
     ScenePortal GetOtherPortal()
