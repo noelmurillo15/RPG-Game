@@ -9,9 +9,10 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction
     {
         #region Fighter Class Members        
-        [SerializeField] float weaponRange = 2f;
-        [SerializeField] float timeBetweenAttacks = 1f;
-        [SerializeField] float weaponDamage = 20f;
+        [SerializeField] Weapon currentWeapon = null;
+        [SerializeField] Weapon defaultWeapon = null;
+        [SerializeField] Transform leftHandTransform = null;
+        [SerializeField] Transform rightHandTransform = null;
 
         //  Cached Variables
         Health target;
@@ -26,6 +27,7 @@ namespace RPG.Combat
         {
             myAnimator = GetComponent<Animator>();
             myCharacterMove = GetComponent<CharacterMove>();
+            EquipWeapon(defaultWeapon);
         }
 
         void Update()
@@ -61,13 +63,19 @@ namespace RPG.Combat
 
         bool GetIsInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.GetWeaponRange();
+        }
+
+        public void EquipWeapon(Weapon _weapon)
+        {
+            currentWeapon = _weapon;
+            currentWeapon.SpawnWeapon(rightHandTransform, leftHandTransform, myAnimator);
         }
 
         void AttackBehaviour()
         {
             transform.LookAt(target.transform);
-            if (timeSinceLastAttack >= timeBetweenAttacks)
+            if (timeSinceLastAttack >= currentWeapon.GetTimeBetweenAttacks())
             {
                 TriggerAttack();
                 timeSinceLastAttack = 0f;
@@ -91,7 +99,20 @@ namespace RPG.Combat
         void Hit()
         {
             if (target == null) return;
-            target.TakeDamage(weaponDamage);
+
+            if (currentWeapon.HasProjectile())
+            {
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+            }
+            else
+            {
+                target.TakeDamage(currentWeapon.GetWeaponDamage());
+            }
+        }
+
+        void Shoot()
+        {
+            Hit();
         }
         #endregion                
 
@@ -100,7 +121,7 @@ namespace RPG.Combat
         {
             StopAttack();
             target = null;
-        }
+        }   //  IAction
         #endregion
     }
 }
