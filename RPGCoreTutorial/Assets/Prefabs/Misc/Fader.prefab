@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 5916245936854431675}
   - component: {fileID: 5916245936854431668}
   - component: {fileID: 5916245936854431669}
-  - component: {fileID: 5916245936854431670}
+  - component: {fileID: 2877352665545236951}
   m_Layer: 5
   m_Name: Fader
   m_TagString: Untagged
@@ -187,7 +187,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &5916245936854431670
+--- !u!114 &2877352665545236951
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,6 +196,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5916245936854431664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb90aabf0c55a7e43ab9b375dcac3f66, type: 3}
+  m_Script: {fileID: 11500000, guid: 4df557f9b3b8d4d49aaedb538a7e5b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

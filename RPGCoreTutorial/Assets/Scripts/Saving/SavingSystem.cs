@@ -71,7 +71,6 @@ namespace RPG.Saving
             {
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
-
             state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
         }
 

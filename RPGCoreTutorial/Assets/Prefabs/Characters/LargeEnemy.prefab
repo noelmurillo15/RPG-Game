@@ -120,7 +120,7 @@ PrefabInstance:
     - target: {fileID: 8284027560797139914, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
       propertyPath: waypointDwellTime
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8284027560797139914, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
@@ -147,6 +147,11 @@ PrefabInstance:
       propertyPath: healthPoints
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 7522460845974070467, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1487771227080400918, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
       propertyPath: weaponDamage
@@ -161,6 +166,26 @@ PrefabInstance:
         type: 3}
       propertyPath: timeBetweenAttacks
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 334418097644929924, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
+        type: 3}
+      propertyPath: healthPoints
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3507327764042513863, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
+        type: 3}
+      propertyPath: timeBetweenAttacks
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3507327764042513863, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
+        type: 3}
+      propertyPath: weaponDamage
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3507327764042513863, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
+        type: 3}
+      propertyPath: weaponRange
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 206f00b7cbc762b4daeeb8bd2b220d7d, type: 3}

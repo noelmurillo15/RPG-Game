@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RPG.Saving
 {
-    [ExecuteAlways]
+    [ExecuteAlways] //  Update will execute in runtime & editor
     public class SaveableEntity : MonoBehaviour
     {
         [SerializeField] string uniqueIdentifier = "";
@@ -41,39 +41,39 @@ namespace RPG.Saving
             }
         }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR    //  Exclude if Built Game
         void Update()
         {
-            if (Application.IsPlaying(gameObject)) return;
-            if (string.IsNullOrEmpty(gameObject.scene.path)) return;
+            if (Application.IsPlaying(gameObject)) return;  //  Make sure update doesn't run during runtime & only in editor
+            if (string.IsNullOrEmpty(gameObject.scene.path)) return;    //  Empty Gameobject Scene Path means the Object is a prefab
 
-            SerializedObject serializedObject = new SerializedObject(this);
-            SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
+            SerializedObject serializedObject = new SerializedObject(this); //  If you build game without UNITY_EDITOR, this will cause an error
+            SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");    //  SerializedObject is a generic, use SerializedProperty to get string uniqueIdentifier
 
-            if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
+            if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))  //  Makes sure each UUID is Unique
             {
-                property.stringValue = System.Guid.NewGuid().ToString();
-                serializedObject.ApplyModifiedProperties();
+                property.stringValue = System.Guid.NewGuid().ToString();    //  Give this object a UUID only during editor
+                serializedObject.ApplyModifiedProperties(); //  Tells Unity, you have made a change to the Serialized Object
             }
 
-            globalLookup[property.stringValue] = this;
+            globalLookup[property.stringValue] = this;  //  Apply UUID as key to dictionary for this Entity
         }
 #endif
 
         bool IsUnique(string candidate)
         {
-            if (!globalLookup.ContainsKey(candidate)) return true;
+            if (!globalLookup.ContainsKey(candidate)) return true;  //  Does UUID key exist already?
 
-            if (globalLookup[candidate] == this) return true;
+            if (globalLookup[candidate] == this) return true;   //  Is the current gameobject unique?
 
             if (globalLookup[candidate] == null)
-            {
+            {   //  Has candidate been deleted?
                 globalLookup.Remove(candidate);
                 return true;
             }
 
             if (globalLookup[candidate].GetUniqueIdentifier() != candidate)
-            {
+            {   //  Does this candidate key not match the value in dictionary?
                 globalLookup.Remove(candidate);
                 return true;
             }
