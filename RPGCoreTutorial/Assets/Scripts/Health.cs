@@ -3,21 +3,23 @@ using UnityEngine;
 
 
 namespace RPG.Core
-{    
-    public class Health : MonoBehaviour, ISaveable {
-
+{
+    public class Health : MonoBehaviour, ISaveable
+    {
         [SerializeField] float healthPoints = 100f;
-        
-        bool isdead = false;
-        
 
-        public bool IsDead(){
+        bool isdead = false;
+
+
+        public bool IsDead()
+        {
             return isdead;
         }
-        
-        public void TakeDamage(float _damage){
+
+        public void TakeDamage(float _damage)
+        {
             healthPoints = Mathf.Max(healthPoints - _damage, 0);
-            if(healthPoints == 0f)
+            if (healthPoints == 0f)
             {
                 Die();
             }
@@ -25,7 +27,7 @@ namespace RPG.Core
 
         void Die()
         {
-            if(isdead) return;
+            if (isdead) return;
             GetComponent<Animator>().SetTrigger("Die");
             GetComponent<ActionScheduler>().CancelCurrentAction();
             isdead = true;
@@ -39,7 +41,7 @@ namespace RPG.Core
         public void RestoreState(object state)
         {
             healthPoints = (float)state;
-            if(healthPoints == 0) { Die(); }
+            if (healthPoints == 0) { Die(); }
         }
     }
 }

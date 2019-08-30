@@ -6,7 +6,8 @@ using RPG.Movement;
 namespace RPG.Combat
 {
     [RequireComponent(typeof(Animator))]
-    public class Fighter : MonoBehaviour, IAction {
+    public class Fighter : MonoBehaviour, IAction
+    {
         #region Fighter Class Members
         Health target;
         Animator myAnimator;
@@ -19,7 +20,8 @@ namespace RPG.Combat
         #endregion
 
 
-        void Start() {
+        void Start()
+        {
             myAnimator = GetComponent<Animator>();
             myCharacterMove = GetComponent<CharacterMove>();
         }
@@ -28,8 +30,8 @@ namespace RPG.Combat
         {
             timeSinceLastAttack += Time.deltaTime;
 
-            if(target == null) return;
-            if(target.IsDead()) return;
+            if (target == null) return;
+            if (target.IsDead()) return;
 
             if (!GetIsInRange())
             {   //  While fighting we want fighter to move at max speed
@@ -48,8 +50,9 @@ namespace RPG.Combat
             target = _combatTarget.GetComponent<Health>();
         }
 
-        public bool CanAttack(GameObject _combatTarget){
-            if(_combatTarget == null) return false;
+        public bool CanAttack(GameObject _combatTarget)
+        {
+            if (_combatTarget == null) return false;
             Health targetToTest = _combatTarget.GetComponent<Health>();
             return targetToTest != null && !targetToTest.IsDead();
         }
@@ -62,8 +65,8 @@ namespace RPG.Combat
         void AttackBehaviour()
         {
             transform.LookAt(target.transform);
-            if(timeSinceLastAttack >= timeBetweenAttacks)
-            {                
+            if (timeSinceLastAttack >= timeBetweenAttacks)
+            {
                 TriggerAttack();
                 timeSinceLastAttack = 0f;
             }
@@ -85,7 +88,7 @@ namespace RPG.Combat
         #region Animation Events
         void Hit()
         {
-            if(target == null) return;
+            if (target == null) return;
             target.TakeDamage(weaponDamage);
         }
         #endregion                
@@ -95,7 +98,7 @@ namespace RPG.Combat
         {
             StopAttack();
             target = null;
-        }        
+        }
         #endregion
     }
 }

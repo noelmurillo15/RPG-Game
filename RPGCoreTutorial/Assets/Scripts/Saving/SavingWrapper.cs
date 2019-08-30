@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace RPG.SceneManagement
 {
-    public class SavingWrapper : MonoBehaviour {
-
+    public class SavingWrapper : MonoBehaviour
+    {
         const string defaultSaveFile = "save";
 
 

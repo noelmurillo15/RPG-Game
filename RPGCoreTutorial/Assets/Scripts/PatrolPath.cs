@@ -2,12 +2,14 @@
 
 
 namespace RPG.Control
-{    
-    public class PatrolPath : MonoBehaviour {
+{
+    public class PatrolPath : MonoBehaviour
+    {
         const float waypointGizmoRadius = 0.3f;
 
 
-        void OnDrawGizmos() {
+        void OnDrawGizmos()
+        {
             for (int x = 0; x < transform.childCount; x++)
             {
                 int y = GetNextIndex(x);
@@ -18,8 +20,8 @@ namespace RPG.Control
 
         public int GetNextIndex(int x)
         {
-            if((x + 1) >= transform.childCount)
-            return 0;
+            if ((x + 1) >= transform.childCount)
+                return 0;
 
             return x + 1;
         }

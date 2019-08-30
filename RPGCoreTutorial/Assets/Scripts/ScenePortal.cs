@@ -5,7 +5,8 @@ using RPG.SceneManagement;
 using UnityEngine.SceneManagement;
 
 
-public class ScenePortal : MonoBehaviour {
+public class ScenePortal : MonoBehaviour
+{
 
     [SerializeField] int sceneToLoad = -1;
     [SerializeField] Transform spawnPoint;
@@ -15,37 +16,49 @@ public class ScenePortal : MonoBehaviour {
     [SerializeField] float fadeWait = 3f;
 
 
-    void OnTriggerEnter(Collider other) {
-        if(other.tag.Equals("Player")){
-            StartCoroutine("Transition");            
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Player"))
+        {
+            StartCoroutine(Transition());
         }
     }
 
-    IEnumerator Transition(){
-        if(sceneToLoad < 0){
+    IEnumerator Transition()
+    {
+        if (sceneToLoad < 0)
+        {
             Debug.LogError("Scene to load has not been set!");
             yield break;
         }
 
-        DontDestroyOnLoad(gameObject);    //    Only works if gameobject is at root of scene
+        //  Only works if gameobject is at root of scene
+        DontDestroyOnLoad(gameObject);
+
+        //  Panel Alpha Fade Out
         Fader fader = FindObjectOfType<Fader>();
+        yield return fader.FadeOut(fadeOutTime);
 
-        yield return fader.FadeOut(fadeOutTime);       
-
-        //  Save current level
+        //  Save current state
         SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
         wrapper.Save();
 
+        //  Load new level
         yield return SceneManager.LoadSceneAsync(sceneToLoad);
 
-        //  Load current level
+        //  Load current state
         wrapper.Load();
 
+        //  Get & Set Player Spawn
         ScenePortal otherPortal = GetOtherPortal();
         UpdatePlayer(otherPortal);
 
+        //  Panel Alpha Fade In
         yield return new WaitForSeconds(fadeWait);
+
         yield return fader.FadeIn(fadeInTime);
+
+        //  Destroy Scene Portal
         Destroy(gameObject);
     }
 
@@ -62,9 +75,9 @@ public class ScenePortal : MonoBehaviour {
     {
         foreach (var portal in GameObject.FindObjectsOfType<ScenePortal>())
         {
-            if(portal == this) continue;
+            if (portal == this) continue;
             return portal;
-        } 
+        }
         return null;
     }
 }

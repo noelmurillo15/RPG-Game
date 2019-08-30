@@ -5,8 +5,9 @@ using RPG.Movement;
 
 
 namespace RPG.Control
-{    
-    public class AIController : MonoBehaviour {
+{
+    public class AIController : MonoBehaviour
+    {
         #region  AIController Class Members
         //  Cached Variables
         Health myHealth;
@@ -19,7 +20,7 @@ namespace RPG.Control
         [SerializeField] float chaseDistance = 5f;
         [SerializeField] float suspicionTime = 3f;
         [SerializeField] float waypointTolerance = 0.2f;
-        [SerializeField] float waypointDwellTime = 5f;        
+        [SerializeField] float waypointDwellTime = 5f;
         [SerializeField] [Range(0, 1)] float patrolSpeedFraction = 0.2f;
 
         Vector3 guardLocation;
@@ -29,7 +30,8 @@ namespace RPG.Control
         #endregion
 
 
-        void Start() {
+        void Start()
+        {
             myHealth = GetComponent<Health>();
             fighter = GetComponent<Fighter>();
             characterMove = GetComponent<CharacterMove>();
@@ -69,15 +71,18 @@ namespace RPG.Control
         {
             Vector3 nextPosition = guardLocation;
 
-            if(patrolPath != null){
-                if(AtWaypoint()){
+            if (patrolPath != null)
+            {
+                if (AtWaypoint())
+                {
                     timeSinceArrivedAtWaypoint = 0f;
                     CycleWaypoint();
                 }
                 nextPosition = GetCurrentWaypoint();
             }
 
-            if(timeSinceArrivedAtWaypoint > waypointDwellTime){
+            if (timeSinceArrivedAtWaypoint > waypointDwellTime)
+            {
                 characterMove.MoveTo(nextPosition, patrolSpeedFraction);
             }
         }
@@ -114,9 +119,10 @@ namespace RPG.Control
         }
 
         #region Custom Gizmos
-        void OnDrawGizmosSelected() {
+        void OnDrawGizmosSelected()
+        {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, chaseDistance);        
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
         }
         #endregion
     }

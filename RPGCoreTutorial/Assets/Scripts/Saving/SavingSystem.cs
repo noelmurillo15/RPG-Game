@@ -8,8 +8,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RPG.Saving
 {
-    public class SavingSystem : MonoBehaviour {
-
+    public class SavingSystem : MonoBehaviour
+    {
 
         public IEnumerator LoadLastScene(string saveFile)
         {

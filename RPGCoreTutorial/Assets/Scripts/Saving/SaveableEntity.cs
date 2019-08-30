@@ -6,8 +6,8 @@ using System.Collections.Generic;
 namespace RPG.Saving
 {
     [ExecuteAlways]
-    public class SaveableEntity : MonoBehaviour {
-
+    public class SaveableEntity : MonoBehaviour
+    {
         [SerializeField] string uniqueIdentifier = "";
 
         static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
@@ -42,13 +42,14 @@ namespace RPG.Saving
         }
 
 #if UNITY_EDITOR
-        void Update() {
+        void Update()
+        {
             if (Application.IsPlaying(gameObject)) return;
             if (string.IsNullOrEmpty(gameObject.scene.path)) return;
 
             SerializedObject serializedObject = new SerializedObject(this);
             SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
-            
+
             if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
             {
                 property.stringValue = System.Guid.NewGuid().ToString();

@@ -6,31 +6,35 @@ using UnityEngine.Playables;
 
 
 namespace RPG.Cinematics
-{    
+{
     [RequireComponent(typeof(PlayableDirector))]
-    public class CinematicsControlRemover : MonoBehaviour {
-
+    public class CinematicsControlRemover : MonoBehaviour
+    {
         GameObject player = null;
 
 
-        void Start() {
-            player = GameObject.FindGameObjectWithTag("Player");;
+        void Start()
+        {
+            player = GameObject.FindGameObjectWithTag("Player"); ;
             GetComponent<PlayableDirector>().played += DisableControl;
             GetComponent<PlayableDirector>().stopped += EnableControl;
         }
 
-        void OnDisable() {
+        void OnDisable()
+        {
             GetComponent<PlayableDirector>().played -= DisableControl;
             GetComponent<PlayableDirector>().stopped -= EnableControl;
         }
 
-        void DisableControl(PlayableDirector playDirector){
+        void DisableControl(PlayableDirector playDirector)
+        {
             player.GetComponent<ActionScheduler>().CancelCurrentAction();
             player.GetComponent<CharacterMove>().Cancel();
             player.GetComponent<PlayerController>().enabled = false;
         }
 
-        void EnableControl(PlayableDirector playDirector){
+        void EnableControl(PlayableDirector playDirector)
+        {
             player.GetComponent<PlayerController>().enabled = true;
         }
     }

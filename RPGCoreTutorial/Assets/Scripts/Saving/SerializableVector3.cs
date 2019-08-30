@@ -4,8 +4,8 @@ using UnityEngine;
 namespace RPG.Saving
 {
     [System.Serializable]
-    public class SerializableVector3 {
-
+    public class SerializableVector3
+    {
         float x, y, z;
 
 
