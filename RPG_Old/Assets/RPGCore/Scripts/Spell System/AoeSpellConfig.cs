@@ -2,7 +2,8 @@
 using UnityEngine;
 
 
-namespace RPG {
+namespace RPG.Stats
+{
 
     [CreateAssetMenu(menuName = ("RPG/Spell/Area of Effect"))]
     public class AoeSpellConfig : SpellConfig {

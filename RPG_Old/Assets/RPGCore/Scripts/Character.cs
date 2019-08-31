@@ -8,13 +8,12 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-namespace RPG {
-
+namespace RPG.Stats
+{
     [SelectionBase]
     [System.Serializable]
-    public class Character : MonoBehaviour {
-
-
+    public class Character : MonoBehaviour
+    {
         #region Properties
         [Header("Character")]
         [SerializeField] string myTag;
@@ -63,7 +62,6 @@ namespace RPG {
         public event NavTargetEventHandler EventSetAttackTarget;
         public event NavTargetEventHandler EventSetCharacterNavTarget;
         #endregion
-
 
 
         void Awake()
@@ -117,7 +115,7 @@ namespace RPG {
         public Animator MyAnim { get { return myAnimator; } }
         public Transform AttackTarget { get { return myAttackTarget; } }
         #endregion
-        
+
         #region Event Functions
         /// <summary>
         /// Called by Health System
@@ -198,7 +196,7 @@ namespace RPG {
             {
                 EventCharacterTakeDamage(hp);
             }
-        }      
+        }
         /// <summary>
         /// Called by Mob Detection
         /// Mob Attack Triggered

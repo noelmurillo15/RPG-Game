@@ -1,8 +1,8 @@
 ﻿// Allan Murillo : Unity RPG Core Test Project
 
 
-namespace RPG {
-
+namespace RPG.Stats
+{
     public enum CharacterTypes
     {
         PLAYER, //  Me

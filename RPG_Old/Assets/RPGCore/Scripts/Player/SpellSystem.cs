@@ -9,11 +9,10 @@ using UnityEngine.UI;
 using System.Collections;
 
 
-namespace RPG {
-
-    public class SpellSystem : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class SpellSystem : MonoBehaviour
+    {
         #region Properties
         [Header("Mana")]
         [SerializeField] float currentMana = 0f;
@@ -33,7 +32,6 @@ namespace RPG {
         #endregion
 
 
-
         void Start()
         {
             currentMana = maxMana;
@@ -48,7 +46,7 @@ namespace RPG {
         #region Mana System
         void UpdateManaBar()
         {
-            if(manaOrb != null)
+            if (manaOrb != null)
                 manaOrb.fillAmount = ManaAsPercent;
         }
 

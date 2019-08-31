@@ -7,11 +7,10 @@
 using UnityEngine;
 
 
-namespace RPG {
-
-    public class MobNavDestination : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class MobNavDestination : MonoBehaviour
+    {
         Character mobMaster;
 
         private float checkRate;

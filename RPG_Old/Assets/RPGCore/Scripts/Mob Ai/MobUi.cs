@@ -8,14 +8,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace RPG {
-
-    public class MobUi : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class MobUi : MonoBehaviour
+    {
         RawImage healthBarRawImage = null;
         HealthSystem mob = null;
-
 
 
         void Start()

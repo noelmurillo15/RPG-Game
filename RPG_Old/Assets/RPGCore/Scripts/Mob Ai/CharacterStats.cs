@@ -6,11 +6,12 @@
 /// </summary>
 using UnityEngine;
 
-namespace RPG {
 
+namespace RPG.Stats
+{
     [System.Serializable]
-    public class CharacterStats : MonoBehaviour {
-
+    public class CharacterStats : MonoBehaviour
+    {
         #region Variables
         [Header("Character Info")]
         [SerializeField] int myLevel;

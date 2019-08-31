@@ -1,4 +1,5 @@
 ﻿using RPG.Core;
+using RPG.Stats;
 using UnityEngine;
 using RPG.Movement;
 
@@ -18,6 +19,7 @@ namespace RPG.Combat
         Health target;
         Animator myAnimator;
         CharacterMove myCharacterMove;
+        CharacterStats myCharacterStats;
 
         float timeSinceLastAttack = Mathf.Infinity;
         #endregion
@@ -27,6 +29,7 @@ namespace RPG.Combat
         {
             myAnimator = GetComponent<Animator>();
             myCharacterMove = GetComponent<CharacterMove>();
+            myCharacterStats = GetComponent<CharacterStats>();
             EquipWeapon(defaultWeapon);
         }
 
@@ -62,7 +65,7 @@ namespace RPG.Combat
         }
 
         bool GetIsInRange()
-        {
+        {   //  TODO : be able to differ melee from ranged and apply extra stats range
             return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.GetWeaponRange();
         }
 
@@ -101,12 +104,12 @@ namespace RPG.Combat
             if (target == null) return;
 
             if (currentWeapon.HasProjectile())
-            {
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+            {   //  Ranged Attack
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, myCharacterStats.GetMagicalAttack());
             }
             else
-            {
-                target.TakeDamage(currentWeapon.GetWeaponDamage());
+            {   //  Melee Attack
+                target.TakeDamage(currentWeapon.GetWeaponDamage() + myCharacterStats.GetPhysicalAttack());
             }
         }
 

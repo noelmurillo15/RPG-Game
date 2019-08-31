@@ -2,7 +2,8 @@
 using UnityEngine;
 
 
-namespace RPG {
+namespace RPG.Stats
+{
 
     public class AoeSpellBehaviour : SpellBehaviour {
 

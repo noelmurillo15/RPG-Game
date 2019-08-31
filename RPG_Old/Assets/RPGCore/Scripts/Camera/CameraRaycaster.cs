@@ -1,4 +1,4 @@
-﻿using RPG;
+﻿using RPG.Stats;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

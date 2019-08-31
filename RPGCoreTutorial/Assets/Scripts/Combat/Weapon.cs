@@ -11,7 +11,7 @@ namespace RPG.Combat
         [SerializeField] AnimatorOverrideController animatorOverride = null;
         [SerializeField] float range = 2f;
         [SerializeField] float timeBetweenAttacks = 1f;
-        [SerializeField] float damage = 20f;
+        [SerializeField] float baseDamage = 20f;
         [SerializeField] bool isRightHanded = true;
         [SerializeField] Projectile projectile = null;
 
@@ -36,10 +36,10 @@ namespace RPG.Combat
             }
         }
 
-        public void LaunchProjectile(Transform _rightHand, Transform _leftHand, Health _target)
+        public void LaunchProjectile(Transform _rightHand, Transform _leftHand, Health _target, float _damage)
         {
             Projectile projectileInstance = Instantiate(projectile, _leftHand.position, Quaternion.identity);
-            projectileInstance.SetTarget(_target, damage);
+            projectileInstance.SetTarget(_target, baseDamage + _damage);
         }
 
         public bool HasProjectile()
@@ -54,7 +54,7 @@ namespace RPG.Combat
 
         public float GetWeaponDamage()
         {
-            return damage;
+            return baseDamage;
         }
 
         public float GetTimeBetweenAttacks()

@@ -9,11 +9,10 @@ using UnityEngine.UI;
 using System.Collections;
 
 
-namespace RPG {
-
-    public class HealthSystem : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class HealthSystem : MonoBehaviour
+    {
         #region Properties
         [Header("Health")]
         [SerializeField] float currentHP;
@@ -90,7 +89,7 @@ namespace RPG {
                 characterMaster.CallEventCharacterDie();
                 StartCoroutine(KillCharacter());
             }
-        }        
+        }
         #endregion
 
         #region Death

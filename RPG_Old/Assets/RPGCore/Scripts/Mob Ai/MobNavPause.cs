@@ -8,14 +8,12 @@ using UnityEngine;
 using System.Collections;
 
 
-namespace RPG {
-
-    public class MobNavPause : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class MobNavPause : MonoBehaviour
+    {
         Character mobMaster;
         float pauseTime = 1f;
-
 
 
         void Initialize()

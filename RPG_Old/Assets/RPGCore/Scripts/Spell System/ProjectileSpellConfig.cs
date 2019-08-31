@@ -2,7 +2,8 @@
 using UnityEngine;
 
 
-namespace RPG {
+namespace RPG.Stats
+{
 
     [CreateAssetMenu(menuName = ("RPG/Spell/Projectile"))]
     public class ProjectileSpellConfig : SpellConfig {

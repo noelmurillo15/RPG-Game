@@ -7,11 +7,10 @@
 using UnityEngine;
 
 
-namespace RPG {
-
-    public class CharacterMovement : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class CharacterMovement : MonoBehaviour
+    {
         #region Properties
         [Header("Movement")]
         [SerializeField] float idleTurnSpeed = 90;
@@ -25,7 +24,6 @@ namespace RPG {
         //  References    
         Character characterMaster;
         #endregion
-
 
 
         void Start()

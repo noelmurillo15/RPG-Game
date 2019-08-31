@@ -8,11 +8,10 @@ using UnityEngine;
 using UnityEngine.AI;
 
 
-namespace RPG {
-
-    public class MobWander : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class MobWander : MonoBehaviour
+    {
         Character mobMaster;
         CharacterMovement characterMovement;
         Vector3 wanderTarget;
@@ -21,7 +20,6 @@ namespace RPG {
         private float checkRate;
         private float nextCheck;
         [SerializeField] float wanderRange = 20f;
-
 
 
         void Initialize()

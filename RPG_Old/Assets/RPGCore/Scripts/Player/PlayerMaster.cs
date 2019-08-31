@@ -7,17 +7,15 @@
 using UnityEngine;
 
 
-namespace RPG {
-
-    public class PlayerMaster : Character {
-
-
+namespace RPG.Stats
+{
+    public class PlayerMaster : Character
+    {
         #region Properties
         SpellSystem myMana;
         CharacterStats characterStats;
         private float lastHitTime = 0f;
         #endregion
-
 
 
         void Start()

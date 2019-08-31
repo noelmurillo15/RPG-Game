@@ -7,11 +7,10 @@
 using UnityEngine;
 
 
-namespace RPG {
-
-    public class MobDetection : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class MobDetection : MonoBehaviour
+    {
         Character mobMaster;
         RaycastHit hit;
 
@@ -22,7 +21,6 @@ namespace RPG {
 
         private float checkRate;
         private float nextCheck;
-
 
 
         void Initialize()

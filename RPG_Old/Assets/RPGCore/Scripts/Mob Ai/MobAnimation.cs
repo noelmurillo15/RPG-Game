@@ -7,13 +7,11 @@
 using UnityEngine;
 
 
-namespace RPG {
-
-    public class MobAnimation : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class MobAnimation : MonoBehaviour
+    {
         Character mobMaster;
-
 
 
         void Initialize()

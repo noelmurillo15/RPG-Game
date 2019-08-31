@@ -7,17 +7,15 @@
 using UnityEngine;
 
 
-namespace RPG {
-
-    public class MobChase : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class MobChase : MonoBehaviour
+    {
         Character mobMaster;
         Transform chaseRef;
 
         private float checkRate;
         private float nextCheck;
-
 
 
         void Initialize()
@@ -53,7 +51,7 @@ namespace RPG {
         void SetChaseTarget(Transform target)
         {
             chaseRef = target;
-            if(chaseRef != null)
+            if (chaseRef != null)
             {
                 mobMaster.MyNavAgent.SetDestination(chaseRef.position);
             }

@@ -7,16 +7,14 @@
 using UnityEngine;
 
 
-namespace RPG {
-
-    public class MobAttack : MonoBehaviour {
-
-
+namespace RPG.Stats
+{
+    public class MobAttack : MonoBehaviour
+    {
         Character mobMaster;
         CharacterStats mobStats;
         Transform lockedTarget;
         private float nextAttack;
-
 
 
         void Initialize()
@@ -24,7 +22,7 @@ namespace RPG {
             lockedTarget = null;
             mobMaster = GetComponent<Character>();
             mobStats = GetComponent<CharacterStats>();
-        }        
+        }
 
         void OnEnable()
         {
