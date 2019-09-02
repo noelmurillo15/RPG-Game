@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\Stats\RPG Enums.cs" />
     <None Include="Assets\Asset Packs\Animations\README - Usage Rights for these assets 1.txt" />
     <None Include="Assets\Asset Packs\Synty - Polygon Student Sample\README - Usage Rights for these assets.txt" />
+    <None Include="Assets\Asset Packs\SimpleFX - Synty\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -105,26 +106,14 @@
     <Reference Include="Unity.Timeline">
       <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-      <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.SpatialTracking">
-      <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
-    </Reference>
     <Reference Include="com.unity.cinemachine.editor">
       <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SpatialTracking">
-      <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
       <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-      <HintPath>C:/Users/noelm/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.7f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6033333026709097059}
   - component: {fileID: 1787994533}
   m_Layer: 0
-  m_Name: Character
+  m_Name: RootCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,11 +47,11 @@ MeshRenderer:
   m_GameObject: {fileID: 3539620450508960583}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -104,8 +104,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.3
-  m_Speed: 3
-  m_Acceleration: 25
+  m_Speed: 5
+  m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 5000
   m_StoppingDistance: 0
@@ -115,7 +115,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!54 &1562436818550643370
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -124,9 +124,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3539620450508960583}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.0000001
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -170,11 +170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1059d20abd9b7524f817dab81900ba77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myLevel: 1
   characterType: 0
   characterRank: 0
   characterClass: 0
-  currExp: 0
+  currentLevel: 0
+  currentExp: 0
   expToNextLvl: 10
   expMultiplier: 1
   strength: 1
@@ -186,9 +186,6 @@ MonoBehaviour:
   damageResist: 5
   criticalRate: 5
   criticalDamage: 5
-  meleeRange: 5
-  magicRange: 5
-  attackRate: 1
 --- !u!114 &1787994533
 MonoBehaviour:
   m_ObjectHideFlags: 0

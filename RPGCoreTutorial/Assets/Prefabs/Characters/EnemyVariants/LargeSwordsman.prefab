@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4818485744429974028, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
       propertyPath: m_Name
-      value: LargeEnemy
+      value: LargeSwordsman
       objectReference: {fileID: 0}
     - target: {fileID: 1603460224396060111, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
@@ -130,22 +130,12 @@ PrefabInstance:
     - target: {fileID: 8284027560797139914, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
       propertyPath: chaseDistance
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8284027560797139914, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
       propertyPath: suspicionTime
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7522460845974070467, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
-        type: 3}
-      propertyPath: healthPoints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 7522460845974070467, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
-        type: 3}
-      propertyPath: maxSpeed
-      value: 5.25
       objectReference: {fileID: 0}
     - target: {fileID: 334418097644929924, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
@@ -179,6 +169,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 81ef828a5678ca54b815a3a0a0835caa,
         type: 2}
+    - target: {fileID: 7522460845974070467, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
+        type: 3}
+      propertyPath: healthPoints
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7522460845974070467, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6016835320035383344, guid: 206f00b7cbc762b4daeeb8bd2b220d7d,
         type: 3}
       propertyPath: weaponDamage

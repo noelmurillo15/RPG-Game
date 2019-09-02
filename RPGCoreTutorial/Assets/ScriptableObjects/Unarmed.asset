@@ -15,7 +15,7 @@ MonoBehaviour:
   equippedPrefab: {fileID: 0}
   animatorOverride: {fileID: 0}
   range: 1.5
-  timeBetweenAttacks: 0.75
-  damage: 5
+  timeBetweenAttacks: 1
+  baseDamage: 1
   isRightHanded: 1
   projectile: {fileID: 0}
