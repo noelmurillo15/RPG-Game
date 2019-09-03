@@ -1,8 +1,9 @@
 ﻿using RPG.Core;
-using RPG.Stats;
+using RPG.Saving;
 using UnityEngine;
 using RPG.Movement;
-using RPG.Saving;
+using RPG.Resources;
+
 
 namespace RPG.Combat
 {
@@ -18,7 +19,7 @@ namespace RPG.Combat
         Health target;
         Animator myAnimator;
         CharacterMove myCharacterMove;
-        CharacterStats myCharacterStats;
+        // CharacterStats myCharacterStats;
 
         float timeSinceLastAttack = Mathf.Infinity;
         Weapon currentWeapon = null;
@@ -29,7 +30,7 @@ namespace RPG.Combat
         {
             myAnimator = GetComponent<Animator>();
             myCharacterMove = GetComponent<CharacterMove>();
-            myCharacterStats = GetComponent<CharacterStats>();
+            // myCharacterStats = GetComponent<CharacterStats>();
         }
 
         void Start()
@@ -56,6 +57,10 @@ namespace RPG.Combat
                 myCharacterMove.Cancel();
                 AttackBehaviour();
             }
+        }
+
+        public Health GetTarget(){
+            return target;
         }
 
         public void Attack(GameObject _combatTarget)
@@ -112,11 +117,11 @@ namespace RPG.Combat
 
             if (currentWeapon.HasProjectile())
             {   //  Ranged Attack
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, myCharacterStats.GetMagicalAttack());
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, currentWeapon.GetWeaponDamage());
             }
             else
             {   //  Melee Attack
-                target.TakeDamage(currentWeapon.GetWeaponDamage() + myCharacterStats.GetPhysicalAttack());
+                target.TakeDamage(currentWeapon.GetWeaponDamage());
             }
         }
 
@@ -141,7 +146,7 @@ namespace RPG.Combat
         public void RestoreState(object state)
         {
             string weaponName = (string)state;
-            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
         }   //  ISaveable
         #endregion

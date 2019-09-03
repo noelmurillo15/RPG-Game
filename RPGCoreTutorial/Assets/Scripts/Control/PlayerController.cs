@@ -1,7 +1,7 @@
-﻿using RPG.Core;
-using RPG.Combat;
+﻿using RPG.Combat;
 using UnityEngine;
 using RPG.Movement;
+using RPG.Resources;
 
 
 namespace RPG.Control

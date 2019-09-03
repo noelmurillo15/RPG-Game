@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9055998343677923917}
+  - component: {fileID: 8603535784723985103}
+  - component: {fileID: 1991953339756221832}
+  - component: {fileID: 7535783648654796431}
+  - component: {fileID: 1787994533}
   - component: {fileID: 484798676318094323}
   - component: {fileID: 183431111964266324}
   - component: {fileID: 3539620450508960584}
   - component: {fileID: 1562436818550643370}
-  - component: {fileID: 8603535784723985103}
-  - component: {fileID: 1991953339756221832}
-  - component: {fileID: 6033333026709097059}
-  - component: {fileID: 1787994533}
   m_Layer: 0
   m_Name: RootCharacter
   m_TagString: Untagged
@@ -38,6 +38,59 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8603535784723985103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539620450508960583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45e936bbaf5962459eb41d41ce24b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPoints: 100
+--- !u!114 &1991953339756221832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539620450508960583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efad114fe8949a046b8f360db1d5136d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 5.66
+--- !u!114 &7535783648654796431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539620450508960583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 592b4e69783b7c343866096e67c05b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingLevel: 1
+  characterClass: 1
+  progression: {fileID: 11400000, guid: c8dc8ddde1c4ff54b8da184b5e0da95f, type: 2}
+--- !u!114 &1787994533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539620450508960583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d4b229464ab3364f85a59322d72b3a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &484798676318094323
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -132,69 +185,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8603535784723985103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539620450508960583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45e936bbaf5962459eb41d41ce24b88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthPoints: 100
---- !u!114 &1991953339756221832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539620450508960583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efad114fe8949a046b8f360db1d5136d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 5.66
---- !u!114 &6033333026709097059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539620450508960583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1059d20abd9b7524f817dab81900ba77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterType: 0
-  characterRank: 0
-  characterClass: 0
-  currentLevel: 0
-  currentExp: 0
-  expToNextLvl: 10
-  expMultiplier: 1
-  strength: 1
-  wisdom: 1
-  endurance: 1
-  luck: 1
-  physicalAttack: 5
-  magicalAttack: 5
-  damageResist: 5
-  criticalRate: 5
-  criticalDamage: 5
---- !u!114 &1787994533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539620450508960583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d4b229464ab3364f85a59322d72b3a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
