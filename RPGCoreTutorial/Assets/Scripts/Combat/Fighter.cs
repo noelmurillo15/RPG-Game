@@ -2,15 +2,14 @@
 using RPG.Stats;
 using UnityEngine;
 using RPG.Movement;
-
+using RPG.Saving;
 
 namespace RPG.Combat
 {
     [RequireComponent(typeof(Animator))]
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
-        #region Fighter Class Members        
-        [SerializeField] Weapon currentWeapon = null;
+        #region Fighter Class Members                
         [SerializeField] Weapon defaultWeapon = null;
         [SerializeField] Transform leftHandTransform = null;
         [SerializeField] Transform rightHandTransform = null;
@@ -22,15 +21,23 @@ namespace RPG.Combat
         CharacterStats myCharacterStats;
 
         float timeSinceLastAttack = Mathf.Infinity;
+        Weapon currentWeapon = null;
         #endregion
 
 
-        void Start()
+        void Awake()
         {
             myAnimator = GetComponent<Animator>();
             myCharacterMove = GetComponent<CharacterMove>();
             myCharacterStats = GetComponent<CharacterStats>();
-            EquipWeapon(defaultWeapon);
+        }
+
+        void Start()
+        {
+            if (currentWeapon == null)
+            {
+                EquipWeapon(defaultWeapon);
+            }
         }
 
         void Update()
@@ -125,6 +132,18 @@ namespace RPG.Combat
             StopAttack();
             target = null;
         }   //  IAction
+
+        public object CaptureState()
+        {
+            return currentWeapon.name;
+        }   //  ISaveable
+
+        public void RestoreState(object state)
+        {
+            string weaponName = (string)state;
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
+        }   //  ISaveable
         #endregion
     }
 }
