@@ -4,7 +4,9 @@ using RPG.Saving;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Resources;
+using GameDevTV.Utils;
 using System.Collections.Generic;
+using System;
 
 namespace RPG.Combat
 {
@@ -20,26 +22,22 @@ namespace RPG.Combat
         Health target;
         Animator myAnimator;
         CharacterMove myCharacterMove;
-        // CharacterStats myCharacterStats;
 
         float timeSinceLastAttack = Mathf.Infinity;
-        Weapon currentWeapon = null;
+        LazyValue<Weapon> currentWeapon;
         #endregion
 
 
         void Awake()
         {
-            myAnimator = GetComponent<Animator>();
+            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
             myCharacterMove = GetComponent<CharacterMove>();
-            // myCharacterStats = GetComponent<CharacterStats>();
+            myAnimator = GetComponent<Animator>();
         }
 
         void Start()
         {
-            if (currentWeapon == null)
-            {
-                EquipWeapon(defaultWeapon);
-            }
+            currentWeapon.ForceInit();
         }
 
         void Update()
@@ -80,19 +78,30 @@ namespace RPG.Combat
 
         bool GetIsInRange()
         {   //  TODO : be able to differ melee from ranged and apply extra stats range
-            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.GetWeaponRange();
+            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.value.GetWeaponRange();
+        }
+
+        Weapon SetupDefaultWeapon()
+        {
+            AttachWeapon(defaultWeapon);
+            return defaultWeapon;
         }
 
         public void EquipWeapon(Weapon _weapon)
         {
-            currentWeapon = _weapon;
-            currentWeapon.SpawnWeapon(rightHandTransform, leftHandTransform, myAnimator);
+            currentWeapon.value = _weapon;
+            AttachWeapon(_weapon);
+        }
+
+        void AttachWeapon(Weapon weapon)
+        {
+            weapon.SpawnWeapon(rightHandTransform, leftHandTransform, myAnimator);
         }
 
         void AttackBehaviour()
         {
             transform.LookAt(target.transform);
-            if (timeSinceLastAttack >= currentWeapon.GetWeaponFireRate())
+            if (timeSinceLastAttack >= currentWeapon.value.GetWeaponFireRate())
             {
                 TriggerAttack();
                 timeSinceLastAttack = 0f;
@@ -118,9 +127,9 @@ namespace RPG.Combat
             if (target == null) return;
 
             //  BaseStats.GetStat calculates the additive damage from any IModifierProvider and deals the total damage
-            if (currentWeapon.HasProjectile())
+            if (currentWeapon.value.HasProjectile())
             {   //  Ranged Attack
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, GetComponent<BaseStats>().GetStat(Stat.RANGE_DMG));
+                currentWeapon.value.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, GetComponent<BaseStats>().GetStat(Stat.RANGE_DMG));
             }
             else
             {   //  Melee Attack
@@ -145,7 +154,7 @@ namespace RPG.Combat
         {
             if (stat == Stat.MELEE_DMG || stat == Stat.RANGE_DMG)
             {
-                yield return currentWeapon.GetWeaponBaseDamage();
+                yield return currentWeapon.value.GetWeaponBaseDamage();
             }
         }   //  IModifierProvider
 
@@ -153,13 +162,14 @@ namespace RPG.Combat
         {
             if (stat == Stat.MELEE_DMG || stat == Stat.RANGE_DMG)
             {
-                yield return currentWeapon.GetPercentageBonus();
+                yield return currentWeapon.value.GetPercentageBonus();
             }
         }   //  IModifierProvider
 
         public object CaptureState()
         {
-            return currentWeapon.name;
+            print("Trying to get LazyValue<Weapon> Name !");
+            return currentWeapon.value.name;
         }   //  ISaveable
 
         public void RestoreState(object state)

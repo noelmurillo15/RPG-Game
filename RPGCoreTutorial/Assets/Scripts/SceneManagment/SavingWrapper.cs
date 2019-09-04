@@ -19,9 +19,9 @@ namespace RPG.SceneManagement
 
         IEnumerator LoadLastScene()
         {
-            Fader fader = FindObjectOfType<Fader>();
+            yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);   //  Scene loads and calls Awake
+            Fader fader = FindObjectOfType<Fader>();    //  This happens after Awake since the line above is Async
             fader.FadeOutImmediate();
-            yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
             yield return fader.FadeIn(fadeInTime);
         }
 

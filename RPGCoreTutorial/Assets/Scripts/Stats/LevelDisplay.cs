@@ -7,6 +7,7 @@ namespace RPG.Stats
 {
     public class LevelDisplay : MonoBehaviour
     {
+        //  Cached Variables
         BaseStats baseStats;
 
 

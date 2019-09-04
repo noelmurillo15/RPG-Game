@@ -1,4 +1,3 @@
-using RPG.Saving;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
@@ -9,7 +8,7 @@ namespace RPG.SceneManagement
 {
     public class ScenePortal : MonoBehaviour
     {
-        [SerializeField] int sceneToLoad = -1;        
+        [SerializeField] int sceneToLoad = -1;
         [SerializeField] float fadeOutTime = 2f;
         [SerializeField] float fadeWaitTime = 3f;
         [SerializeField] float fadeInTime = 3f;
@@ -43,7 +42,7 @@ namespace RPG.SceneManagement
 
             //  Panel Alpha Fade Out
             yield return fader.FadeOut(fadeOutTime);
-           
+
             //  Save current State && Load new level
             wrapper.Save();
             yield return SceneManager.LoadSceneAsync(sceneToLoad);

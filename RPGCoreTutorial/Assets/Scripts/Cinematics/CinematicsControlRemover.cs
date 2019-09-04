@@ -10,12 +10,17 @@ namespace RPG.Cinematics
     [RequireComponent(typeof(PlayableDirector))]
     public class CinematicsControlRemover : MonoBehaviour
     {
+        //  Cached Variables
         GameObject player = null;
 
 
-        void Start()
+        void Awake()
         {
             player = GameObject.FindGameObjectWithTag("Player"); ;
+        }
+
+        void Start()
+        {
             GetComponent<PlayableDirector>().played += DisableControl;
             GetComponent<PlayableDirector>().stopped += EnableControl;
         }

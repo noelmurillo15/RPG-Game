@@ -7,6 +7,7 @@ namespace RPG.Resources
 {
     public class HealthDisplay : MonoBehaviour
     {
+        //  Cached Variables
         Health health;
 
 

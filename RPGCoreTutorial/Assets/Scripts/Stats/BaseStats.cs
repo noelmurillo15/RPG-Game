@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using GameDevTV.Utils;
 
 
 namespace RPG.Stats
@@ -12,18 +13,40 @@ namespace RPG.Stats
         [SerializeField] GameObject levelUpEffect = null;
         [SerializeField] bool shouldUseModifiers = false;
 
+        //  Cached variables
+        Experience experience;
+
+        //  My Variables
+        LazyValue<int> currentLvl;
+
+        //  Events
         public event Action onLevelUp;
 
-        int currentLvl = 0;
 
+        void Awake()
+        {
+            experience = GetComponent<Experience>();
+            currentLvl = new LazyValue<int>(CalcLevel);
+        }   //  Used to cache references - no external functions should be called here
 
         void Start()
         {
-            currentLvl = CalcLevel();
-            Experience exp = GetComponent<Experience>();
-            if (exp != null)
+            currentLvl.ForceInit();
+        }
+
+        void OnEnable()
+        {
+            if (experience != null)
             {
-                exp.onExperienceGained += UpdateLevel;
+                experience.onExperienceGained += UpdateLevel;
+            }
+        }
+
+        void OnDisable()
+        {
+            if (experience != null)
+            {
+                experience.onExperienceGained -= UpdateLevel;
             }
         }
 
@@ -32,17 +55,16 @@ namespace RPG.Stats
             return (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat) / 100);
         }
 
-        float GetBaseStat(Stat stat)
+        public int GetLevel()
         {
-            return progression.GetStat(stat, characterClass, GetLevel());
+            return currentLvl.value;
         }
 
-        public int CalcLevel()
+        int CalcLevel()
         {
-            Experience exp = GetComponent<Experience>();
-            if (exp == null) return startingLevel;
+            if (experience == null) return startingLevel;
 
-            float currentXP = exp.GetExperiencePts();
+            float currentXP = experience.GetExperiencePts();
             int penultimateLevel = progression.GetLevels(Stat.EXP_TO_LVL, characterClass);
 
             for (int level = 1; level <= penultimateLevel; level++)
@@ -54,29 +76,25 @@ namespace RPG.Stats
             return penultimateLevel + 1;
         }
 
-        public int GetLevel()
-        {
-            if (currentLvl < 1)
-            {
-                currentLvl = CalcLevel();
-            }
-            return currentLvl;
-        }
-
         void UpdateLevel()
         {
             int newLevel = CalcLevel();
-            if (newLevel > currentLvl)
+            if (newLevel > GetLevel())
             {
-                currentLvl = newLevel;
-                LevelUp();
+                currentLvl.value = newLevel;
+                LevelUpEffect();
                 onLevelUp();
             }
         }
 
-        void LevelUp()
+        void LevelUpEffect()
         {
             Instantiate(levelUpEffect, transform);
+        }
+
+        float GetBaseStat(Stat stat)
+        {
+            return progression.GetStat(stat, characterClass, GetLevel());
         }
 
         float GetAdditiveModifier(Stat stat)

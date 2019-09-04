@@ -3,6 +3,7 @@ using RPG.Combat;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Resources;
+using GameDevTV.Utils;
 
 
 namespace RPG.Control
@@ -19,26 +20,31 @@ namespace RPG.Control
         [SerializeField] [Range(0, 1)] float patrolSpeedFraction = 0.2f;
 
         //  Cached Variables
-        Health myHealth;
         Fighter fighter;
+        Health myHealth;
         GameObject player;
         CharacterMove characterMove;
 
         //  My Variables
-        Vector3 guardLocation;
+        LazyValue<Vector3> guardLocation;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
         int waypointIndex = 0;
         #endregion
 
 
-        void Start()
+        void Awake()
         {
-            myHealth = GetComponent<Health>();
             fighter = GetComponent<Fighter>();
+            myHealth = GetComponent<Health>();
             characterMove = GetComponent<CharacterMove>();
             player = GameObject.FindGameObjectWithTag("Player");
-            guardLocation = transform.position;
+            guardLocation = new LazyValue<Vector3>(GetGuardPosition);
+        }
+
+        void Start()
+        {
+            guardLocation.ForceInit();
         }
 
         void Update()
@@ -71,7 +77,7 @@ namespace RPG.Control
 
         void PatrolBehaviour()
         {
-            Vector3 nextPosition = guardLocation;
+            Vector3 nextPosition = guardLocation.value;
 
             if (patrolPath != null)
             {
@@ -89,9 +95,14 @@ namespace RPG.Control
             }
         }
 
-        Vector3 GetCurrentWaypoint()
+        void SuspicionBehaviour()
         {
-            return patrolPath.GetWaypoint(waypointIndex);
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+        }
+
+        void AttackBehaviour()
+        {
+            fighter.Attack(player);
         }
 
         void CycleWaypoint()
@@ -105,19 +116,19 @@ namespace RPG.Control
             return distanceToWaypoint < waypointTolerance;
         }
 
-        void SuspicionBehaviour()
-        {
-            GetComponent<ActionScheduler>().CancelCurrentAction();
-        }
-
-        void AttackBehaviour()
-        {
-            fighter.Attack(player);
-        }
-
         bool InAttackRangeOfPlayer()
         {
             return Vector3.Distance(player.transform.position, transform.position) < chaseDistance;
+        }
+
+        Vector3 GetGuardPosition()
+        {
+            return transform.localPosition;
+        }
+
+        Vector3 GetCurrentWaypoint()
+        {
+            return patrolPath.GetWaypoint(waypointIndex);
         }
 
         #region Custom Gizmos

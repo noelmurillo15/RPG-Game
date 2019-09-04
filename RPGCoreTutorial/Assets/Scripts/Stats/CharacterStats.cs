@@ -15,7 +15,7 @@ namespace RPG.Stats
         [SerializeField] CharacterClasses characterClass;
 
         [Header("Experience")]
-        [SerializeField] [Range(1,30)] int currentLevel;
+        [SerializeField] [Range(1, 30)] int currentLevel;
         [SerializeField] float currentExp;
         [SerializeField] float expToNextLvl;
         [SerializeField] float expMultiplier;

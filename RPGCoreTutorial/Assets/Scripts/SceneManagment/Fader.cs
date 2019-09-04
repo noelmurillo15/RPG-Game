@@ -6,6 +6,7 @@ namespace RPG.SceneManagement
 {
     public class Fader : MonoBehaviour
     {
+        //  Cached Variables
         CanvasGroup canvasGroup;
 
 
@@ -14,7 +15,8 @@ namespace RPG.SceneManagement
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        public void FadeOutImmediate(){
+        public void FadeOutImmediate()
+        {
             canvasGroup.alpha = 1;
         }
 

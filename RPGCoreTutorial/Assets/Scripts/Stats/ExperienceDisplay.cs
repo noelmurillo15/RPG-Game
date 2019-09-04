@@ -7,6 +7,7 @@ namespace RPG.Stats
 {
     public class ExperienceDisplay : MonoBehaviour
     {
+        //  Cached Variables
         Experience exp;
 
 

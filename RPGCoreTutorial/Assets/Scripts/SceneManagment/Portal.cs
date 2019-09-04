@@ -2,7 +2,7 @@
 
 
 namespace RPG.SceneManagement
-{    
+{
     public class Portal : MonoBehaviour
     {
         bool hasTriggered = false;

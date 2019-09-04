@@ -9,10 +9,11 @@ namespace RPG.Control
     [RequireComponent(typeof(CharacterMove))]
     public class PlayerController : MonoBehaviour
     {
+        //  Cached Variables
         Health myHealth;
 
 
-        void Start()
+        void Awake()
         {
             myHealth = GetComponent<Health>();
         }

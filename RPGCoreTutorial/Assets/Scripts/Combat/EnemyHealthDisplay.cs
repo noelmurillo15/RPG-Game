@@ -8,6 +8,7 @@ namespace RPG.Combat
 {
     public class EnemyHealthDisplay : MonoBehaviour
     {
+        //  Cached Variables
         Fighter fighter;
 
 
