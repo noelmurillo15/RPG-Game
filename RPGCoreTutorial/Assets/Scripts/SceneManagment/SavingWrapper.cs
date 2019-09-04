@@ -12,7 +12,12 @@ namespace RPG.SceneManagement
         const string defaultSaveFile = "save";
 
 
-        IEnumerator Start()
+        void Awake()
+        {
+            StartCoroutine(LoadLastScene());
+        }
+
+        IEnumerator LoadLastScene()
         {
             Fader fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
@@ -24,16 +29,25 @@ namespace RPG.SceneManagement
         {
             if (Input.GetKeyDown(KeyCode.S)) { Save(); }
             if (Input.GetKeyDown(KeyCode.L)) { Load(); }
+            if (Input.GetKeyDown(KeyCode.Delete)) { Delete(); }
         }
 
         public void Load()
         {
+            print("Loading Save File");
             GetComponent<SavingSystem>().Load(defaultSaveFile);
         }
 
         public void Save()
         {
+            print("Saving progress to File");
             GetComponent<SavingSystem>().Save(defaultSaveFile);
+        }
+
+        public void Delete()
+        {
+            print("Deleting Save File");
+            GetComponent<SavingSystem>().Delete(defaultSaveFile);
         }
     }
 }

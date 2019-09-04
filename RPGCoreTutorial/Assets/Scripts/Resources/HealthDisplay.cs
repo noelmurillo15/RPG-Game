@@ -10,12 +10,14 @@ namespace RPG.Resources
         Health health;
 
 
-        void Awake() {
+        void Awake()
+        {
             health = GameObject.FindWithTag("Player").GetComponent<Health>();
         }
 
-        void Update() {
-            GetComponent<Text>().text = String.Format("{0:0}%", health.GetPercentage().ToString());
+        void Update()
+        {
+            GetComponent<Text>().text = String.Format("{0:0} / {1:0}", health.GetHealthPts(), health.GetMaxHealth());
         }
     }
 }

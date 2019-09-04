@@ -10,6 +10,21 @@ namespace RPG.Stats
         ENEMY   //  Basic Ai 
     }
 
+    public enum Stat
+    {   //  AI Stats
+        HEALTH,     //  Hit Pts  ~ Affected when Hungry, Thirsty & Tired
+        MANA,       //  Mana Pts ~ Affected when Hungry & Thirsty
+        EXPERIENCE, //  Exp Pts  ~ Awarded upon killing enemy / completing quests   
+        EXP_TO_LVL, //  
+        MELEE_DMG,  //  Base Character Melee Damage
+        RANGE_DMG   //  Base Character Ranged Damage
+        //  TODO : implement physical status feature (Physique)
+        //STAMINA,    //  How long you can sprint for
+        //HUNGER,     //  0-100, Affects STRENGTH, WISDOM  
+        //THIRST,     //  0-100, Affects ENDURANCE, STAMINA 
+        //SLEEP,      //  0-100, Affects STAMINA recharge   
+    }
+
     public enum CharacterRanks
     {   //  AI Behaviours
         MINION,     //  Green,  Lv 1-5      Scared of all other Ranks, fight amongst themselves
@@ -29,17 +44,6 @@ namespace RPG.Stats
         ASSASSIN,   // FIGHTER +10 in any other stat or Lv 26  
         WARLOCK,    // SORCERER +10 in any other stat or Lv 26  
         TANK        // DEFENDER +10 in any other stat or Lv 26    
-    }
-
-    public enum CharacterPhysique
-    {   //  AI Stats
-        HEALTH,     //  Hit pts  ~ Affected when Hungry, Thirsty & Tired
-        MANA       //  Mana Pts ~ Affected when Hungry & Thirsty
-        //  TODO : implement physical status feature (Physique)
-        //STAMINA,    //  How long you can sprint for
-        //HUNGER,     //  0-100, Affects STRENGTH, WISDOM  
-        //THIRST,     //  0-100, Affects ENDURANCE, STAMINA 
-        //SLEEP,      //  0-100, Affects STAMINA recharge   
     }
 
     public enum CharacterAttributes

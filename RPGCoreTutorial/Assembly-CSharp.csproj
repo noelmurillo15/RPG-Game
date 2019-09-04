@@ -84,6 +84,10 @@
      <Compile Include="Assets\Scripts\SceneManagment\ScenePortal.cs" />
      <Compile Include="Assets\Scripts\Stats\BaseStats.cs" />
      <Compile Include="Assets\Scripts\Stats\CharacterStats.cs" />
+     <Compile Include="Assets\Scripts\Stats\Experience.cs" />
+     <Compile Include="Assets\Scripts\Stats\ExperienceDisplay.cs" />
+     <Compile Include="Assets\Scripts\Stats\IModifierProvider.cs" />
+     <Compile Include="Assets\Scripts\Stats\LevelDisplay.cs" />
      <Compile Include="Assets\Scripts\Stats\Progression.cs" />
      <Compile Include="Assets\Scripts\Stats\RPG Enums.cs" />
      <None Include="Assets\Asset Packs\Animations\README - Usage Rights for these assets 1.txt" />

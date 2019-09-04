@@ -14,6 +14,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &87661329967716112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412799768036121418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2a878f8fc0a57046acb560f0aa5d841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expPoints: 0
 --- !u!114 &2201520397393154575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,11 +64,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db3db582f9a35f743802fe295349ccb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWeapon: {fileID: 0}
   defaultWeapon: {fileID: 11400000, guid: 58c3638951f37ac4a8e4d12e33c6605d, type: 2}
   leftHandTransform: {fileID: 8443214443476653137}
   rightHandTransform: {fileID: 8443214443476595769}
-  defaultWeaponName: Sword
 --- !u!1 &4173783776860563461
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +134,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3539620450508960583, guid: 7987f571b448e4a4282e9e4ce3bb3797,
+        type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539620450508960583, guid: 7987f571b448e4a4282e9e4ce3bb3797,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 9055998343677923917, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -178,20 +199,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3539620450508960583, guid: 7987f571b448e4a4282e9e4ce3bb3797,
-        type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3539620450508960583, guid: 7987f571b448e4a4282e9e4ce3bb3797,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 8603535784723985103, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: healthPoints
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7535783648654796431, guid: 7987f571b448e4a4282e9e4ce3bb3797,
+        type: 3}
+      propertyPath: startingLevel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7535783648654796431, guid: 7987f571b448e4a4282e9e4ce3bb3797,
+        type: 3}
+      propertyPath: levelUpEffect
+      value: 
+      objectReference: {fileID: 1489918979524534390, guid: 4777c0d7f48a01e46a79f0f9c6cc5ffc,
+        type: 3}
+    - target: {fileID: 7535783648654796431, guid: 7987f571b448e4a4282e9e4ce3bb3797,
+        type: 3}
+      propertyPath: shouldUseModifiers
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3539620450508960584, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
@@ -310,40 +337,32 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2339120, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_LightProbeUsage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2339120, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_ReflectionProbeUsage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2339120, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2387650, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_LightProbeUsage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2387650, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_ReflectionProbeUsage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2387650, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 180360, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 166696, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 2339120, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 164946, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 2339120, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2339120, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387650, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387650, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_ReflectionProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387650, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2376928, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
@@ -360,6 +379,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2376928, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
       propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 166696, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 164946, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2347362, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}

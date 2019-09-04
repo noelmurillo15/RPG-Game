@@ -1,14 +1,15 @@
 ﻿using RPG.Core;
+using RPG.Stats;
 using RPG.Saving;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Resources;
-
+using System.Collections.Generic;
 
 namespace RPG.Combat
 {
     [RequireComponent(typeof(Animator))]
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         #region Fighter Class Members                
         [SerializeField] Weapon defaultWeapon = null;
@@ -59,7 +60,8 @@ namespace RPG.Combat
             }
         }
 
-        public Health GetTarget(){
+        public Health GetTarget()
+        {
             return target;
         }
 
@@ -90,7 +92,7 @@ namespace RPG.Combat
         void AttackBehaviour()
         {
             transform.LookAt(target.transform);
-            if (timeSinceLastAttack >= currentWeapon.GetTimeBetweenAttacks())
+            if (timeSinceLastAttack >= currentWeapon.GetWeaponFireRate())
             {
                 TriggerAttack();
                 timeSinceLastAttack = 0f;
@@ -115,13 +117,14 @@ namespace RPG.Combat
         {
             if (target == null) return;
 
+            //  BaseStats.GetStat calculates the additive damage from any IModifierProvider and deals the total damage
             if (currentWeapon.HasProjectile())
             {   //  Ranged Attack
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, currentWeapon.GetWeaponDamage());
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, GetComponent<BaseStats>().GetStat(Stat.RANGE_DMG));
             }
             else
             {   //  Melee Attack
-                target.TakeDamage(currentWeapon.GetWeaponDamage());
+                target.TakeDamage(gameObject, GetComponent<BaseStats>().GetStat(Stat.MELEE_DMG));
             }
         }
 
@@ -138,6 +141,22 @@ namespace RPG.Combat
             target = null;
         }   //  IAction
 
+        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
+        {
+            if (stat == Stat.MELEE_DMG || stat == Stat.RANGE_DMG)
+            {
+                yield return currentWeapon.GetWeaponBaseDamage();
+            }
+        }   //  IModifierProvider
+
+        public IEnumerable<float> GetPercentageModifiers(Stat stat)
+        {
+            if (stat == Stat.MELEE_DMG || stat == Stat.RANGE_DMG)
+            {
+                yield return currentWeapon.GetPercentageBonus();
+            }
+        }   //  IModifierProvider
+
         public object CaptureState()
         {
             return currentWeapon.name;
@@ -148,7 +167,7 @@ namespace RPG.Combat
             string weaponName = (string)state;
             Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
-        }   //  ISaveable
+        }   //  ISaveable                
         #endregion
     }
 }

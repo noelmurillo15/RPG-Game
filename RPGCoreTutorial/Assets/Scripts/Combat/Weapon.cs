@@ -11,7 +11,8 @@ namespace RPG.Combat
         [SerializeField] AnimatorOverrideController animatorOverride = null;
         [SerializeField] float range = 2f;
         [SerializeField] float timeBetweenAttacks = 1f;
-        [SerializeField] float baseDamage = 20f;
+        [SerializeField] float weaponBaseDamage = 20f;
+        [SerializeField] float weaponPercentageBonus = 0f;
         [SerializeField] bool isRightHanded = true;
         [SerializeField] Projectile projectile = null;
 
@@ -61,10 +62,10 @@ namespace RPG.Combat
             Destroy(oldWeapon.gameObject);
         }
 
-        public void LaunchProjectile(Transform _rightHand, Transform _leftHand, Health _target, float _damage)
+        public void LaunchProjectile(Transform _rightHand, Transform _leftHand, Health _target, GameObject _instigator, float _totalDmg)
         {
             Projectile projectileInstance = Instantiate(projectile, _leftHand.position, Quaternion.identity);
-            projectileInstance.SetTarget(_target, baseDamage + _damage);
+            projectileInstance.SetTarget(_target, _instigator, _totalDmg);
         }
 
         public bool HasProjectile()
@@ -77,12 +78,17 @@ namespace RPG.Combat
             return range;
         }
 
-        public float GetWeaponDamage()
+        public float GetPercentageBonus()
         {
-            return baseDamage;
+            return weaponPercentageBonus;
         }
 
-        public float GetTimeBetweenAttacks()
+        public float GetWeaponBaseDamage()
+        {
+            return weaponBaseDamage;
+        }
+
+        public float GetWeaponFireRate()
         {
             return timeBetweenAttacks;
         }
