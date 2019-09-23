@@ -3,12 +3,24 @@ using RPG.Stats;
 using RPG.Saving;
 using UnityEngine;
 using GameDevTV.Utils;
+using UnityEngine.Events;
 
 
 namespace RPG.Resources
 {
     public class Health : MonoBehaviour, ISaveable
     {
+        //  Unity Events
+        [SerializeField] TakeDamageEvent takeDamage;
+
+        //  Allows Dynamic float parameter which will be used int takeDamage.Invoke(<dynamic float>)
+        [System.Serializable]
+        public class TakeDamageEvent : UnityEvent<float>
+        {
+            
+        }
+
+        //  Regen
         [SerializeField] float regenrationPercentage = 75;
 
         LazyValue<float> healthPoints;  //  LazyValue will make sure healthPoints are initialized right before we use the healthpoints value by passing in a function
@@ -64,6 +76,7 @@ namespace RPG.Resources
                 AwardExperience(instigator);
                 Die();
             }
+            else { takeDamage.Invoke(_damage); }   //  Unity Event
         }
 
         float GetInitialHealth()
