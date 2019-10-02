@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using RPG.Movement;
-using RPG.Resources;
-using UnityEngine.EventSystems;
-using System;
+using RPG.Attributes;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 namespace RPG.Control
 {

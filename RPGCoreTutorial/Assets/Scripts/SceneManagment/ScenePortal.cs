@@ -1,4 +1,5 @@
 using UnityEngine;
+using RPG.Control;
 using UnityEngine.AI;
 using System.Collections;
 using UnityEngine.SceneManagement;
@@ -12,9 +13,6 @@ namespace RPG.SceneManagement
         [SerializeField] float fadeOutTime = 2f;
         [SerializeField] float fadeWaitTime = 3f;
         [SerializeField] float fadeInTime = 3f;
-
-        Transform spawnPoint;
-        Fader fader;
 
 
         void OnTriggerEnter(Collider other)
@@ -40,12 +38,19 @@ namespace RPG.SceneManagement
             Fader fader = FindObjectOfType<Fader>();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
 
+            //  Remove old Player Control
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = false;
+
             //  Panel Alpha Fade Out
             yield return fader.FadeOut(fadeOutTime);
 
             //  Save current State && Load new level
             wrapper.Save();
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
+
+            //  Remove Control from new Player
+            PlayerController playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            playerController.enabled = false;
 
             //  Load current state
             wrapper.Load(); //  TODO : Currently when using ScenePortal, if you load new scene and load save file, the stored transform is from previous scene instead of new scene
@@ -59,7 +64,12 @@ namespace RPG.SceneManagement
 
             //  Panel Alpha Fade In
             yield return new WaitForSeconds(fadeWaitTime);
-            yield return fader.FadeIn(fadeInTime);
+
+            //  This will finish in background since we are no longer yield returning it- changed fadein/fadeout to Coroutine instead of IEnumerator to achieve this
+            fader.FadeIn(fadeInTime);
+
+            //  Restore Player Control
+            playerController.enabled = true;
 
             //  Destroy Scene Portal
             Destroy(gameObject);

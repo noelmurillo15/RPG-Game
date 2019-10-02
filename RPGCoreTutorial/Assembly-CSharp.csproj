@@ -55,13 +55,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Attributes\Health.cs" />
+     <Compile Include="Assets\Scripts\Attributes\HealthBar.cs" />
+     <Compile Include="Assets\Scripts\Attributes\HealthDisplay.cs" />
      <Compile Include="Assets\Scripts\Cinematics\CinematicsControlRemover.cs" />
      <Compile Include="Assets\Scripts\Cinematics\CinematicTrigger.cs" />
      <Compile Include="Assets\Scripts\Combat\CombatTarget.cs" />
      <Compile Include="Assets\Scripts\Combat\EnemyHealthDisplay.cs" />
      <Compile Include="Assets\Scripts\Combat\Fighter.cs" />
      <Compile Include="Assets\Scripts\Combat\Projectile.cs" />
-     <Compile Include="Assets\Scripts\Combat\Weapon.cs" />
+     <Compile Include="Assets\Scripts\Combat\WeaponConfig.cs" />
      <Compile Include="Assets\Scripts\Combat\WeaponPickup.cs" />
      <Compile Include="Assets\Scripts\Control\AIController.cs" />
      <Compile Include="Assets\Scripts\Control\IRaycastable.cs" />
@@ -73,8 +76,6 @@
      <Compile Include="Assets\Scripts\Core\IAction.cs" />
      <Compile Include="Assets\Scripts\Core\PersistantObjectSpawner.cs" />
      <Compile Include="Assets\Scripts\Movement\CharacterMove.cs" />
-     <Compile Include="Assets\Scripts\Resources\Health.cs" />
-     <Compile Include="Assets\Scripts\Resources\HealthDisplay.cs" />
      <Compile Include="Assets\Scripts\Saving\ISaveable.cs" />
      <Compile Include="Assets\Scripts\Saving\SaveableEntity.cs" />
      <Compile Include="Assets\Scripts\Saving\SavingSystem.cs" />

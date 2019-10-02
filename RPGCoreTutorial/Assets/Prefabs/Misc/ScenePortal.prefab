@@ -107,5 +107,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneToLoad: -1
   fadeOutTime: 3
-  fadeWaitTime: 0.5
+  fadeWaitTime: 1
   fadeInTime: 1

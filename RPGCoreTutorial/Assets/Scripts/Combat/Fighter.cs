@@ -3,10 +3,10 @@ using RPG.Stats;
 using RPG.Saving;
 using UnityEngine;
 using RPG.Movement;
-using RPG.Resources;
+using RPG.Attributes;
 using GameDevTV.Utils;
 using System.Collections.Generic;
-using System;
+
 
 namespace RPG.Combat
 {
@@ -14,7 +14,7 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
         #region Fighter Class Members                
-        [SerializeField] Weapon defaultWeapon = null;
+        [SerializeField] WeaponConfig defaultWeapon = null;
         [SerializeField] Transform leftHandTransform = null;
         [SerializeField] Transform rightHandTransform = null;
 
@@ -24,13 +24,13 @@ namespace RPG.Combat
         CharacterMove myCharacterMove;
 
         float timeSinceLastAttack = Mathf.Infinity;
-        LazyValue<Weapon> currentWeapon;
+        LazyValue<WeaponConfig> currentWeapon;
         #endregion
 
 
         void Awake()
         {
-            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+            currentWeapon = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
             myCharacterMove = GetComponent<CharacterMove>();
             myAnimator = GetComponent<Animator>();
         }
@@ -81,19 +81,19 @@ namespace RPG.Combat
             return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.value.GetWeaponRange();
         }
 
-        Weapon SetupDefaultWeapon()
+        WeaponConfig SetupDefaultWeapon()
         {
             AttachWeapon(defaultWeapon);
             return defaultWeapon;
         }
 
-        public void EquipWeapon(Weapon _weapon)
+        public void EquipWeapon(WeaponConfig _weapon)
         {
             currentWeapon.value = _weapon;
             AttachWeapon(_weapon);
         }
 
-        void AttachWeapon(Weapon weapon)
+        void AttachWeapon(WeaponConfig weapon)
         {
             weapon.SpawnWeapon(rightHandTransform, leftHandTransform, myAnimator);
         }
@@ -175,7 +175,7 @@ namespace RPG.Combat
         public void RestoreState(object state)
         {
             string weaponName = (string)state;
-            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
+            WeaponConfig weapon = UnityEngine.Resources.Load<WeaponConfig>(weaponName);
             EquipWeapon(weapon);
         }   //  ISaveable                
         #endregion

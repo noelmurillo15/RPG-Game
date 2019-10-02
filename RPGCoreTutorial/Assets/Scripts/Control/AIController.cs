@@ -2,7 +2,7 @@
 using RPG.Combat;
 using UnityEngine;
 using RPG.Movement;
-using RPG.Resources;
+using RPG.Attributes;
 using GameDevTV.Utils;
 
 
