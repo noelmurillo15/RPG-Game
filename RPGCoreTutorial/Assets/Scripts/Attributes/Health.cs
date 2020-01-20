@@ -27,22 +27,22 @@ namespace RPG.Attributes
         bool isdead = false;
 
 
-        void Awake()
+        private void Awake()
         {
             healthPoints = new LazyValue<float>(GetInitialHealth);  //  GetInitialHealth() will get called right before the healthPoints.value is used ~ LazyInitialization
         }
 
-        void Start()
+        private void Start()
         {
             healthPoints.ForceInit();   //  If healthPoints has not been accessed before this point, we'll force the value to be initialized
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             GetComponent<BaseStats>().onLevelUp += RegenerateHealth;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             GetComponent<BaseStats>().onLevelUp -= RegenerateHealth;
         }
@@ -72,37 +72,37 @@ namespace RPG.Attributes
             return GetComponent<BaseStats>().GetStat(Stat.HEALTH);
         }
 
-        public void TakeDamage(GameObject instigator, float _damage)
+        public void TakeDamage(GameObject instigator, float damage)
         {
-            print(gameObject.name + " took damage : " + _damage);
-            healthPoints.value = Mathf.Max(healthPoints.value - _damage, 0);
+            print(gameObject.name + " took damage : " + damage);
+            healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
             if (healthPoints.value == 0f)
             {
                 AwardExperience(instigator);
                 Die();
             }
-            else { takeDamage.Invoke(_damage); }   //  Unity Event
+            else { takeDamage.Invoke(damage); }   //  Unity Event
         }
 
-        float GetInitialHealth()
+        private float GetInitialHealth()
         {
             return GetComponent<BaseStats>().GetStat(Stat.HEALTH);
         }
 
-        void AwardExperience(GameObject _instigator)
+        private void AwardExperience(GameObject instigator)
         {
-            Experience experience = _instigator.GetComponent<Experience>();
+            Experience experience = instigator.GetComponent<Experience>();
             if (experience == null) return;
             experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.EXPERIENCE));
         }
 
-        void RegenerateHealth()
+        private void RegenerateHealth()
         {
             float regenHealthPts = GetComponent<BaseStats>().GetStat(Stat.HEALTH) * regenrationPercentage / 100;
             healthPoints.value = Mathf.Max(healthPoints.value, regenHealthPts);
         }
 
-        void Die()
+        private void Die()
         {
             if (isdead) return;
             GetComponent<Animator>().SetTrigger("Die");

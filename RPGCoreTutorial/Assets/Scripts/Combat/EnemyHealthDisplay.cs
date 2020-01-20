@@ -12,12 +12,12 @@ namespace RPG.Combat
         Fighter fighter;
 
 
-        void Awake()
+        private void Awake()
         {
             fighter = GameObject.FindWithTag("Player").GetComponent<Fighter>();
         }
 
-        void Update()
+        private void Update()
         {
             if (fighter.GetTarget() == null)
             {
@@ -26,7 +26,7 @@ namespace RPG.Combat
             else
             {
                 Health health = fighter.GetTarget();
-                GetComponent<Text>().text = String.Format("{0:0}%", health.GetPercentage().ToString());
+                GetComponent<Text>().text = $"{health.GetPercentage().ToString():0}%";
             }
         }
     }

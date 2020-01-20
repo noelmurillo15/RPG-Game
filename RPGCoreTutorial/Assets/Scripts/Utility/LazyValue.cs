@@ -51,11 +51,9 @@
         /// </summary>
         public void ForceInit()
         {
-            if (!_initialized)
-            {
-                _value = _initializer();
-                _initialized = true;
-            }
+            if (_initialized) return;
+            _value = _initializer();
+            _initialized = true;
         }
     }
 }

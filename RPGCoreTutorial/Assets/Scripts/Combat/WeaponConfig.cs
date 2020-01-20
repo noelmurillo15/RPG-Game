@@ -19,37 +19,37 @@ namespace RPG.Combat
         const string weaponName = "MyWeapon";
 
 
-        public void SpawnWeapon(Transform _rightHand, Transform _leftHand, Animator _animator)
+        public void SpawnWeapon(Transform rightHand, Transform leftHand, Animator animator)
         {
-            DestroyOldWeapon(_rightHand, _leftHand);
+            DestroyOldWeapon(rightHand, leftHand);
 
             if (equippedPrefab != null)
             {
                 if (isRightHanded)
                 {
-                    GameObject weapon = Instantiate(equippedPrefab, _rightHand);
+                    GameObject weapon = Instantiate(equippedPrefab, rightHand);
                     weapon.name = weaponName;
                 }
                 else
                 {
-                    GameObject weapon = Instantiate(equippedPrefab, _leftHand);
+                    GameObject weapon = Instantiate(equippedPrefab, leftHand);
                     weapon.name = weaponName;
                 }
             }
 
             //  Default Animator Override Controller  
-            var overrideController = _animator.runtimeAnimatorController as AnimatorOverrideController;
+            var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
             if (animatorOverride != null)
             {
-                _animator.runtimeAnimatorController = animatorOverride;
+                animator.runtimeAnimatorController = animatorOverride;
             }
             else if (overrideController != null)
             {
-                _animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
+                animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
             }
         }
 
-        void DestroyOldWeapon(Transform rightHand, Transform leftHand)
+        private static void DestroyOldWeapon(Transform rightHand, Transform leftHand)
         {
             Transform oldWeapon = rightHand.Find(weaponName);
 
@@ -62,10 +62,10 @@ namespace RPG.Combat
             Destroy(oldWeapon.gameObject);
         }
 
-        public void LaunchProjectile(Transform _rightHand, Transform _leftHand, Health _target, GameObject _instigator, float _totalDmg)
+        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target, GameObject instigator, float totalDmg)
         {
-            Projectile projectileInstance = Instantiate(projectile, _leftHand.position, Quaternion.identity);
-            projectileInstance.SetTarget(_target, _instigator, _totalDmg);
+            Projectile projectileInstance = Instantiate(projectile, leftHand.position, Quaternion.identity);
+            projectileInstance.SetTarget(target, instigator, totalDmg);
         }
 
         public bool HasProjectile()

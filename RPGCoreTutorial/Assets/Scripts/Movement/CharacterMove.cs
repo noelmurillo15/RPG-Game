@@ -16,29 +16,29 @@ namespace RPG.Movement
         Health myHealth;
 
 
-        void Awake()
+        private void Awake()
         {
             myHealth = GetComponent<Health>();
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        void Update()
+        private void Update()
         {
             navMeshAgent.enabled = !myHealth.IsDead();
             UpdateAnimator();
         }
 
-        public void MoveTo(Vector3 _destination, float _speedFraction)
+        public void MoveTo(Vector3 destination, float speedFraction)
         {
-            navMeshAgent.destination = _destination;
+            navMeshAgent.destination = destination;
             navMeshAgent.isStopped = false;
-            navMeshAgent.speed = maxSpeed * Mathf.Clamp01(_speedFraction);
+            navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
         }
 
-        public void StartMoveAction(Vector3 _destination, float _speedFraction)
+        public void StartMoveAction(Vector3 destination, float speedFraction)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            MoveTo(_destination, _speedFraction);
+            MoveTo(destination, speedFraction);
         }
 
         void UpdateAnimator()

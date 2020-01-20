@@ -28,19 +28,19 @@ namespace RPG.Combat
         #endregion
 
 
-        void Awake()
+        private void Awake()
         {
             currentWeapon = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
             myCharacterMove = GetComponent<CharacterMove>();
             myAnimator = GetComponent<Animator>();
         }
 
-        void Start()
+        private void Start()
         {
             currentWeapon.ForceInit();
         }
 
-        void Update()
+        private void Update()
         {
             timeSinceLastAttack += Time.deltaTime;
 
@@ -63,66 +63,65 @@ namespace RPG.Combat
             return target;
         }
 
-        public void Attack(GameObject _combatTarget)
+        public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            target = _combatTarget.GetComponent<Health>();
+            target = combatTarget.GetComponent<Health>();
         }
 
-        public bool CanAttack(GameObject _combatTarget)
+        public static bool CanAttack(GameObject combatTarget)
         {
-            if (_combatTarget == null) return false;
-            Health targetToTest = _combatTarget.GetComponent<Health>();
+            if (combatTarget == null) return false;
+            Health targetToTest = combatTarget.GetComponent<Health>();
             return targetToTest != null && !targetToTest.IsDead();
         }
 
-        bool GetIsInRange()
+        private bool GetIsInRange()
         {   //  TODO : be able to differ melee from ranged and apply extra stats range
             return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.value.GetWeaponRange();
         }
 
-        WeaponConfig SetupDefaultWeapon()
+        private WeaponConfig SetupDefaultWeapon()
         {
             AttachWeapon(defaultWeapon);
             return defaultWeapon;
         }
 
-        public void EquipWeapon(WeaponConfig _weapon)
+        public void EquipWeapon(WeaponConfig weapon)
         {
-            currentWeapon.value = _weapon;
-            AttachWeapon(_weapon);
+            currentWeapon.value = weapon;
+            AttachWeapon(weapon);
         }
 
-        void AttachWeapon(WeaponConfig weapon)
+        private void AttachWeapon(WeaponConfig weapon)
         {
             weapon.SpawnWeapon(rightHandTransform, leftHandTransform, myAnimator);
         }
 
-        void AttackBehaviour()
+        private void AttackBehaviour()
         {
             transform.LookAt(target.transform);
-            if (timeSinceLastAttack >= currentWeapon.value.GetWeaponFireRate())
-            {
-                TriggerAttack();
-                timeSinceLastAttack = 0f;
-            }
+            if (!(timeSinceLastAttack >= currentWeapon.value.GetWeaponFireRate())) return;
+            TriggerAttack();
+            timeSinceLastAttack = 0f;
         }
 
-        void TriggerAttack()
+        private void TriggerAttack()
         {
             //  This will trigger the Animation Event : Hit()
             myAnimator.ResetTrigger("StopAttack");
             myAnimator.SetTrigger("Attack");
         }
 
-        void StopAttack()
+        private void StopAttack()
         {
             myAnimator.ResetTrigger("Attack");
             myAnimator.SetTrigger("StopAttack");
         }
 
         #region Animation Events
-        void Hit()
+
+        private void Hit()
         {
             if (target == null) return;
 
@@ -137,7 +136,7 @@ namespace RPG.Combat
             }
         }
 
-        void Shoot()
+        private void Shoot()
         {
             Hit();
         }

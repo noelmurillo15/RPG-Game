@@ -12,12 +12,12 @@ namespace RPG.SceneManagement
         const string defaultSaveFile = "save";
 
 
-        void Awake()
+        private void Awake()
         {
             StartCoroutine(LoadLastScene());
         }
 
-        IEnumerator LoadLastScene()
+        private IEnumerator LoadLastScene()
         {
             yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);   //  Scene loads and calls Awake
             Fader fader = FindObjectOfType<Fader>();    //  This happens after Awake since the line above is Async
@@ -25,7 +25,7 @@ namespace RPG.SceneManagement
             yield return fader.FadeIn(fadeInTime);
         }
 
-        void Update()
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.S)) { Save(); }
             if (Input.GetKeyDown(KeyCode.L)) { Load(); }

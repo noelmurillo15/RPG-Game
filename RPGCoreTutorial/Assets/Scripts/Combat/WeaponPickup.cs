@@ -11,7 +11,7 @@ namespace RPG.Combat
         [SerializeField] float respawnTime = 5f;
 
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.tag.Equals("Player"))
             {
@@ -19,25 +19,25 @@ namespace RPG.Combat
             }
         }
 
-        void PickUp(Fighter fighter)
+        private void PickUp(Fighter fighter)
         {
             fighter.EquipWeapon(weapon);
             StartCoroutine(HideForSeconds(respawnTime));
         }
 
-        void ShowPickup(bool _shouldShow)
+        private void ShowPickup(bool shouldShow)
         {
-            GetComponent<SphereCollider>().enabled = _shouldShow;
+            GetComponent<SphereCollider>().enabled = shouldShow;
             foreach (Transform child in transform)
             {
-                child.gameObject.SetActive(_shouldShow);
+                child.gameObject.SetActive(shouldShow);
             }
         }
 
-        IEnumerator HideForSeconds(float _seconds)
+        private IEnumerator HideForSeconds(float seconds)
         {
             ShowPickup(false);
-            yield return new WaitForSeconds(_seconds);
+            yield return new WaitForSeconds(seconds);
             ShowPickup(true);
         }
 

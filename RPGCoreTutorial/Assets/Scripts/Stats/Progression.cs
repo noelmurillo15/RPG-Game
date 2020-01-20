@@ -12,27 +12,27 @@ namespace RPG.Stats
         Dictionary<CharacterClasses, Dictionary<Stat, float[]>> lookUpTable = null;
 
 
-        public float GetStat(Stat _stat, CharacterClasses _class, int _level)
+        public float GetStat(Stat stat, CharacterClasses @class, int level)
         {
             BuildLookUp();
 
-            float[] levels = lookUpTable[_class][_stat];
+            float[] levels = lookUpTable[@class][stat];
 
-            if (levels.Length < _level) { return 0; }
+            if (levels.Length < level) { return 0; }
 
-            return levels[_level - 1];
+            return levels[level - 1];
         }   //  Performant Dictionary Lookup
 
-        public int GetLevels(Stat _stat, CharacterClasses _class)
+        public int GetLevels(Stat stat, CharacterClasses @class)
         {
             BuildLookUp();
 
-            float[] levels = lookUpTable[_class][_stat];
+            float[] levels = lookUpTable[@class][stat];
 
             return levels.Length;
         }
 
-        void BuildLookUp()
+        private void BuildLookUp()
         {
             if (lookUpTable != null) return;
 
@@ -52,14 +52,14 @@ namespace RPG.Stats
         }
 
         [System.Serializable]
-        class ProgressionCharacterClass
+        private class ProgressionCharacterClass
         {
             public CharacterClasses characterClass;
             public ProgressionStat[] stats;
         }
 
         [System.Serializable]
-        class ProgressionStat
+        private class ProgressionStat
         {
             public Stat stat;
             public float[] levels;

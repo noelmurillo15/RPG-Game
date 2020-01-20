@@ -10,14 +10,14 @@ namespace RPG.Core
         static bool hasSpawned = false;
 
 
-        void Awake()
+        private void Awake()
         {
             if (hasSpawned) return;
             SpawnPersistantObject();
             hasSpawned = true;
         }
 
-        void SpawnPersistantObject()
+        private void SpawnPersistantObject()
         {
             GameObject peristantObject = Instantiate(persistantObjectPrefab);
             DontDestroyOnLoad(peristantObject);

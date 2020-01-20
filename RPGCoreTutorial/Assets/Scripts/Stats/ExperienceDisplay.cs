@@ -11,14 +11,14 @@ namespace RPG.Stats
         Experience exp;
 
 
-        void Awake()
+        private void Awake()
         {
             exp = GameObject.FindWithTag("Player").GetComponent<Experience>();
         }
 
-        void Update()
+        private void Update()
         {
-            GetComponent<Text>().text = String.Format("{0}pts", exp.GetExperiencePts().ToString());
+            GetComponent<Text>().text = $"{exp.GetExperiencePts().ToString()}pts";
         }
     }
 }

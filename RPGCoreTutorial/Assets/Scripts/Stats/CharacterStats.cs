@@ -35,14 +35,15 @@ namespace RPG.Stats
         #endregion
 
 
-        void Start()
+        private void Start()
         {
             Initialize();
             LevelUp();
         }
 
         #region Private Methods
-        void Initialize()
+
+        private void Initialize()
         {
             if (GetComponent<AIController>() != null)
             {
@@ -60,7 +61,7 @@ namespace RPG.Stats
             criticalDamage = Random.Range(10, 25);
         }
 
-        void LevelUp()
+        private void LevelUp()
         {
             currentLevel++;
             currentLevel = Mathf.Clamp(currentLevel, 0, 30);
@@ -75,7 +76,7 @@ namespace RPG.Stats
             RankUp();
         }
 
-        void RankUp()
+        private void RankUp()
         {
             switch (currentLevel)
             {
@@ -102,7 +103,7 @@ namespace RPG.Stats
             }
         }
 
-        void AssignAttribute()
+        private void AssignAttribute()
         {
             int ran = Random.Range(0, 4);
             switch (ran)
@@ -125,7 +126,7 @@ namespace RPG.Stats
             }
         }
 
-        void IncreaseStrength()
+        private void IncreaseStrength()
         {
             strength++;
             physicalAttack += 3;
@@ -136,7 +137,7 @@ namespace RPG.Stats
             }
         }
 
-        void IncreaseWisdom()
+        private void IncreaseWisdom()
         {
             wisdom++;
             magicalAttack += 3;
@@ -147,7 +148,7 @@ namespace RPG.Stats
             }
         }
 
-        void IncreaseEndurance()
+        private void IncreaseEndurance()
         {
             endurance++;
             damageResist += 2;
@@ -158,7 +159,7 @@ namespace RPG.Stats
             }
         }
 
-        void IncreaseLuck()
+        private void IncreaseLuck()
         {
             luck++;
             criticalRate += 1;

@@ -13,9 +13,9 @@ namespace RPG.Stats
         // public delegate void ExpGainedDelegate();    //  not needed for Action
 
 
-        public void GainExperience(float _exp)
+        public void GainExperience(float exp)
         {
-            expPoints += _exp;
+            expPoints += exp;
             onExperienceGained();
         }
 

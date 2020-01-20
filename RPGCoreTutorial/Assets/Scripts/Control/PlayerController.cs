@@ -27,12 +27,12 @@ namespace RPG.Control
         [SerializeField] CursorMapping[] cursorMappings;
 
 
-        void Awake()
+        private void Awake()
         {
             myHealth = GetComponent<Health>();
         }
 
-        void Update()
+        private void Update()
         {
             if (InteractWithUI()) return;
 
@@ -45,17 +45,14 @@ namespace RPG.Control
             SetCursor(CursorType.NONE);
         }
 
-        bool InteractWithUI()
+        private bool InteractWithUI()
         {
-            if (EventSystem.current.IsPointerOverGameObject())
-            {   //  refers to UI gameobject
-                SetCursor(CursorType.UI);
-                return true;
-            }
-            return false;
+            if (!EventSystem.current.IsPointerOverGameObject()) return false; //  refers to UI gameobject
+            SetCursor(CursorType.UI);
+            return true;
         }
 
-        bool InteractWithComponent()
+        private bool InteractWithComponent()
         {
             RaycastHit[] hits = RayCastAllSorted();
             foreach (var hit in hits)
@@ -63,17 +60,15 @@ namespace RPG.Control
                 IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
                 foreach (IRaycastable raycastable in raycastables)
                 {
-                    if (raycastable.HandleRayCast(this))
-                    {
-                        SetCursor(raycastable.GetCursorType());
-                        return true;
-                    }
+                    if (!raycastable.HandleRayCast(this)) continue;
+                    SetCursor(raycastable.GetCursorType());
+                    return true;
                 }
             }
             return false;
         }
 
-        RaycastHit[] RayCastAllSorted()
+        private static RaycastHit[] RayCastAllSorted()
         {
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
 
@@ -88,7 +83,7 @@ namespace RPG.Control
             return hits;
         }
 
-        bool InteractWithMovement()
+        private bool InteractWithMovement()
         {
             Vector3 target;
             bool hasHit = RaycastNavMesh(out target);
@@ -105,7 +100,7 @@ namespace RPG.Control
             return false;
         }
 
-        bool RaycastNavMesh(out Vector3 _target)
+        private bool RaycastNavMesh(out Vector3 _target)
         {
             _target = new Vector3();
 
@@ -134,7 +129,7 @@ namespace RPG.Control
             return true;
         }
 
-        float GetPathLength(NavMeshPath path)
+        private float GetPathLength(NavMeshPath path)
         {
             float total = 0;
             if (path.corners.Length < 2) return total;
@@ -145,24 +140,24 @@ namespace RPG.Control
             return total;
         }
 
-        void SetCursor(CursorType _type)
+        private void SetCursor(CursorType type)
         {
-            CursorMapping mapping = GetCursorMapping(_type);
+            CursorMapping mapping = GetCursorMapping(type);
             Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
         }
 
-        CursorMapping GetCursorMapping(CursorType _type)
+        CursorMapping GetCursorMapping(CursorType type)
         {
             foreach (var mapping in cursorMappings)
             {
-                if (mapping.type == _type)
+                if (mapping.type == type)
                     return mapping;
             }
 
             return cursorMappings[0];
         }
 
-        static Ray GetMouseRay()
+        private static Ray GetMouseRay()
         {
             return Camera.main.ScreenPointToRay(Input.mousePosition);
         }

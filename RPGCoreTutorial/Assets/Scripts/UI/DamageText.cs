@@ -10,9 +10,9 @@ namespace RPG.UI
         [SerializeField] TMP_Text damageText;
 
 
-        public void SetValue(float _amount)
+        public void SetValue(float amount)
         {
-            damageText.text = String.Format("{0:0}", _amount);
+            damageText.text = $"{amount:0}";
         }
 
         public void DestroyText()

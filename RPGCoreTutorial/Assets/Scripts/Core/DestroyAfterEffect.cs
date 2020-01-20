@@ -8,19 +8,10 @@ namespace RPG.Core
         [SerializeField] GameObject objToDestroy = null;
 
 
-        void Update()
+        private void Update()
         {
-            if (!GetComponent<ParticleSystem>().IsAlive())
-            {
-                if (objToDestroy != null)
-                {
-                    Destroy(objToDestroy);
-                }
-                else
-                {
-                    Destroy(gameObject);
-                }
-            }
+            if (GetComponent<ParticleSystem>().IsAlive()) return;
+            Destroy(objToDestroy != null ? objToDestroy : gameObject);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace RPG.Saving
         }
 
 #if UNITY_EDITOR    //  Exclude if Built Game
-        void Update()
+        private void Update()
         {
             if (Application.IsPlaying(gameObject)) return;  //  Make sure update doesn't run during runtime & only in editor
             if (string.IsNullOrEmpty(gameObject.scene.path)) return;    //  Empty Gameobject Scene Path means the Object is a prefab
@@ -60,7 +60,7 @@ namespace RPG.Saving
         }
 #endif
 
-        bool IsUnique(string candidate)
+        private bool IsUnique(string candidate)
         {
             if (!globalLookup.ContainsKey(candidate)) return true;  //  Does UUID key exist already?
 
@@ -72,13 +72,11 @@ namespace RPG.Saving
                 return true;
             }
 
-            if (globalLookup[candidate].GetUniqueIdentifier() != candidate)
-            {   //  Does this candidate key not match the value in dictionary?
-                globalLookup.Remove(candidate);
-                return true;
-            }
+            if (globalLookup[candidate].GetUniqueIdentifier() == candidate
+            ) return false; //  Does this candidate key not match the value in dictionary?
+            globalLookup.Remove(candidate);
+            return true;
 
-            return false;
         }
     }
 }

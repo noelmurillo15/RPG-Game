@@ -18,19 +18,19 @@ namespace RPG.Combat
         float totalDamage = 0f;
 
 
-        void Start()
+        private void Start()
         {
             transform.LookAt(GetAimLocation());
         }
 
-        void Update()
+        private void Update()
         {
             if (target == null) return;
             if (isHoming && !target.IsDead()) transform.LookAt(GetAimLocation());
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            transform.Translate(Vector3.forward * (speed * Time.deltaTime));
         }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.GetComponent<Health>() != target) return;
             if (target.IsDead()) return;
@@ -59,11 +59,11 @@ namespace RPG.Combat
             Destroy(gameObject, maxLifeTime);
         }   //  Damage is calculated from weapon Scriptable dmg + character base damage
 
-        Vector3 GetAimLocation()
+        private Vector3 GetAimLocation()
         {
             CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>();
             if (targetCapsule == null) { return target.transform.position; }
-            return target.transform.position + Vector3.up * targetCapsule.height * 0.5f;
+            return target.transform.position + Vector3.up * (targetCapsule.height * 0.5f);
         }
     }
 }

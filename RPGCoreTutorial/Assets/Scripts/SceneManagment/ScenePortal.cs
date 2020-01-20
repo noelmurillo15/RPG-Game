@@ -2,6 +2,7 @@ using UnityEngine;
 using RPG.Control;
 using UnityEngine.AI;
 using System.Collections;
+using System.Linq;
 using UnityEngine.SceneManagement;
 
 
@@ -15,7 +16,7 @@ namespace RPG.SceneManagement
         [SerializeField] float fadeInTime = 3f;
 
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if (other.tag.Equals("Player"))
             {
@@ -23,7 +24,7 @@ namespace RPG.SceneManagement
             }
         }
 
-        IEnumerator Transition()
+        private IEnumerator Transition()
         {
             if (sceneToLoad < 0)
             {
@@ -75,23 +76,18 @@ namespace RPG.SceneManagement
             Destroy(gameObject);
         }
 
-        void UpdatePlayer(ScenePortal _otherPortal)
+        private static void UpdatePlayer(ScenePortal otherPortal)
         {
             GameObject go = GameObject.FindGameObjectWithTag("Player");
             go.GetComponent<NavMeshAgent>().enabled = false;
-            go.transform.position = _otherPortal.transform.GetChild(0).position;
-            go.transform.rotation = _otherPortal.transform.GetChild(0).rotation;
+            go.transform.position = otherPortal.transform.GetChild(0).position;
+            go.transform.rotation = otherPortal.transform.GetChild(0).rotation;
             go.GetComponent<NavMeshAgent>().enabled = true;
         }
 
-        ScenePortal GetOtherPortal()
+        private ScenePortal GetOtherPortal()
         {
-            foreach (var portal in GameObject.FindObjectsOfType<ScenePortal>())
-            {
-                if (portal == this) continue;
-                return portal;
-            }
-            return null;
+            return GameObject.FindObjectsOfType<ScenePortal>().FirstOrDefault(portal => portal != this);
         }
     }
 }

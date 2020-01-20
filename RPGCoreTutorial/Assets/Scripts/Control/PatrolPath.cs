@@ -8,7 +8,7 @@ namespace RPG.Control
         const float waypointGizmoRadius = 0.3f;
 
 
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             for (int x = 0; x < transform.childCount; x++)
             {

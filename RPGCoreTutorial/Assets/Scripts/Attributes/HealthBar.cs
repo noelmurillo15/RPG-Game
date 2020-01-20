@@ -10,7 +10,7 @@ namespace RPG.Attributes
         [SerializeField] Canvas rootCanvas = null;
 
 
-        void Update()
+        private void Update()
         {
             float hpFraction = healthComponent.GetFraction();
 

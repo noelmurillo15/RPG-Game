@@ -33,7 +33,7 @@ namespace RPG.Control
         #endregion
 
 
-        void Awake()
+        private void Awake()
         {
             fighter = GetComponent<Fighter>();
             myHealth = GetComponent<Health>();
@@ -42,16 +42,16 @@ namespace RPG.Control
             guardLocation = new LazyValue<Vector3>(GetGuardPosition);
         }
 
-        void Start()
+        private void Start()
         {
             guardLocation.ForceInit();
         }
 
-        void Update()
+        private void Update()
         {
             if (myHealth.IsDead()) return;
 
-            if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
+            if (InAttackRangeOfPlayer() && Fighter.CanAttack(player))
             {   //  Attack State
                 timeSinceLastSawPlayer = 0f;
                 AttackBehaviour();
@@ -75,7 +75,7 @@ namespace RPG.Control
             timeSinceLastSawPlayer += Time.deltaTime;
         }
 
-        void PatrolBehaviour()
+        private void PatrolBehaviour()
         {
             Vector3 nextPosition = guardLocation.value;
 
@@ -95,44 +95,44 @@ namespace RPG.Control
             }
         }
 
-        void SuspicionBehaviour()
+        private void SuspicionBehaviour()
         {
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
-        void AttackBehaviour()
+        private void AttackBehaviour()
         {
             fighter.Attack(player);
         }
 
-        void CycleWaypoint()
+        private void CycleWaypoint()
         {
             waypointIndex = patrolPath.GetNextIndex(waypointIndex);
         }
 
-        bool AtWaypoint()
+        private bool AtWaypoint()
         {
             float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
             return distanceToWaypoint < waypointTolerance;
         }
 
-        bool InAttackRangeOfPlayer()
+        private bool InAttackRangeOfPlayer()
         {
             return Vector3.Distance(player.transform.position, transform.position) < chaseDistance;
         }
 
-        Vector3 GetGuardPosition()
+        private Vector3 GetGuardPosition()
         {
             return transform.localPosition;
         }
 
-        Vector3 GetCurrentWaypoint()
+        private Vector3 GetCurrentWaypoint()
         {
             return patrolPath.GetWaypoint(waypointIndex);
         }
 
         #region Custom Gizmos
-        void OnDrawGizmosSelected()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, chaseDistance);

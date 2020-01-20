@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using GameDevTV.Utils;
 
@@ -23,18 +24,18 @@ namespace RPG.Stats
         public event Action onLevelUp;
 
 
-        void Awake()
+        private void Awake()
         {
             experience = GetComponent<Experience>();
             currentLvl = new LazyValue<int>(CalcLevel);
         }   //  Used to cache references - no external functions should be called here
 
-        void Start()
+        private void Start()
         {
             currentLvl.ForceInit();
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             if (experience != null)
             {
@@ -42,7 +43,7 @@ namespace RPG.Stats
             }
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             if (experience != null)
             {
@@ -60,7 +61,7 @@ namespace RPG.Stats
             return currentLvl.value;
         }
 
-        int CalcLevel()
+        private int CalcLevel()
         {
             if (experience == null) return startingLevel;
 
@@ -76,53 +77,35 @@ namespace RPG.Stats
             return penultimateLevel + 1;
         }
 
-        void UpdateLevel()
+        private void UpdateLevel()
         {
-            int newLevel = CalcLevel();
-            if (newLevel > GetLevel())
-            {
-                currentLvl.value = newLevel;
-                LevelUpEffect();
-                onLevelUp();
-            }
+            var newLevel = CalcLevel();
+            if (newLevel <= GetLevel()) return;
+            currentLvl.value = newLevel;
+            LevelUpEffect();
+            onLevelUp();
         }
 
-        void LevelUpEffect()
+        private void LevelUpEffect()
         {
             Instantiate(levelUpEffect, transform);
         }
 
-        float GetBaseStat(Stat stat)
+        private float GetBaseStat(Stat stat)
         {
             return progression.GetStat(stat, characterClass, GetLevel());
         }
 
-        float GetAdditiveModifier(Stat stat)
+        private float GetAdditiveModifier(Stat stat)
         {
-            float total = 0f;
-            foreach (IModifierProvider provider in GetComponents<IModifierProvider>())
-            {
-                foreach (float modifier in provider.GetAdditiveModifiers(stat))
-                {
-                    total += modifier;
-                }
-            }
-            return total;
+            return GetComponents<IModifierProvider>().SelectMany(provider => provider.GetAdditiveModifiers(stat)).Sum();
         }
 
-        float GetPercentageModifier(Stat stat)
+        private float GetPercentageModifier(Stat stat)
         {
             if (!shouldUseModifiers) return 0;
 
-            float total = 0f;
-            foreach (IModifierProvider provider in GetComponents<IModifierProvider>())
-            {
-                foreach (float modifier in provider.GetPercentageModifiers(stat))
-                {
-                    total += modifier;
-                }
-            }
-            return total;
+            return GetComponents<IModifierProvider>().SelectMany(provider => provider.GetPercentageModifiers(stat)).Sum();
         }
     }
 }

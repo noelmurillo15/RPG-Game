@@ -8,13 +8,11 @@ namespace RPG.SceneManagement
         bool hasTriggered = false;
 
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (!hasTriggered && other.tag.Equals("Player"))
-            {
-                print("Portal has been triggered");
-                hasTriggered = true;
-            }
+            if (hasTriggered || !other.tag.Equals("Player")) return;
+            print("Portal has been triggered");
+            hasTriggered = true;
         }
     }
 }

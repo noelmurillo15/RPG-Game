@@ -10,13 +10,11 @@ namespace RPG.Cinematics
         bool hasPlayed = false;
 
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (!hasPlayed && other.tag.Equals("Player"))
-            {
-                GetComponent<PlayableDirector>().Play();
-                hasPlayed = true;
-            }
+            if (hasPlayed || !other.tag.Equals("Player")) return;
+            GetComponent<PlayableDirector>().Play();
+            hasPlayed = true;
         }
     }
 }
