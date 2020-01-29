@@ -7,7 +7,7 @@ namespace RPG.UI
 {
     public class DamageText : MonoBehaviour
     {
-        [SerializeField] TMP_Text damageText;
+        [SerializeField] private TMP_Text damageText;
 
 
         public void SetValue(float amount)

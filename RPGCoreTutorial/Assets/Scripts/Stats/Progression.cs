@@ -7,9 +7,9 @@ namespace RPG.Stats
     [CreateAssetMenu(fileName = "Progression", menuName = "Stats/New Progression", order = 0)]
     public class Progression : ScriptableObject
     {
-        [SerializeField] ProgressionCharacterClass[] characterClass = null;
+        [SerializeField] private ProgressionCharacterClass[] characterClass = null;
 
-        Dictionary<CharacterClasses, Dictionary<Stat, float[]>> lookUpTable = null;
+        private Dictionary<CharacterClasses, Dictionary<Stat, float[]>> lookUpTable = null;
 
 
         public float GetStat(Stat stat, CharacterClasses @class, int level)

@@ -8,46 +8,46 @@ namespace RPG.Stats
 {
     public class BaseStats : MonoBehaviour
     {
-        [SerializeField] [Range(1, 30)] int startingLevel = 1;
-        [SerializeField] CharacterClasses characterClass;
-        [SerializeField] Progression progression = null;
-        [SerializeField] GameObject levelUpEffect = null;
-        [SerializeField] bool shouldUseModifiers = false;
+        [SerializeField] [Range(1, 30)] private int startingLevel = 1;
+        [SerializeField] private CharacterClasses characterClass;
+        [SerializeField] private Progression progression = null;
+        [SerializeField] private GameObject levelUpEffect = null;
+        [SerializeField] private bool shouldUseModifiers = false;
 
         //  Cached variables
-        Experience experience;
+        private Experience _experience;
 
         //  My Variables
-        LazyValue<int> currentLvl;
+        private LazyValue<int> _currentLvl;
 
         //  Events
-        public event Action onLevelUp;
+        public event Action OnLevelUp;
 
 
         private void Awake()
         {
-            experience = GetComponent<Experience>();
-            currentLvl = new LazyValue<int>(CalcLevel);
+            _experience = GetComponent<Experience>();
+            _currentLvl = new LazyValue<int>(CalcLevel);
         }   //  Used to cache references - no external functions should be called here
 
         private void Start()
         {
-            currentLvl.ForceInit();
+            _currentLvl.ForceInit();
         }
 
         private void OnEnable()
         {
-            if (experience != null)
+            if (_experience != null)
             {
-                experience.onExperienceGained += UpdateLevel;
+                _experience.OnExperienceGained += UpdateLevel;
             }
         }
 
         private void OnDisable()
         {
-            if (experience != null)
+            if (_experience != null)
             {
-                experience.onExperienceGained -= UpdateLevel;
+                _experience.OnExperienceGained -= UpdateLevel;
             }
         }
 
@@ -58,14 +58,14 @@ namespace RPG.Stats
 
         public int GetLevel()
         {
-            return currentLvl.value;
+            return _currentLvl.value;
         }
 
         private int CalcLevel()
         {
-            if (experience == null) return startingLevel;
+            if (_experience == null) return startingLevel;
 
-            float currentXP = experience.GetExperiencePts();
+            float currentXP = _experience.GetExperiencePts();
             int penultimateLevel = progression.GetLevels(Stat.EXP_TO_LVL, characterClass);
 
             for (int level = 1; level <= penultimateLevel; level++)
@@ -81,9 +81,9 @@ namespace RPG.Stats
         {
             var newLevel = CalcLevel();
             if (newLevel <= GetLevel()) return;
-            currentLvl.value = newLevel;
+            _currentLvl.value = newLevel;
             LevelUpEffect();
-            onLevelUp();
+            OnLevelUp();
         }
 
         private void LevelUpEffect()

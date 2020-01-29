@@ -6,16 +6,16 @@ namespace RPG.Combat
 {
     public class Projectile : MonoBehaviour
     {
-        [SerializeField] float speed = 1f;
-        [SerializeField] bool isHoming = true;
-        [SerializeField] GameObject hitEffect = null;
-        [SerializeField] float maxLifeTime = 10f;
-        [SerializeField] GameObject[] destroyOnHit = null;
-        [SerializeField] float lifeAfterImpact = 2f;
+        [SerializeField] private float speed = 1f;
+        [SerializeField] private bool isHoming = true;
+        [SerializeField] private GameObject hitEffect = null;
+        [SerializeField] private float maxLifeTime = 10f;
+        [SerializeField] private GameObject[] destroyOnHit = null;
+        [SerializeField] private float lifeAfterImpact = 2f;
 
-        Health target = null;
-        GameObject instigator = null;
-        float totalDamage = 0f;
+        private Health _target = null;
+        private GameObject _instigator = null;
+        private float _totalDamage = 0f;
 
 
         private void Start()
@@ -25,17 +25,17 @@ namespace RPG.Combat
 
         private void Update()
         {
-            if (target == null) return;
-            if (isHoming && !target.IsDead()) transform.LookAt(GetAimLocation());
+            if (_target == null) return;
+            if (isHoming && !_target.IsDead()) transform.LookAt(GetAimLocation());
             transform.Translate(Vector3.forward * (speed * Time.deltaTime));
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.GetComponent<Health>() != target) return;
-            if (target.IsDead()) return;
+            if (other.GetComponent<Health>() != _target) return;
+            if (_target.IsDead()) return;
 
-            target.TakeDamage(instigator, totalDamage);
+            _target.TakeDamage(_instigator, _totalDamage);
             speed = 0f;
 
             if (hitEffect != null)
@@ -51,19 +51,19 @@ namespace RPG.Combat
             Destroy(gameObject, lifeAfterImpact);
         }
 
-        public void SetTarget(Health _target, GameObject _instigator, float _damage)
+        public void SetTarget(Health target, GameObject instigator, float damage)
         {
-            this.target = _target;
-            this.totalDamage = _damage;
-            this.instigator = _instigator;
+            _target = target;
+            _totalDamage = damage;
+            _instigator = instigator;
             Destroy(gameObject, maxLifeTime);
         }   //  Damage is calculated from weapon Scriptable dmg + character base damage
 
         private Vector3 GetAimLocation()
         {
-            CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>();
-            if (targetCapsule == null) { return target.transform.position; }
-            return target.transform.position + Vector3.up * (targetCapsule.height * 0.5f);
+            CapsuleCollider targetCapsule = _target.GetComponent<CapsuleCollider>();
+            if (targetCapsule == null) { return _target.transform.position; }
+            return _target.transform.position + Vector3.up * (targetCapsule.height * 0.5f);
         }
     }
 }

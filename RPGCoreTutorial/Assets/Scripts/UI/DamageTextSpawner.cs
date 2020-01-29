@@ -5,7 +5,7 @@ namespace RPG.UI
 {
     public class DamageTextSpawner : MonoBehaviour
     {
-        [SerializeField] DamageText damageTextPrefab = null;
+        [SerializeField] private DamageText damageTextPrefab = null;
 
 
         public void Spawn(float damage)

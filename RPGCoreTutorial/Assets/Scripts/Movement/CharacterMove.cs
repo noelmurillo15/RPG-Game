@@ -10,29 +10,30 @@ namespace RPG.Movement
     [RequireComponent(typeof(NavMeshAgent))]
     public class CharacterMove : MonoBehaviour, IAction, ISaveable
     {
-        [SerializeField] float maxSpeed = 5.66f;
+        [SerializeField] private float maxSpeed = 5.66f;
 
-        NavMeshAgent navMeshAgent;
-        Health myHealth;
+        private NavMeshAgent _navMeshAgent;
+        private Health _myHealth;
+        private static readonly int ForwardSpeed = Animator.StringToHash("ForwardSpeed");
 
 
         private void Awake()
         {
-            myHealth = GetComponent<Health>();
-            navMeshAgent = GetComponent<NavMeshAgent>();
+            _myHealth = GetComponent<Health>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
         private void Update()
         {
-            navMeshAgent.enabled = !myHealth.IsDead();
+            _navMeshAgent.enabled = !_myHealth.IsDead();
             UpdateAnimator();
         }
 
         public void MoveTo(Vector3 destination, float speedFraction)
         {
-            navMeshAgent.destination = destination;
-            navMeshAgent.isStopped = false;
-            navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
+            _navMeshAgent.destination = destination;
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
         }
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
@@ -41,18 +42,18 @@ namespace RPG.Movement
             MoveTo(destination, speedFraction);
         }
 
-        void UpdateAnimator()
+        private void UpdateAnimator()
         {
-            Vector3 m_velocity = navMeshAgent.velocity;
-            Vector3 m_localVelocity = transform.InverseTransformDirection(m_velocity);
-            float m_speed = m_localVelocity.z;
-            GetComponent<Animator>().SetFloat("ForwardSpeed", m_speed);
+            Vector3 velocity = _navMeshAgent.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+            float speed = localVelocity.z;
+            GetComponent<Animator>().SetFloat(ForwardSpeed, speed);
         }
 
         #region Interface Methods
         public void Cancel()
         {
-            navMeshAgent.isStopped = true;
+            _navMeshAgent.isStopped = true;
         }   //  IAction
 
         public object CaptureState()
@@ -62,9 +63,9 @@ namespace RPG.Movement
 
         public void RestoreState(object state)
         {
-            navMeshAgent.enabled = false;
+            _navMeshAgent.enabled = false;
             transform.localPosition = ((SerializableVector3)state).ToVector();
-            navMeshAgent.enabled = true;
+            _navMeshAgent.enabled = true;
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }   //  ISaveable
         #endregion

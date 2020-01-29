@@ -11,7 +11,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>ANM</RootNamespace>
     <ProjectGuid>{14E3244A-5B57-8014-18DC-E1A3620A5EB5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -78,7 +78,6 @@
      <Compile Include="Assets\Scripts\Core\FollowCamera.cs" />
      <Compile Include="Assets\Scripts\Core\IAction.cs" />
      <Compile Include="Assets\Scripts\Core\PersistantObjectSpawner.cs" />
-     <Compile Include="Assets\Scripts\GameManager\MainMenu.cs" />
      <Compile Include="Assets\Scripts\Movement\CharacterMove.cs" />
      <Compile Include="Assets\Scripts\Saving\ISaveable.cs" />
      <Compile Include="Assets\Scripts\Saving\SaveableEntity.cs" />
@@ -96,7 +95,6 @@
      <Compile Include="Assets\Scripts\Stats\LevelDisplay.cs" />
      <Compile Include="Assets\Scripts\Stats\Progression.cs" />
      <Compile Include="Assets\Scripts\Stats\RPG Enums.cs" />
-     <Compile Include="Assets\Scripts\System\FpsDisplay.cs" />
      <Compile Include="Assets\Scripts\UI\DamageText.cs" />
      <Compile Include="Assets\Scripts\UI\DamageTextSpawner.cs" />
      <Compile Include="Assets\Scripts\UI\UICameraFacing.cs" />
@@ -128,9 +126,6 @@
  <Reference Include="Cinemachine">
  <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
  </Reference>
- <Reference Include="Unity.VSCode.Editor">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
- </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
@@ -154,9 +149,6 @@
  </Reference>
  <Reference Include="Unity.TextMeshPro">
  <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Analytics.DataPrivacy">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
@@ -337,9 +329,6 @@
  </Reference>
  <Reference Include="UnityEngine.XRModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.0f3/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Analytics.StandardEvents">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/PackageCache/com.unity.analytics@3.3.4/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.0f3/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

@@ -10,8 +10,8 @@ namespace RPG.Control
     [RequireComponent(typeof(CharacterMove))]
     public class PlayerController : MonoBehaviour
     {
-        [System.Serializable]
-        struct CursorMapping
+        [Serializable]
+        private struct CursorMapping
         {
             public CursorType type;
             public Texture2D texture;
@@ -19,24 +19,23 @@ namespace RPG.Control
         }
 
         //  Cached Variables
-        Health myHealth;
-
-        //  
-        [SerializeField] float maxPathLength = 40f;
-        [SerializeField] float maxNavMeshProjectionDistance = 1f;
-        [SerializeField] CursorMapping[] cursorMappings;
+        private Health _myHealth;
+        
+        [SerializeField] private float maxPathLength = 40f;
+        [SerializeField] private float maxNavMeshProjectionDistance = 1f;
+        [SerializeField] private CursorMapping[] cursorMappings;
 
 
         private void Awake()
         {
-            myHealth = GetComponent<Health>();
+            _myHealth = GetComponent<Health>();
         }
 
         private void Update()
         {
-            if (InteractWithUI()) return;
+            if (InteractWithUi()) return;
 
-            if (myHealth.IsDead())
+            if (_myHealth.IsDead())
             { SetCursor(CursorType.NONE); return; }
 
             if (InteractWithComponent()) return;
@@ -45,7 +44,7 @@ namespace RPG.Control
             SetCursor(CursorType.NONE);
         }
 
-        private bool InteractWithUI()
+        private bool InteractWithUi()
         {
             if (!EventSystem.current.IsPointerOverGameObject()) return false; //  refers to UI gameobject
             SetCursor(CursorType.UI);
@@ -88,35 +87,31 @@ namespace RPG.Control
             Vector3 target;
             bool hasHit = RaycastNavMesh(out target);
 
-            if (hasHit)
+            if (!hasHit) return false;
+            
+            if (Input.GetMouseButton(0))
             {
-                if (Input.GetMouseButton(0))
-                {
-                    GetComponent<CharacterMove>().StartMoveAction(target, 1f);
-                }
-                SetCursor(CursorType.MOVEMENT);
-                return true;
+                GetComponent<CharacterMove>().StartMoveAction(target, 1f);
             }
-            return false;
+            SetCursor(CursorType.MOVEMENT);
+            return true;
         }
 
-        private bool RaycastNavMesh(out Vector3 _target)
+        private bool RaycastNavMesh(out Vector3 target)
         {
-            _target = new Vector3();
+            target = new Vector3();
 
             //  Did the raycast hit anything>?
-            RaycastHit hit;
-            bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
+            bool hasHit = Physics.Raycast(GetMouseRay(), out var hit);
             if (!hasHit) return false;
 
             //  Is the raycast hit NavMesh walkable>?
-            NavMeshHit navMeshHit;
-            bool hasCastToNavMesh = NavMesh.SamplePosition(hit.point, out navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
+            bool hasCastToNavMesh = NavMesh.SamplePosition(hit.point, out var navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
             if (!hasCastToNavMesh) return false;
 
             //  Is there a clear path to the NavMesh target location>?
             NavMeshPath path = new NavMeshPath();
-            bool hasPath = NavMesh.CalculatePath(transform.position, _target, NavMesh.AllAreas, path);
+            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
             if (!hasPath) return false;
 
             //  Is the path complete>?
@@ -125,7 +120,7 @@ namespace RPG.Control
             //  Is path too long>? TODO : if the land is flat and there are no corners in the navmesh, this will cause flat land to be unwalkable
             // if(GetPathLength(path) > maxPathLength) return false;
 
-            _target = navMeshHit.position;  //  out position
+            target = navMeshHit.position;  //  out position
             return true;
         }
 
@@ -146,7 +141,7 @@ namespace RPG.Control
             Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
         }
 
-        CursorMapping GetCursorMapping(CursorType type)
+        private CursorMapping GetCursorMapping(CursorType type)
         {
             foreach (var mapping in cursorMappings)
             {

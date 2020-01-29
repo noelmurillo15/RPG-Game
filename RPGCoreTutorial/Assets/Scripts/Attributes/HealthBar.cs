@@ -5,14 +5,14 @@ namespace RPG.Attributes
 {    
     public class HealthBar : MonoBehaviour
     {
-        [SerializeField] Health healthComponent = null;
-        [SerializeField] RectTransform foreground = null;
-        [SerializeField] Canvas rootCanvas = null;
+        [SerializeField] private Health healthComponent = null;
+        [SerializeField] private RectTransform foreground = null;
+        [SerializeField] private Canvas rootCanvas = null;
 
 
         private void Update()
         {
-            float hpFraction = healthComponent.GetFraction();
+            var hpFraction = healthComponent.GetFraction();
 
             if(Mathf.Approximately(hpFraction, 0) || Mathf.Approximately(hpFraction, 1)){
                 rootCanvas.enabled = false;

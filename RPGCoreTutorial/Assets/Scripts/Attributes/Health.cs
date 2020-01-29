@@ -11,7 +11,7 @@ namespace RPG.Attributes
     public class Health : MonoBehaviour, ISaveable
     {
         //  Unity Events
-        [SerializeField] TakeDamageEvent takeDamage;
+        [SerializeField] private TakeDamageEvent takeDamage;
 
         //  Allows Dynamic float parameter which will be used int takeDamage.Invoke(<dynamic float>)
         [System.Serializable]
@@ -21,35 +21,36 @@ namespace RPG.Attributes
         }
 
         //  Regen
-        [SerializeField] float regenrationPercentage = 75;
+        [SerializeField] private float regenPercentage = 75;
 
-        LazyValue<float> healthPoints;  //  LazyValue will make sure healthPoints are initialized right before we use the healthpoints value by passing in a function
-        bool isdead = false;
+        private LazyValue<float> _healthPoints;  //  LazyValue will make sure healthPoints are initialized right before we use the healthpoints value by passing in a function
+        private bool _isDead = false;
+        private static readonly int Die1 = Animator.StringToHash("Die");
 
 
         private void Awake()
         {
-            healthPoints = new LazyValue<float>(GetInitialHealth);  //  GetInitialHealth() will get called right before the healthPoints.value is used ~ LazyInitialization
+            _healthPoints = new LazyValue<float>(GetInitialHealth);  //  GetInitialHealth() will get called right before the healthPoints.value is used ~ LazyInitialization
         }
 
         private void Start()
         {
-            healthPoints.ForceInit();   //  If healthPoints has not been accessed before this point, we'll force the value to be initialized
+            _healthPoints.ForceInit();   //  If healthPoints has not been accessed before this point, we'll force the value to be initialized
         }
 
         private void OnEnable()
         {
-            GetComponent<BaseStats>().onLevelUp += RegenerateHealth;
+            GetComponent<BaseStats>().OnLevelUp += RegenerateHealth;
         }
 
         private void OnDisable()
         {
-            GetComponent<BaseStats>().onLevelUp -= RegenerateHealth;
+            GetComponent<BaseStats>().OnLevelUp -= RegenerateHealth;
         }
 
         public bool IsDead()
         {
-            return isdead;
+            return _isDead;
         }
 
         public float GetPercentage()
@@ -59,12 +60,12 @@ namespace RPG.Attributes
 
         public float GetFraction()
         {
-            return healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.HEALTH);
+            return _healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.HEALTH);
         }
 
         public float GetHealthPts()
         {
-            return healthPoints.value;
+            return _healthPoints.value;
         }
 
         public float GetMaxHealth()
@@ -75,8 +76,8 @@ namespace RPG.Attributes
         public void TakeDamage(GameObject instigator, float damage)
         {
             print(gameObject.name + " took damage : " + damage);
-            healthPoints.value = Mathf.Max(healthPoints.value - damage, 0);
-            if (healthPoints.value == 0f)
+            _healthPoints.value = Mathf.Max(_healthPoints.value - damage, 0);
+            if (_healthPoints.value == 0f)
             {
                 AwardExperience(instigator);
                 Die();
@@ -98,28 +99,28 @@ namespace RPG.Attributes
 
         private void RegenerateHealth()
         {
-            float regenHealthPts = GetComponent<BaseStats>().GetStat(Stat.HEALTH) * regenrationPercentage / 100;
-            healthPoints.value = Mathf.Max(healthPoints.value, regenHealthPts);
+            var regenHealthPts = GetComponent<BaseStats>().GetStat(Stat.HEALTH) * regenPercentage / 100;
+            _healthPoints.value = Mathf.Max(_healthPoints.value, regenHealthPts);
         }
 
         private void Die()
         {
-            if (isdead) return;
-            GetComponent<Animator>().SetTrigger("Die");
+            if (_isDead) return;
+            GetComponent<Animator>().SetTrigger(Die1);
             GetComponent<ActionScheduler>().CancelCurrentAction();
-            isdead = true;
+            _isDead = true;
         }
 
         #region Interface
         public object CaptureState()
         {
-            return healthPoints.value;
+            return _healthPoints.value;
         }   //  ISaveable
 
         public void RestoreState(object state)
         {
-            healthPoints.value = (float)state;
-            if (healthPoints.value == 0f) { Die(); }
+            _healthPoints.value = (float)state;
+            if (_healthPoints.value == 0f) { Die(); }
         }   //  ISaveable
         #endregion
     }

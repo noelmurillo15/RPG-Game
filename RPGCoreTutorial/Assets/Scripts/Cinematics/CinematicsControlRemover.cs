@@ -11,12 +11,12 @@ namespace RPG.Cinematics
     public class CinematicsControlRemover : MonoBehaviour
     {
         //  Cached Variables
-        GameObject player = null;
+        private GameObject _player = null;
 
 
         private void Awake()
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            _player = GameObject.FindGameObjectWithTag("Player");
         }
 
         private void Start()
@@ -33,14 +33,14 @@ namespace RPG.Cinematics
 
         private void DisableControl(PlayableDirector playDirector)
         {
-            player.GetComponent<ActionScheduler>().CancelCurrentAction();
-            player.GetComponent<CharacterMove>().Cancel();
-            player.GetComponent<PlayerController>().enabled = false;
+            _player.GetComponent<ActionScheduler>().CancelCurrentAction();
+            _player.GetComponent<CharacterMove>().Cancel();
+            _player.GetComponent<PlayerController>().enabled = false;
         }
 
         private void EnableControl(PlayableDirector playDirector)
         {
-            player.GetComponent<PlayerController>().enabled = true;
+            _player.GetComponent<PlayerController>().enabled = true;
         }
     }
 }

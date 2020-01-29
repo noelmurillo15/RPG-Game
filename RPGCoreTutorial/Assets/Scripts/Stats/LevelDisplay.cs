@@ -8,17 +8,17 @@ namespace RPG.Stats
     public class LevelDisplay : MonoBehaviour
     {
         //  Cached Variables
-        BaseStats baseStats;
+        private BaseStats _baseStats;
 
 
         private void Awake()
         {
-            baseStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
+            _baseStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
         }
 
         private void Update()
         {
-            GetComponent<Text>().text = $"{baseStats.GetLevel().ToString()}";
+            GetComponent<Text>().text = $"{_baseStats.GetLevel().ToString()}";
         }
     }
 }

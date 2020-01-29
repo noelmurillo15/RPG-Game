@@ -10,28 +10,32 @@ namespace RPG.Stats
     {
         #region Variables
         [Header("Character Info")]
-        [SerializeField] CharacterTypes characterType;
-        [SerializeField] CharacterRanks characterRank;
-        [SerializeField] CharacterClasses characterClass;
+        [SerializeField]
+        private CharacterTypes characterType;
+        [SerializeField] private CharacterRanks characterRank;
+        [SerializeField] private CharacterClasses characterClass;
 
         [Header("Experience")]
-        [SerializeField] [Range(1, 30)] int currentLevel;
-        [SerializeField] float currentExp;
-        [SerializeField] float expToNextLvl;
-        [SerializeField] float expMultiplier;
+        [SerializeField] [Range(1, 30)]
+        private int currentLevel;
+        [SerializeField] private float currentExp;
+        [SerializeField] private float expToNextLvl;
+        [SerializeField] private float expMultiplier;
 
         [Header("Attributes")]
-        [SerializeField] int strength;
-        [SerializeField] int wisdom;
-        [SerializeField] int endurance;
-        [SerializeField] int luck;
+        [SerializeField]
+        private int strength;
+        [SerializeField] private int wisdom;
+        [SerializeField] private int endurance;
+        [SerializeField] private int luck;
 
         [Header("Stats")]
-        [SerializeField] int physicalAttack = 0;
-        [SerializeField] int magicalAttack = 0;
-        [SerializeField] int damageResist = 0;
-        [SerializeField] int criticalRate = 0;
-        [SerializeField] int criticalDamage = 0;
+        [SerializeField]
+        private int physicalAttack = 0;
+        [SerializeField] private int magicalAttack = 0;
+        [SerializeField] private int damageResist = 0;
+        [SerializeField] private int criticalRate = 0;
+        [SerializeField] private int criticalDamage = 0;
         #endregion
 
 
@@ -130,33 +134,27 @@ namespace RPG.Stats
         {
             strength++;
             physicalAttack += 3;
-            if (characterClass == CharacterClasses.NONE && strength > 10)
-            {
-                physicalAttack += 20;
-                characterClass = CharacterClasses.ASSASSIN;
-            }
+            if (characterClass != CharacterClasses.NONE || strength <= 10) return;
+            physicalAttack += 20;
+            characterClass = CharacterClasses.ASSASSIN;
         }
 
         private void IncreaseWisdom()
         {
             wisdom++;
             magicalAttack += 3;
-            if (characterClass == CharacterClasses.NONE && wisdom > 10)
-            {
-                magicalAttack += 20;
-                characterClass = CharacterClasses.WARLOCK;
-            }
+            if (characterClass != CharacterClasses.NONE || wisdom <= 10) return;
+            magicalAttack += 20;
+            characterClass = CharacterClasses.WARLOCK;
         }
 
         private void IncreaseEndurance()
         {
             endurance++;
             damageResist += 2;
-            if (characterClass == CharacterClasses.NONE && endurance > 10)
-            {
-                damageResist += 15;
-                characterClass = CharacterClasses.TANK;
-            }
+            if (characterClass != CharacterClasses.NONE || endurance <= 10) return;
+            damageResist += 15;
+            characterClass = CharacterClasses.TANK;
         }
 
         private void IncreaseLuck()

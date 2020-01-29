@@ -8,9 +8,9 @@ namespace RPG.Saving
     [ExecuteAlways] //  Update will execute in runtime & editor
     public class SaveableEntity : MonoBehaviour
     {
-        [SerializeField] string uniqueIdentifier = "";
+        [SerializeField] private string uniqueIdentifier = "";
 
-        static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
+        private static Dictionary<string, SaveableEntity> _globalLookup = new Dictionary<string, SaveableEntity>();
 
 
         public string GetUniqueIdentifier()
@@ -56,25 +56,25 @@ namespace RPG.Saving
                 serializedObject.ApplyModifiedProperties(); //  Tells Unity, you have made a change to the Serialized Object
             }
 
-            globalLookup[property.stringValue] = this;  //  Apply UUID as key to dictionary for this Entity
+            _globalLookup[property.stringValue] = this;  //  Apply UUID as key to dictionary for this Entity
         }
 #endif
 
         private bool IsUnique(string candidate)
         {
-            if (!globalLookup.ContainsKey(candidate)) return true;  //  Does UUID key exist already?
+            if (!_globalLookup.ContainsKey(candidate)) return true;  //  Does UUID key exist already?
 
-            if (globalLookup[candidate] == this) return true;   //  Is the current gameobject unique?
+            if (_globalLookup[candidate] == this) return true;   //  Is the current gameobject unique?
 
-            if (globalLookup[candidate] == null)
+            if (_globalLookup[candidate] == null)
             {   //  Has candidate been deleted?
-                globalLookup.Remove(candidate);
+                _globalLookup.Remove(candidate);
                 return true;
             }
 
-            if (globalLookup[candidate].GetUniqueIdentifier() == candidate
+            if (_globalLookup[candidate].GetUniqueIdentifier() == candidate
             ) return false; //  Does this candidate key not match the value in dictionary?
-            globalLookup.Remove(candidate);
+            _globalLookup.Remove(candidate);
             return true;
 
         }

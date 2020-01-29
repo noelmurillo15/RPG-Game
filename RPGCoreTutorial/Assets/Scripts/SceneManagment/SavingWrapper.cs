@@ -7,9 +7,9 @@ namespace RPG.SceneManagement
 {
     public class SavingWrapper : MonoBehaviour
     {
-        [SerializeField] float fadeInTime = 0.33f;
+        [SerializeField] private float fadeInTime = 0.33f;
 
-        const string defaultSaveFile = "save";
+        private const string DefaultSaveFile = "save";
 
 
         private void Awake()
@@ -19,10 +19,10 @@ namespace RPG.SceneManagement
 
         private IEnumerator LoadLastScene()
         {
-            yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);   //  Scene loads and calls Awake
-            Fader fader = FindObjectOfType<Fader>();    //  This happens after Awake since the line above is Async
-            fader.FadeOutImmediate();
-            yield return fader.FadeIn(fadeInTime);
+            yield return GetComponent<SavingSystem>().LoadLastScene(DefaultSaveFile);   //  Scene loads and calls Awake
+            Fader fade = FindObjectOfType<Fader>();    //  This happens after Awake since the line above is Async
+            fade.FadeOutImmediate();
+            yield return fade.FadeIn(fadeInTime);
         }
 
         private void Update()
@@ -35,19 +35,19 @@ namespace RPG.SceneManagement
         public void Load()
         {
             print("Loading Save File");
-            GetComponent<SavingSystem>().Load(defaultSaveFile);
+            GetComponent<SavingSystem>().Load(DefaultSaveFile);
         }
 
         public void Save()
         {
             print("Saving progress to File");
-            GetComponent<SavingSystem>().Save(defaultSaveFile);
+            GetComponent<SavingSystem>().Save(DefaultSaveFile);
         }
 
         public void Delete()
         {
             print("Deleting Save File");
-            GetComponent<SavingSystem>().Delete(defaultSaveFile);
+            GetComponent<SavingSystem>().Delete(DefaultSaveFile);
         }
     }
 }

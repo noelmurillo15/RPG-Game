@@ -7,14 +7,14 @@ namespace RPG.Cinematics
     [RequireComponent(typeof(PlayableDirector))]
     public class CinematicTrigger : MonoBehaviour
     {
-        bool hasPlayed = false;
+        private bool _hasPlayed = false;
 
 
         private void OnTriggerEnter(Collider other)
         {
-            if (hasPlayed || !other.tag.Equals("Player")) return;
+            if (_hasPlayed || !other.tag.Equals("Player")) return;
             GetComponent<PlayableDirector>().Play();
-            hasPlayed = true;
+            _hasPlayed = true;
         }
     }
 }

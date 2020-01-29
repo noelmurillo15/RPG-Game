@@ -10,10 +10,10 @@ namespace RPG.SceneManagement
 {
     public class ScenePortal : MonoBehaviour
     {
-        [SerializeField] int sceneToLoad = -1;
-        [SerializeField] float fadeOutTime = 2f;
-        [SerializeField] float fadeWaitTime = 3f;
-        [SerializeField] float fadeInTime = 3f;
+        [SerializeField] private int sceneToLoad = -1;
+        [SerializeField] private float fadeOutTime = 2f;
+        [SerializeField] private float fadeWaitTime = 3f;
+        [SerializeField] private float fadeInTime = 3f;
 
 
         private void OnTriggerEnter(Collider other)
@@ -36,14 +36,14 @@ namespace RPG.SceneManagement
             DontDestroyOnLoad(gameObject);
 
             //  Get Fader && SavingWrapper
-            Fader fader = FindObjectOfType<Fader>();
+            Fader fade = FindObjectOfType<Fader>();
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
 
             //  Remove old Player Control
             GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = false;
 
             //  Panel Alpha Fade Out
-            yield return fader.FadeOut(fadeOutTime);
+            yield return fade.FadeOut(fadeOutTime);
 
             //  Save current State && Load new level
             wrapper.Save();
@@ -67,7 +67,7 @@ namespace RPG.SceneManagement
             yield return new WaitForSeconds(fadeWaitTime);
 
             //  This will finish in background since we are no longer yield returning it- changed fadein/fadeout to Coroutine instead of IEnumerator to achieve this
-            fader.FadeIn(fadeInTime);
+            fade.FadeIn(fadeInTime);
 
             //  Restore Player Control
             playerController.enabled = true;
@@ -87,7 +87,7 @@ namespace RPG.SceneManagement
 
         private ScenePortal GetOtherPortal()
         {
-            return GameObject.FindObjectsOfType<ScenePortal>().FirstOrDefault(portal => portal != this);
+            return FindObjectsOfType<ScenePortal>().FirstOrDefault(portal => portal != this);
         }
     }
 }

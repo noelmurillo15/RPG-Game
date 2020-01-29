@@ -5,15 +5,15 @@ namespace RPG.Control
 {
     public class PatrolPath : MonoBehaviour
     {
-        const float waypointGizmoRadius = 0.3f;
+        private const float WaypointGizmosRadius = 0.3f;
 
 
         private void OnDrawGizmos()
         {
-            for (int x = 0; x < transform.childCount; x++)
+            for (var x = 0; x < transform.childCount; x++)
             {
-                int y = GetNextIndex(x);
-                Gizmos.DrawSphere(GetWaypoint(x), waypointGizmoRadius);
+                var y = GetNextIndex(x);
+                Gizmos.DrawSphere(GetWaypoint(x), WaypointGizmosRadius);
                 Gizmos.DrawLine(GetWaypoint(x), GetWaypoint(y));
             }
         }

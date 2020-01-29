@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,17 +9,17 @@ namespace RPG.Stats
     public class ExperienceDisplay : MonoBehaviour
     {
         //  Cached Variables
-        Experience exp;
+        private Experience _exp;
 
 
         private void Awake()
         {
-            exp = GameObject.FindWithTag("Player").GetComponent<Experience>();
+            _exp = GameObject.FindWithTag("Player").GetComponent<Experience>();
         }
 
         private void Update()
         {
-            GetComponent<Text>().text = $"{exp.GetExperiencePts().ToString()}pts";
+            GetComponent<Text>().text = $"{_exp.GetExperiencePts().ToString(CultureInfo.CurrentCulture)}pts";
         }
     }
 }

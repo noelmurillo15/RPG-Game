@@ -7,16 +7,16 @@ namespace RPG.Combat
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
     public class WeaponConfig : ScriptableObject
     {
-        [SerializeField] GameObject equippedPrefab = null;
-        [SerializeField] AnimatorOverrideController animatorOverride = null;
-        [SerializeField] float range = 2f;
-        [SerializeField] float timeBetweenAttacks = 1f;
-        [SerializeField] float weaponBaseDamage = 20f;
-        [SerializeField] float weaponPercentageBonus = 0f;
-        [SerializeField] bool isRightHanded = true;
-        [SerializeField] Projectile projectile = null;
+        [SerializeField] private GameObject equippedPrefab = null;
+        [SerializeField] private AnimatorOverrideController animatorOverride = null;
+        [SerializeField] private float range = 2f;
+        [SerializeField] private float timeBetweenAttacks = 1f;
+        [SerializeField] private float weaponBaseDamage = 20f;
+        [SerializeField] private float weaponPercentageBonus = 0f;
+        [SerializeField] private bool isRightHanded = true;
+        [SerializeField] private Projectile projectile = null;
 
-        const string weaponName = "MyWeapon";
+        private const string WeaponName = "MyWeapon";
 
 
         public void SpawnWeapon(Transform rightHand, Transform leftHand, Animator animator)
@@ -28,12 +28,12 @@ namespace RPG.Combat
                 if (isRightHanded)
                 {
                     GameObject weapon = Instantiate(equippedPrefab, rightHand);
-                    weapon.name = weaponName;
+                    weapon.name = WeaponName;
                 }
                 else
                 {
                     GameObject weapon = Instantiate(equippedPrefab, leftHand);
-                    weapon.name = weaponName;
+                    weapon.name = WeaponName;
                 }
             }
 
@@ -51,10 +51,10 @@ namespace RPG.Combat
 
         private static void DestroyOldWeapon(Transform rightHand, Transform leftHand)
         {
-            Transform oldWeapon = rightHand.Find(weaponName);
+            Transform oldWeapon = rightHand.Find(WeaponName);
 
             if (oldWeapon == null)
-                oldWeapon = leftHand.Find(weaponName);
+                oldWeapon = leftHand.Find(WeaponName);
 
             if (oldWeapon == null) return;
 

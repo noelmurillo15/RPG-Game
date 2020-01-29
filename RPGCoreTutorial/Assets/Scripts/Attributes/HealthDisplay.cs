@@ -8,17 +8,17 @@ namespace RPG.Attributes
     public class HealthDisplay : MonoBehaviour
     {
         //  Cached Variables
-        Health health;
+        private Health _health;
 
 
         private void Awake()
         {
-            health = GameObject.FindWithTag("Player").GetComponent<Health>();
+            _health = GameObject.FindWithTag("Player").GetComponent<Health>();
         }
 
         private void Update()
         {
-            GetComponent<Text>().text = $"{health.GetHealthPts():0} / {health.GetMaxHealth():0}";
+            GetComponent<Text>().text = $"{_health.GetHealthPts():0} / {_health.GetMaxHealth():0}";
         }
     }
 }
