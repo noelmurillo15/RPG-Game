@@ -4,7 +4,7 @@ namespace ANM.Core
 {
     public class ActionScheduler : MonoBehaviour
     {
-        private IAction _currentAction = null;
+        private IAction _currentAction;
 
 
         public void StartAction(IAction action)

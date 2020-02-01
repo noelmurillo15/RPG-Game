@@ -128,6 +128,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2393081687659657534, guid: 2ff7c6ec8b4510347bbe27fa2bb59bb1,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393081687659657534, guid: 2ff7c6ec8b4510347bbe27fa2bb59bb1,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393081687659657534, guid: 2ff7c6ec8b4510347bbe27fa2bb59bb1,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393081687659657534, guid: 2ff7c6ec8b4510347bbe27fa2bb59bb1,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393081687659657534, guid: 2ff7c6ec8b4510347bbe27fa2bb59bb1,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2602489840291243175, guid: 2ff7c6ec8b4510347bbe27fa2bb59bb1,
         type: 3}
       propertyPath: m_LocalPosition.x

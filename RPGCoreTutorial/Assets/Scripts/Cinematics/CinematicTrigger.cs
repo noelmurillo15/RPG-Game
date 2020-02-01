@@ -6,7 +6,7 @@ namespace ANM.Cinematics
     [RequireComponent(typeof(PlayableDirector))]
     public class CinematicTrigger : MonoBehaviour
     {
-        private bool _hasPlayed = false;
+        private bool _hasPlayed;
 
 
         private void OnTriggerEnter(Collider other)

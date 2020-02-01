@@ -1,20 +1,25 @@
-using System.Collections;
-using System.Linq;
 using ANM.Control;
-using RPG.SceneManagement;
+using System.Linq;
 using UnityEngine;
+using ANM.Framework;
 using UnityEngine.AI;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 namespace ANM.SceneManagement
 {
     public class ScenePortal : MonoBehaviour
     {
+        private const string PlayerTag = "Player";
         [SerializeField] private int sceneToLoad = -1;
-        [SerializeField] private float fadeOutTime = 2f;
-        [SerializeField] private float fadeWaitTime = 3f;
-        [SerializeField] private float fadeInTime = 3f;
+        [SerializeField] private SceneTransitionManager sceneTransitionManager;
 
+
+        private void Start()
+        {
+            if (sceneTransitionManager != null) return;
+            sceneTransitionManager = FindObjectOfType<SceneTransitionManager>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -26,24 +31,20 @@ namespace ANM.SceneManagement
 
         private IEnumerator Transition()
         {
-            if (sceneToLoad < 0)
+            if (sceneToLoad < 0 || sceneTransitionManager == null)
             {
-                Debug.LogError("Scene to load has not been set!");
+                Debug.Log("ScenePortal can not Transition!");
                 yield break;
             }
 
             //  Only works if gameobject is at root of scene
             DontDestroyOnLoad(gameObject);
 
-            //  Get Fader && SavingWrapper
-            Fader fade = FindObjectOfType<Fader>();
-            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
-
-            //  Remove old Player Control
-            GameObject.FindWithTag("Player").GetComponent<PlayerController>().enabled = false;
+            var wrapper = FindObjectOfType<SavingWrapper>();
+            GameObject.FindWithTag(PlayerTag).GetComponent<PlayerController>().enabled = false;
 
             //  Panel Alpha Fade Out
-            yield return fade.FadeOut(fadeOutTime);
+            yield return sceneTransitionManager.FadeOut();
 
             //  Save current State && Load new level
             wrapper.Save();
@@ -52,7 +53,7 @@ namespace ANM.SceneManagement
             yield return SceneManager.LoadSceneAsync("Menu Ui", LoadSceneMode.Additive);
             
             //  Remove Control from new Player
-            PlayerController playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+            var playerController = GameObject.FindWithTag(PlayerTag).GetComponent<PlayerController>();
             playerController.enabled = false;
 
             //  Load current state
@@ -66,10 +67,7 @@ namespace ANM.SceneManagement
             wrapper.Save();
 
             //  Panel Alpha Fade In
-            yield return new WaitForSeconds(fadeWaitTime);
-
-            //  This will finish in background since we are no longer yield returning it- changed fadein/fadeout to Coroutine instead of IEnumerator to achieve this
-            fade.FadeIn(fadeInTime);
+            yield return sceneTransitionManager.FadeIn();
 
             //  Restore Player Control
             playerController.enabled = true;
@@ -80,7 +78,7 @@ namespace ANM.SceneManagement
 
         private static void UpdatePlayer(ScenePortal otherPortal)
         {
-            GameObject go = GameObject.FindGameObjectWithTag("Player");
+            var go = GameObject.FindGameObjectWithTag(PlayerTag);
             go.GetComponent<NavMeshAgent>().enabled = false;
             go.transform.position = otherPortal.transform.GetChild(0).position;
             go.transform.rotation = otherPortal.transform.GetChild(0).rotation;

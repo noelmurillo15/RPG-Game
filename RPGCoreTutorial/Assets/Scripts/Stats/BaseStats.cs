@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using GameDevTV.Utils;
 using UnityEngine;
+using GameDevTV.Utils;
 
 namespace ANM.Stats
 {
@@ -13,13 +13,10 @@ namespace ANM.Stats
         [SerializeField] private GameObject levelUpEffect = null;
         [SerializeField] private bool shouldUseModifiers = false;
 
-        //  Cached variables
         private Experience _experience;
 
-        //  My Variables
         private LazyValue<int> _currentLvl;
 
-        //  Events
         public event Action OnLevelUp;
 
 
@@ -49,6 +46,8 @@ namespace ANM.Stats
                 _experience.OnExperienceGained -= UpdateLevel;
             }
         }
+        
+        //    TODO : Make sure GetStat() can be saved, switching scenes will reset max Health back to base
 
         public float GetStat(Stat stat)
         {
@@ -67,7 +66,7 @@ namespace ANM.Stats
             float currentXP = _experience.GetExperiencePts();
             int penultimateLevel = progression.GetLevels(Stat.EXP_TO_LVL, characterClass);
 
-            for (int level = 1; level <= penultimateLevel; level++)
+            for (var level = 1; level <= penultimateLevel; level++)
             {
                 float expToLvlUp = progression.GetStat(Stat.EXP_TO_LVL, characterClass, level);
                 if (expToLvlUp > currentXP) { return level; }

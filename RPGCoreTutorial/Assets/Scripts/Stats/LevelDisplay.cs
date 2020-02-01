@@ -5,7 +5,6 @@ namespace ANM.Stats
 {
     public class LevelDisplay : MonoBehaviour
     {
-        //  Cached Variables
         private BaseStats _baseStats;
 
 

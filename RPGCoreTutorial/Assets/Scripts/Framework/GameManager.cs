@@ -5,6 +5,7 @@
  */
 
 using System;
+using ANM.SceneManagement;
 using UnityEngine;
 
 namespace ANM.Framework
@@ -38,7 +39,6 @@ namespace ANM.Framework
             _saveSettings.Initialize();
 
             sceneTransitionManager = gameObject.GetComponentInChildren<SceneTransitionManager>();
-            sceneTransitionManager.ScreenMaskBrightness = 0f;
             Time.timeScale = 1;
         }
 
@@ -89,6 +89,11 @@ namespace ANM.Framework
         public void StartGameEvent()
         {
             sceneTransitionManager.LoadStartingLevel();
+        }
+
+        public void LoadGameEvent()
+        {
+            StartCoroutine(GetComponentInChildren<SavingWrapper>()?.LoadLastScene());
         }
 
         public void ReloadScene()

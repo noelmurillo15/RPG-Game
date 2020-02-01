@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using ANM.Control;
+using UnityEngine;
 using System.Collections;
-using ANM.Control;
 
 namespace ANM.Combat
 {

@@ -76,7 +76,7 @@ namespace ANM.Control
 
         private void PatrolBehaviour()
         {
-            Vector3 nextPosition = _guardLocation.value;
+            var nextPosition = _guardLocation.value;
 
             if (patrolPath != null)
             {

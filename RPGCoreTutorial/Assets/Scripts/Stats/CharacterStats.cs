@@ -10,28 +10,24 @@ namespace ANM.Stats
     {
         #region Variables
         [Header("Character Info")]
-        [SerializeField]
-        private CharacterTypes characterType;
+        [SerializeField] private CharacterTypes characterType;
         [SerializeField] private CharacterRanks characterRank;
         [SerializeField] private CharacterClasses characterClass;
 
         [Header("Experience")]
-        [SerializeField] [Range(1, 30)]
-        private int currentLevel;
+        [SerializeField] [Range(1, 30)] private int currentLevel;
         [SerializeField] private float currentExp;
         [SerializeField] private float expToNextLvl;
         [SerializeField] private float expMultiplier;
 
         [Header("Attributes")]
-        [SerializeField]
-        private int strength;
+        [SerializeField] private int strength;
         [SerializeField] private int wisdom;
         [SerializeField] private int endurance;
         [SerializeField] private int luck;
 
         [Header("Stats")]
-        [SerializeField]
-        private int physicalAttack = 0;
+        [SerializeField] private int physicalAttack = 0;
         [SerializeField] private int magicalAttack = 0;
         [SerializeField] private int damageResist = 0;
         [SerializeField] private int criticalRate = 0;
@@ -102,8 +98,6 @@ namespace ANM.Stats
                 case 30:
                     Debug.Log(characterType + " has achieved God Rank!");
                     break;
-                default:
-                    break;
             }
         }
 
@@ -123,9 +117,6 @@ namespace ANM.Stats
                     break;
                 case 3:
                     IncreaseLuck();
-                    break;
-
-                default:
                     break;
             }
         }

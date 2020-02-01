@@ -1,24 +1,24 @@
-﻿using UnityEngine;
+﻿using ANM.Saving;
+using UnityEngine;
+using ANM.Framework;
 using System.Collections;
-using ANM.Saving;
 
-
-namespace RPG.SceneManagement
+namespace ANM.SceneManagement
 {
     public class SavingWrapper : MonoBehaviour
     {
-        [SerializeField] private float fadeInTime = 0.33f;
-
-        private const string DefaultSaveFile = "save";
+        private const string DefaultSaveFileName = "save";
         
-
-        private IEnumerator LoadLastScene()
+        
+        public IEnumerator LoadLastScene()
         {
             Debug.Log("SavingWrapper::LoadLastScene()");
-            yield return GetComponent<SavingSystem>().LoadLastScene(DefaultSaveFile);   //  Scene loads and calls Awake
-            Fader fade = FindObjectOfType<Fader>();    //  This happens after Awake since the line above is Async
-            fade.FadeOutImmediate();
-            yield return fade.FadeIn(fadeInTime);
+            var sceneTransition = FindObjectOfType<SceneTransitionManager>();    //  This happens after Awake since the line above is Async
+            sceneTransition.onLoadScene.Raise();
+            sceneTransition.FadeOutImmediate();
+            yield return GetComponent<SavingSystem>().LoadLastScene(DefaultSaveFileName);   //  Scene loads and calls Awake
+            sceneTransition.onFinishLoadScene.Raise();
+            yield return sceneTransition.FadeIn();
         }
 
         private void Update()
@@ -30,20 +30,20 @@ namespace RPG.SceneManagement
 
         public void Load()
         {
-            print("SavingWrapper::Loading Save File");
-            GetComponent<SavingSystem>().Load(DefaultSaveFile);
+            //print("SavingWrapper::Loading Save File");
+            GetComponent<SavingSystem>().Load(DefaultSaveFileName);
         }
 
         public void Save()
         {
-            print("SavingWrapper::Saving progress to File");
-            GetComponent<SavingSystem>().Save(DefaultSaveFile);
+            //print("SavingWrapper::Saving progress to File");
+            GetComponent<SavingSystem>().Save(DefaultSaveFileName);
         }
 
         public void Delete()
         {
-            print("SavingWrapper::Deleting Save File");
-            GetComponent<SavingSystem>().Delete(DefaultSaveFile);
+            //print("SavingWrapper::Deleting Save File");
+            GetComponent<SavingSystem>().Delete(DefaultSaveFileName);
         }
     }
 }

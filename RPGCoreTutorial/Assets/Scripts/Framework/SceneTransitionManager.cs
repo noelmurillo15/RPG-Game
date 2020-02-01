@@ -22,18 +22,6 @@ namespace ANM.Framework
         private const string CreditsSceneName = "ExitScreen";
         private const string GameplaySceneName = "Level 1";
         
-        
-        public float ScreenMaskBrightness
-        {
-            get => _screenMaskBrightness;
-            set
-            {
-                _screenMaskBrightness = value;
-                FadeInImmediate();
-            }
-        }
-        private float _screenMaskBrightness = 0.5f;
-
         public GameEvent onLoadScene;
         public GameEvent onFinishLoadScene;
         
@@ -143,40 +131,38 @@ namespace ANM.Framework
             while (!async.isDone) { yield return null; }
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
             onFinishLoadScene.Raise();
-            yield return FadeIn(fadeInDelay);
+            yield return FadeIn();
         }
         
         public void LoadSceneEvent()
         {    //    Handled by onStartSceneTransition ScriptableObject
-            Debug.Log("SceneTransitionManager::LoadSceneEvent()");
             GameManager.Instance.IsSceneTransitioning = true;
         }
 
         public void FinishLoadSceneEvent()
         {    //    Handled by onFinishSceneTransition ScriptableObject
-            Debug.Log("SceneTransitionManager::FinishLoadSceneEvent()");
             GameManager.Instance.IsSceneTransitioning = false;
         }
         
         #region Screen Fade
-        private void FadeOutImmediate()
+        public void FadeOutImmediate()
         {
             canvasGroup.alpha = 1f;
         }
         
-        private void FadeInImmediate()
-        {
-            canvasGroup.alpha = ScreenMaskBrightness;
-        }
-
         public Coroutine FadeOut()
         {
             return Fade(1f, fadeOutDelay);
         }
-
-        private Coroutine FadeIn(float time)
+        
+        private void FadeInImmediate()
         {
-            return Fade(ScreenMaskBrightness, time);
+            canvasGroup.alpha = 0f;
+        }
+        
+        public Coroutine FadeIn()
+        {
+            return Fade(0f, fadeInDelay);
         }
 
         private Coroutine Fade(float target, float time)

@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace ANM.Saving
 {
@@ -19,8 +19,8 @@ namespace ANM.Saving
 
         public object CaptureState()
         {
-            Dictionary<string, object> state = new Dictionary<string, object>();
-            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            var state = new Dictionary<string, object>();
+            foreach (var saveable in GetComponents<ISaveable>())
             {
                 state[saveable.GetType().ToString()] = saveable.CaptureState();
             }
@@ -29,10 +29,10 @@ namespace ANM.Saving
 
         public void RestoreState(object state)
         {
-            Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
-            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            var stateDict = (Dictionary<string, object>)state;
+            foreach (var saveable in GetComponents<ISaveable>())
             {
-                string typeString = saveable.GetType().ToString();
+                var typeString = saveable.GetType().ToString();
                 if (stateDict.ContainsKey(typeString))
                 {
                     saveable.RestoreState(stateDict[typeString]);

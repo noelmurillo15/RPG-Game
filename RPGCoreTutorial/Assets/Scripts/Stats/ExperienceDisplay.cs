@@ -1,6 +1,6 @@
-﻿using System.Globalization;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using System.Globalization;
 
 namespace ANM.Stats
 {
@@ -17,7 +17,8 @@ namespace ANM.Stats
 
         private void Update()
         {
-            GetComponent<TMP_Text>().text = $"{_exp.GetExperiencePts().ToString(CultureInfo.CurrentCulture)}pts";
+            GetComponent<TMP_Text>().text = 
+                $"{_exp.GetExperiencePts().ToString(CultureInfo.CurrentCulture)}pts";
         }
     }
 }

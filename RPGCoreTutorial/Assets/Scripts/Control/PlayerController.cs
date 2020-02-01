@@ -1,9 +1,10 @@
 ﻿using System;
-using ANM.Attributes;
-using ANM.Movement;
 using UnityEngine;
+using ANM.Movement;
+using ANM.Attributes;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 namespace ANM.Control
 {
@@ -46,6 +47,7 @@ namespace ANM.Control
 
         private bool InteractWithUi()
         {
+            if (EventSystem.current == null) return false;
             if (!EventSystem.current.IsPointerOverGameObject()) return false; //  refers to UI gameobject
             SetCursor(CursorType.UI);
             return true;
@@ -53,11 +55,11 @@ namespace ANM.Control
 
         private bool InteractWithComponent()
         {
-            RaycastHit[] hits = RayCastAllSorted();
+            IEnumerable<RaycastHit> hits = RayCastAllSorted();
             foreach (var hit in hits)
             {
                 IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
-                foreach (IRaycastable raycastable in raycastables)
+                foreach (var raycastable in raycastables)
                 {
                     if (!raycastable.HandleRayCast(this)) continue;
                     SetCursor(raycastable.GetCursorType());
@@ -67,13 +69,13 @@ namespace ANM.Control
             return false;
         }
 
-        private static RaycastHit[] RayCastAllSorted()
+        private static IEnumerable<RaycastHit> RayCastAllSorted()
         {
-            RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
+            var hits = Physics.RaycastAll(GetMouseRay());
 
             //  Sort all raycast hits based on Distance
-            float[] distances = new float[hits.Length];
-            for (int x = 0; x < hits.Length; x++)
+            var distances = new float[hits.Length];
+            for (var x = 0; x < hits.Length; x++)
             {
                 distances[x] = hits[x].distance;
             }
@@ -84,8 +86,7 @@ namespace ANM.Control
 
         private bool InteractWithMovement()
         {
-            Vector3 target;
-            bool hasHit = RaycastNavMesh(out target);
+            bool hasHit = RaycastNavMesh(out var target);
 
             if (!hasHit) return false;
             
@@ -129,7 +130,7 @@ namespace ANM.Control
             float total = 0;
             if (path.corners.Length < 2) return total;
 
-            for (int x = 0; x < path.corners.Length - 1; x++)
+            for (var x = 0; x < path.corners.Length - 1; x++)
             { total += Vector3.Distance(path.corners[x], path.corners[x + 1]); }
 
             return total;
@@ -137,7 +138,7 @@ namespace ANM.Control
 
         private void SetCursor(CursorType type)
         {
-            CursorMapping mapping = GetCursorMapping(type);
+            var mapping = GetCursorMapping(type);
             Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
         }
 

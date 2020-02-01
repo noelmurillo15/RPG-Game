@@ -1,7 +1,7 @@
-﻿using ANM.Control;
-using ANM.Core;
-using ANM.Movement;
+﻿using ANM.Core;
 using UnityEngine;
+using ANM.Control;
+using ANM.Movement;
 using UnityEngine.Playables;
 
 namespace ANM.Cinematics
@@ -9,8 +9,7 @@ namespace ANM.Cinematics
     [RequireComponent(typeof(PlayableDirector))]
     public class CinematicsControlRemover : MonoBehaviour
     {
-        //  Cached Variables
-        private GameObject _player = null;
+        private GameObject _player;
 
 
         private void Awake()

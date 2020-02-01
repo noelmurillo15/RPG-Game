@@ -5,9 +5,10 @@ namespace ANM.Attributes
 {
     public class HealthDisplay : MonoBehaviour
     {
-        //  Cached Variables
         private Health _health;
-
+        
+        //    TODO : If i have a higher max health when transitioning scenes,
+        //    - the max health will reset back to 50 when new scene loads
 
         private void Awake()
         {

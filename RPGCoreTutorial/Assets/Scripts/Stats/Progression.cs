@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace ANM.Stats
 {
@@ -8,14 +8,14 @@ namespace ANM.Stats
     {
         [SerializeField] private ProgressionCharacterClass[] characterClass = null;
 
-        private Dictionary<CharacterClasses, Dictionary<Stat, float[]>> lookUpTable = null;
+        private Dictionary<CharacterClasses, Dictionary<Stat, float[]>> _lookUpTable;
 
 
         public float GetStat(Stat stat, CharacterClasses @class, int level)
         {
             BuildLookUp();
 
-            float[] levels = lookUpTable[@class][stat];
+            float[] levels = _lookUpTable[@class][stat];
 
             if (levels.Length < level) { return 0; }
 
@@ -26,16 +26,16 @@ namespace ANM.Stats
         {
             BuildLookUp();
 
-            float[] levels = lookUpTable[@class][stat];
+            float[] levels = _lookUpTable[@class][stat];
 
             return levels.Length;
         }
 
         private void BuildLookUp()
         {
-            if (lookUpTable != null) return;
+            if (_lookUpTable != null) return;
 
-            lookUpTable = new Dictionary<CharacterClasses, Dictionary<Stat, float[]>>();
+            _lookUpTable = new Dictionary<CharacterClasses, Dictionary<Stat, float[]>>();
 
             foreach (ProgressionCharacterClass progressionClass in characterClass)
             {
@@ -46,7 +46,7 @@ namespace ANM.Stats
                     statLookUpTable[progressionStat.stat] = progressionStat.levels;
                 }
 
-                lookUpTable[progressionClass.characterClass] = statLookUpTable;
+                _lookUpTable[progressionClass.characterClass] = statLookUpTable;
             }
         }
 

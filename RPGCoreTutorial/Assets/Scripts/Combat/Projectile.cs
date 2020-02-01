@@ -42,7 +42,7 @@ namespace ANM.Combat
                 Instantiate(hitEffect, GetAimLocation(), transform.rotation);
             }
 
-            foreach (GameObject toDestroy in destroyOnHit)
+            foreach (var toDestroy in destroyOnHit)
             {
                 Destroy(toDestroy);
             }
@@ -60,7 +60,7 @@ namespace ANM.Combat
 
         private Vector3 GetAimLocation()
         {
-            CapsuleCollider targetCapsule = _target.GetComponent<CapsuleCollider>();
+            var targetCapsule = _target.GetComponent<CapsuleCollider>();
             if (targetCapsule == null) { return _target.transform.position; }
             return _target.transform.position + Vector3.up * (targetCapsule.height * 0.5f);
         }

@@ -1,21 +1,23 @@
-﻿using ANM.Attributes;
-using GameDevTV.Utils;
-using UnityEngine;
-using System.Collections.Generic;
-using ANM.Core;
-using ANM.Movement;
-using ANM.Saving;
+﻿using ANM.Core;
 using ANM.Stats;
+using ANM.Saving;
+using UnityEngine;
+using ANM.Movement;
+using ANM.Attributes;
+using GameDevTV.Utils;
+using System.Collections.Generic;
 
 namespace ANM.Combat
 {
     [RequireComponent(typeof(Animator))]
     public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
-        #region Fighter Class Members                
         [SerializeField] private WeaponConfig defaultWeapon = null;
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Transform rightHandTransform = null;
+        
+        private static readonly int StopAttack1 = Animator.StringToHash("StopAttack");
+        private static readonly int Attack1 = Animator.StringToHash("Attack");
 
         private Health _target;
         private Animator _myAnimator;
@@ -23,9 +25,6 @@ namespace ANM.Combat
 
         private float _timeSinceLastAttack = Mathf.Infinity;
         private LazyValue<WeaponConfig> _currentWeapon;
-        private static readonly int StopAttack1 = Animator.StringToHash("StopAttack");
-        private static readonly int Attack1 = Animator.StringToHash("Attack");
-        #endregion
 
 
         private void Awake()
@@ -72,7 +71,7 @@ namespace ANM.Combat
         public static bool CanAttack(GameObject combatTarget)
         {
             if (combatTarget == null) return false;
-            Health targetToTest = combatTarget.GetComponent<Health>();
+            var targetToTest = combatTarget.GetComponent<Health>();
             return targetToTest != null && !targetToTest.IsDead();
         }
 
@@ -167,14 +166,13 @@ namespace ANM.Combat
 
         public object CaptureState()
         {
-            print("Trying to get LazyValue<Weapon> Name !");
             return _currentWeapon.value.name;
         }   //  ISaveable
 
         public void RestoreState(object state)
         {
-            string weaponName = (string)state;
-            WeaponConfig weapon = Resources.Load<WeaponConfig>(weaponName);
+            var weaponName = (string)state;
+            var weapon = Resources.Load<WeaponConfig>(weaponName);
             EquipWeapon(weapon);
         }   //  ISaveable                
         #endregion

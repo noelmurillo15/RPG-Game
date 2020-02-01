@@ -7,7 +7,6 @@ namespace ANM.Combat
 {
     public class EnemyHealthDisplay : MonoBehaviour
     {
-        //  Cached Variables
         private Fighter _fighter;
 
 
@@ -25,7 +24,8 @@ namespace ANM.Combat
             else
             {
                 Health health = _fighter.GetTarget();
-                GetComponent<TMP_Text>().text = $"{health.GetPercentage().ToString(CultureInfo.CurrentCulture):0}%";
+                GetComponent<TMP_Text>().text = 
+                    $"{health.GetPercentage().ToString(CultureInfo.CurrentCulture):0}%";
             }
         }
     }

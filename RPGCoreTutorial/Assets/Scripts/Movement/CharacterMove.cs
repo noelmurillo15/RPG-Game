@@ -11,8 +11,8 @@ namespace ANM.Movement
     {
         [SerializeField] private float maxSpeed = 5.66f;
 
-        private NavMeshAgent _navMeshAgent;
         private Health _myHealth;
+        private NavMeshAgent _navMeshAgent;
         private static readonly int ForwardSpeed = Animator.StringToHash("ForwardSpeed");
 
 
@@ -43,9 +43,9 @@ namespace ANM.Movement
 
         private void UpdateAnimator()
         {
-            Vector3 velocity = _navMeshAgent.velocity;
-            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
-            float speed = localVelocity.z;
+            var velocity = _navMeshAgent.velocity;
+            var localVelocity = transform.InverseTransformDirection(velocity);
+            var speed = localVelocity.z;
             GetComponent<Animator>().SetFloat(ForwardSpeed, speed);
         }
 

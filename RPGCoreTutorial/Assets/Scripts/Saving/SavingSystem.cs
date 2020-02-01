@@ -1,26 +1,28 @@
+using System.IO;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ANM.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
-
+        
         public IEnumerator LoadLastScene(string saveFile)
         {
             Dictionary<string, object> state = LoadFile(saveFile);
-
+            if (state.Count <= 0){ Debug.Log("No Save File Found"); yield break;}
+            
             int buildIndex = SceneManager.GetActiveScene().buildIndex;
             if (state.ContainsKey("lastSceneBuildIndex"))
             {
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }
             yield return SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
-
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(buildIndex));
+            
             RestoreState(state);
         }
 
@@ -48,9 +50,9 @@ namespace ANM.Saving
             {
                 return new Dictionary<string, object>();
             }
-            using (FileStream stream = File.Open(path, FileMode.Open))
+            using (var stream = File.Open(path, FileMode.Open))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
+                var formatter = new BinaryFormatter();
                 return (Dictionary<string, object>)formatter.Deserialize(stream);
             }
         }
@@ -59,25 +61,25 @@ namespace ANM.Saving
         {
             string path = GetPathFromSaveFile(saveFile);
             print("Saving to " + path);
-            using (FileStream stream = File.Open(path, FileMode.Create))
+            using (var stream = File.Open(path, FileMode.Create))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
+                var formatter = new BinaryFormatter();
                 formatter.Serialize(stream, state);
             }
         }
 
-        private static void CaptureState(Dictionary<string, object> state)
+        private static void CaptureState(IDictionary<string, object> state)
         {
-            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            foreach (var saveable in FindObjectsOfType<SaveableEntity>())
             {
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
             state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
         }
 
-        private static void RestoreState(Dictionary<string, object> state)
+        private static void RestoreState(IReadOnlyDictionary<string, object> state)
         {
-            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            foreach (var saveable in FindObjectsOfType<SaveableEntity>())
             {
                 string id = saveable.GetUniqueIdentifier();
                 if (state.ContainsKey(id))

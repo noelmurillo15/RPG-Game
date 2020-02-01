@@ -9,7 +9,7 @@ namespace ANM.UI
 
         public void Spawn(float damage)
         {
-            DamageText instance = Instantiate<DamageText>(damageTextPrefab, transform);
+            DamageText instance = Instantiate(damageTextPrefab, transform);
             instance.SetValue(damage);
         }
     }

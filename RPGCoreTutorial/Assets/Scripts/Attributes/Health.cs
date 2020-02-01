@@ -1,6 +1,6 @@
 using ANM.Core;
-using ANM.Saving;
 using ANM.Stats;
+using ANM.Saving;
 using UnityEngine;
 using GameDevTV.Utils;
 using UnityEngine.Events;
@@ -23,6 +23,7 @@ namespace ANM.Attributes
         [SerializeField] private float regenPercentage = 75;
 
         private LazyValue<float> _healthPoints;  //  LazyValue will make sure healthPoints are initialized right before we use the healthpoints value by passing in a function
+        private LazyValue<float> _maxHealthPoints;
         private bool _isDead = false;
         private static readonly int Die1 = Animator.StringToHash("Die");
 
@@ -30,11 +31,13 @@ namespace ANM.Attributes
         private void Awake()
         {
             _healthPoints = new LazyValue<float>(GetInitialHealth);  //  GetInitialHealth() will get called right before the healthPoints.value is used ~ LazyInitialization
+            _maxHealthPoints = new LazyValue<float>(GetInitialHealth);
         }
 
         private void Start()
         {
             _healthPoints.ForceInit();   //  If healthPoints has not been accessed before this point, we'll force the value to be initialized
+            _maxHealthPoints.ForceInit();
         }
 
         private void OnEnable()
@@ -59,7 +62,7 @@ namespace ANM.Attributes
 
         public float GetFraction()
         {
-            return _healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.HEALTH);
+            return GetHealthPts() / GetMaxHealth();
         }
 
         public float GetHealthPts()
@@ -69,7 +72,8 @@ namespace ANM.Attributes
 
         public float GetMaxHealth()
         {
-            return GetComponent<BaseStats>().GetStat(Stat.HEALTH);
+            _maxHealthPoints.value = GetComponent<BaseStats>().GetStat(Stat.HEALTH);
+            return _maxHealthPoints.value;
         }
 
         public void TakeDamage(GameObject instigator, float damage)
@@ -98,7 +102,7 @@ namespace ANM.Attributes
 
         private void RegenerateHealth()
         {
-            var regenHealthPts = GetComponent<BaseStats>().GetStat(Stat.HEALTH) * regenPercentage / 100;
+            var regenHealthPts = GetMaxHealth() * regenPercentage / 100;
             _healthPoints.value = Mathf.Max(_healthPoints.value, regenHealthPts);
         }
 
@@ -113,14 +117,29 @@ namespace ANM.Attributes
         #region Interface
         public object CaptureState()
         {
-            return _healthPoints.value;
+            var healthProperty = new HealthProperty(GetHealthPts(), GetMaxHealth());
+            return healthProperty;
         }   //  ISaveable
 
         public void RestoreState(object state)
         {
-            _healthPoints.value = (float)state;
+            _healthPoints.value = ((HealthProperty)state).curHealth;
+            _maxHealthPoints.value = ((HealthProperty)state).maxHealth;
             if (_healthPoints.value == 0f) { Die(); }
         }   //  ISaveable
         #endregion
+    }
+    
+    [System.Serializable]
+    internal struct HealthProperty
+    {
+        public float curHealth;
+        public float maxHealth;
+
+        public HealthProperty(float x, float y)
+        {
+            curHealth = x;
+            maxHealth = y;
+        }
     }
 }

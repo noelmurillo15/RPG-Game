@@ -107,6 +107,11 @@ namespace ANM.Framework
             onGamePauseEvent.Raise();
         }
 
+        public void LoadGame()
+        {
+            _gameManager.LoadGameEvent();
+        }
+
         public void Resume()
         {
             onGameResumeEvent.Raise();

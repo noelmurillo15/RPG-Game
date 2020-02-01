@@ -26,12 +26,12 @@ namespace ANM.Combat
             {
                 if (isRightHanded)
                 {
-                    GameObject weapon = Instantiate(equippedPrefab, rightHand);
+                    var weapon = Instantiate(equippedPrefab, rightHand);
                     weapon.name = WeaponName;
                 }
                 else
                 {
-                    GameObject weapon = Instantiate(equippedPrefab, leftHand);
+                    var weapon = Instantiate(equippedPrefab, leftHand);
                     weapon.name = WeaponName;
                 }
             }

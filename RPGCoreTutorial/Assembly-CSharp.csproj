@@ -77,7 +77,6 @@
      <Compile Include="Assets\Scripts\Core\DestroyAfterEffect.cs" />
      <Compile Include="Assets\Scripts\Core\FollowCamera.cs" />
      <Compile Include="Assets\Scripts\Core\IAction.cs" />
-     <Compile Include="Assets\Scripts\Core\PersistantObjectSpawner.cs" />
      <Compile Include="Assets\Scripts\Framework\ApplicationNameTMP.cs" />
      <Compile Include="Assets\Scripts\Framework\CoroutineUtlities.cs" />
      <Compile Include="Assets\Scripts\Framework\EventDestructor.cs" />
@@ -93,8 +92,6 @@
      <Compile Include="Assets\Scripts\Saving\SaveableEntity.cs" />
      <Compile Include="Assets\Scripts\Saving\SavingSystem.cs" />
      <Compile Include="Assets\Scripts\Saving\SerializableVector3.cs" />
-     <Compile Include="Assets\Scripts\SceneManagement\Fader.cs" />
-     <Compile Include="Assets\Scripts\SceneManagement\Portal.cs" />
      <Compile Include="Assets\Scripts\SceneManagement\SavingWrapper.cs" />
      <Compile Include="Assets\Scripts\SceneManagement\ScenePortal.cs" />
      <Compile Include="Assets\Scripts\Stats\BaseStats.cs" />
