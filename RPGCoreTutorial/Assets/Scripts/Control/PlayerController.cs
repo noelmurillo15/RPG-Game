@@ -1,11 +1,11 @@
 ﻿using System;
+using ANM.Attributes;
+using ANM.Movement;
 using UnityEngine;
-using RPG.Movement;
-using RPG.Attributes;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
-namespace RPG.Control
+namespace ANM.Control
 {
     [RequireComponent(typeof(CharacterMove))]
     public class PlayerController : MonoBehaviour

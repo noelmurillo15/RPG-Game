@@ -1,6 +1,6 @@
 
 
-namespace RPG.Core
+namespace ANM.Core
 {
     public interface IAction
     {

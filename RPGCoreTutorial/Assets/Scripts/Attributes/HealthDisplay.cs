@@ -1,9 +1,7 @@
-﻿using System;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-
-namespace RPG.Attributes
+namespace ANM.Attributes
 {
     public class HealthDisplay : MonoBehaviour
     {
@@ -18,7 +16,7 @@ namespace RPG.Attributes
 
         private void Update()
         {
-            GetComponent<Text>().text = $"{_health.GetHealthPts():0} / {_health.GetMaxHealth():0}";
+            GetComponent<TMP_Text>().text = $"{_health.GetHealthPts():0} / {_health.GetMaxHealth():0}";
         }
     }
 }

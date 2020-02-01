@@ -1,10 +1,8 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-
-namespace RPG.Stats
+namespace ANM.Stats
 {
     public class ExperienceDisplay : MonoBehaviour
     {
@@ -19,7 +17,7 @@ namespace RPG.Stats
 
         private void Update()
         {
-            GetComponent<Text>().text = $"{_exp.GetExperiencePts().ToString(CultureInfo.CurrentCulture)}pts";
+            GetComponent<TMP_Text>().text = $"{_exp.GetExperiencePts().ToString(CultureInfo.CurrentCulture)}pts";
         }
     }
 }

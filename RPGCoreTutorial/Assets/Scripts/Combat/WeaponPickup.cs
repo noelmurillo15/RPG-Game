@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using RPG.Control;
+using ANM.Control;
 
-
-namespace RPG.Combat
+namespace ANM.Combat
 {
     public class WeaponPickup : MonoBehaviour, IRaycastable
     {

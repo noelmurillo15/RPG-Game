@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using RPG.Attributes;
+using ANM.Attributes;
 
-
-namespace RPG.Combat
+namespace ANM.Combat
 {
     public class Projectile : MonoBehaviour
     {
@@ -13,9 +12,9 @@ namespace RPG.Combat
         [SerializeField] private GameObject[] destroyOnHit = null;
         [SerializeField] private float lifeAfterImpact = 2f;
 
-        private Health _target = null;
-        private GameObject _instigator = null;
-        private float _totalDamage = 0f;
+        private Health _target;
+        private GameObject _instigator;
+        private float _totalDamage;
 
 
         private void Start()

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
+using ANM.Attributes;
+using TMPro;
 using UnityEngine;
-using RPG.Attributes;
-using UnityEngine.UI;
 
-
-namespace RPG.Combat
+namespace ANM.Combat
 {
     public class EnemyHealthDisplay : MonoBehaviour
     {
@@ -22,12 +20,12 @@ namespace RPG.Combat
         {
             if (_fighter.GetTarget() == null)
             {
-                GetComponent<Text>().text = "N/A";
+                GetComponent<TMP_Text>().text = "N/A";
             }
             else
             {
                 Health health = _fighter.GetTarget();
-                GetComponent<Text>().text = $"{health.GetPercentage().ToString(CultureInfo.CurrentCulture):0}%";
+                GetComponent<TMP_Text>().text = $"{health.GetPercentage().ToString(CultureInfo.CurrentCulture):0}%";
             }
         }
     }

@@ -1,11 +1,10 @@
-using RPG.Core;
-using RPG.Saving;
+using ANM.Attributes;
+using ANM.Core;
+using ANM.Saving;
 using UnityEngine;
-using RPG.Attributes;
 using UnityEngine.AI;
 
-
-namespace RPG.Movement
+namespace ANM.Movement
 {
     [RequireComponent(typeof(NavMeshAgent))]
     public class CharacterMove : MonoBehaviour, IAction, ISaveable

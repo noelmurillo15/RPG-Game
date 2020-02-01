@@ -1,6 +1,6 @@
 
 
-namespace RPG.Saving
+namespace ANM.Saving
 {
     public interface ISaveable
     {

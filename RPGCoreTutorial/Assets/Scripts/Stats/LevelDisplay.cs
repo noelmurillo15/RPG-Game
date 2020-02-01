@@ -1,9 +1,7 @@
-﻿using System;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-
-namespace RPG.Stats
+namespace ANM.Stats
 {
     public class LevelDisplay : MonoBehaviour
     {
@@ -18,7 +16,7 @@ namespace RPG.Stats
 
         private void Update()
         {
-            GetComponent<Text>().text = $"{_baseStats.GetLevel().ToString()}";
+            GetComponent<TMP_Text>().text = $"{_baseStats.GetLevel().ToString()}";
         }
     }
 }

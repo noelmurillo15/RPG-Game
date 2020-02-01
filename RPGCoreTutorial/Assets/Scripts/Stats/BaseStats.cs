@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using UnityEngine;
 using GameDevTV.Utils;
+using UnityEngine;
 
-
-namespace RPG.Stats
+namespace ANM.Stats
 {
     public class BaseStats : MonoBehaviour
     {

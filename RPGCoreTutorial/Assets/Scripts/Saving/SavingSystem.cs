@@ -1,12 +1,11 @@
-using System.IO;
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
-
-namespace RPG.Saving
+namespace ANM.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
@@ -20,7 +19,7 @@ namespace RPG.Saving
             {
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }
-            yield return SceneManager.LoadSceneAsync(buildIndex);
+            yield return SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
 
             RestoreState(state);
         }

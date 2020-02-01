@@ -1,12 +1,11 @@
-using RPG.Core;
-using RPG.Stats;
-using RPG.Saving;
+using ANM.Core;
+using ANM.Saving;
+using ANM.Stats;
 using UnityEngine;
 using GameDevTV.Utils;
 using UnityEngine.Events;
 
-
-namespace RPG.Attributes
+namespace ANM.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {

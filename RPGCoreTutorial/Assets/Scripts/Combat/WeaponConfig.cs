@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using RPG.Attributes;
+using ANM.Attributes;
 
-
-namespace RPG.Combat
+namespace ANM.Combat
 {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
     public class WeaponConfig : ScriptableObject

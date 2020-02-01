@@ -1,8 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-
-namespace RPG.Stats
+namespace ANM.Stats
 {
     public interface IModifierProvider
     {

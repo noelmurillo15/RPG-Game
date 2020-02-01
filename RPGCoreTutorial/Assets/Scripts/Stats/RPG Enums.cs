@@ -1,6 +1,6 @@
 ﻿
 
-namespace RPG.Stats
+namespace ANM.Stats
 {
     public enum CharacterTypes
     {

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-
-namespace RPG.Attributes
+namespace ANM.Attributes
 {    
     public class HealthBar : MonoBehaviour
     {

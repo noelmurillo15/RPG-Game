@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using RPG.Control;
+﻿using ANM.Control;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-namespace RPG.Stats
+namespace ANM.Stats
 {
     [SelectionBase]
     public class CharacterStats : MonoBehaviour

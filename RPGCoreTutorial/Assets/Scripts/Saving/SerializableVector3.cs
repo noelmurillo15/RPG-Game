@@ -1,7 +1,6 @@
 using UnityEngine;
 
-
-namespace RPG.Saving
+namespace ANM.Saving
 {
     [System.Serializable]
     public class SerializableVector3

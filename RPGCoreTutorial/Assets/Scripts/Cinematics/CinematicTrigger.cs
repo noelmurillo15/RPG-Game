@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
 
-
-namespace RPG.Cinematics
+namespace ANM.Cinematics
 {
     [RequireComponent(typeof(PlayableDirector))]
     public class CinematicTrigger : MonoBehaviour

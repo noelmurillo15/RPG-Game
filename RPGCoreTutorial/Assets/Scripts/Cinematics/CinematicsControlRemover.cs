@@ -1,11 +1,10 @@
-﻿using RPG.Core;
-using RPG.Control;
+﻿using ANM.Control;
+using ANM.Core;
+using ANM.Movement;
 using UnityEngine;
-using RPG.Movement;
 using UnityEngine.Playables;
 
-
-namespace RPG.Cinematics
+namespace ANM.Cinematics
 {
     [RequireComponent(typeof(PlayableDirector))]
     public class CinematicsControlRemover : MonoBehaviour

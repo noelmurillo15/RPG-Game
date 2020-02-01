@@ -1,14 +1,13 @@
-﻿using RPG.Core;
-using RPG.Stats;
-using RPG.Saving;
-using UnityEngine;
-using RPG.Movement;
-using RPG.Attributes;
+﻿using ANM.Attributes;
 using GameDevTV.Utils;
+using UnityEngine;
 using System.Collections.Generic;
+using ANM.Core;
+using ANM.Movement;
+using ANM.Saving;
+using ANM.Stats;
 
-
-namespace RPG.Combat
+namespace ANM.Combat
 {
     [RequireComponent(typeof(Animator))]
     public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
@@ -18,7 +17,6 @@ namespace RPG.Combat
         [SerializeField] private Transform leftHandTransform = null;
         [SerializeField] private Transform rightHandTransform = null;
 
-        //  Cached Variables
         private Health _target;
         private Animator _myAnimator;
         private CharacterMove _myCharacterMove;
@@ -27,7 +25,6 @@ namespace RPG.Combat
         private LazyValue<WeaponConfig> _currentWeapon;
         private static readonly int StopAttack1 = Animator.StringToHash("StopAttack");
         private static readonly int Attack1 = Animator.StringToHash("Attack");
-
         #endregion
 
 

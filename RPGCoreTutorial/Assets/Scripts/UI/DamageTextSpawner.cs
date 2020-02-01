@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-
-namespace RPG.UI
+namespace ANM.UI
 {
     public class DamageTextSpawner : MonoBehaviour
     {

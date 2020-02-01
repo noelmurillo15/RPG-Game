@@ -1,12 +1,11 @@
-﻿using RPG.Core;
-using RPG.Combat;
-using UnityEngine;
-using RPG.Movement;
-using RPG.Attributes;
+﻿using ANM.Attributes;
+using ANM.Combat;
+using ANM.Core;
+using ANM.Movement;
 using GameDevTV.Utils;
+using UnityEngine;
 
-
-namespace RPG.Control
+namespace ANM.Control
 {
     public class AIController : MonoBehaviour
     {
