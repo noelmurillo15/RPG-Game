@@ -1,69 +1,40 @@
 ﻿/*
  * GameManager - Backbone of the game application
- * Contains the most important data used throughout the game (ie: Score, Settings)
+ * Contains the most important data used throughout the game (ie: Game Settings)
  * Created by : Allan N. Murillo
+ * Last Edited : 2/1/2020
  */
 
 using System;
-using ANM.SceneManagement;
+using ANM.Control;
 using UnityEngine;
 
 namespace ANM.Framework
 {
     public sealed class GameManager : MonoBehaviour
     {
-        private static GameManager _instance;
-        public static GameManager Instance
-        {  get  {  if (_instance == null) { _instance = FindObjectOfType<GameManager>(); }  return _instance;  }  }
+        public static GameManager Instance { get; private set; }
         
-        [HideInInspector] public SceneTransitionManager sceneTransitionManager = null;
-        public GameEvent onApplicationQuitEvent = null;
-        
-        public bool IsSceneTransitioning { get; set; } = false;
-        
-        [SerializeField] private float _deltaTime = 0.0f;
-        [SerializeField] private bool _displayFps = false;
-        [SerializeField] private bool _isMainMenuActive = false;
-        [SerializeField] private bool _isGamePaused = false;
-        [SerializeField] private SaveSettings _saveSettings = null;
+        private float _deltaTime;
+        private bool _displayFps;
+        private bool _isMainMenuActive;
+        private bool _isGamePaused;
+        private SaveSettings _saveSettings;
+        private PlayerController _player;
 
 
         private void Awake()
         {
-            if (_instance != null && _instance != this) { Destroy(gameObject); return; }
+            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
             DontDestroyOnLoad(gameObject);
-            _instance = this;
+            Instance = this;
             
             SaveSettings.SettingsLoadedIni = false;
             _saveSettings = new SaveSettings();
             _saveSettings.Initialize();
-
-            sceneTransitionManager = gameObject.GetComponentInChildren<SceneTransitionManager>();
             Time.timeScale = 1;
         }
-
-        public void Reset()
-        {
-            Time.timeScale = 1;
-            _isGamePaused = false;
-        }
-
-        public void OnPauseEvent()
-        {
-            SwitchToLoadedScene("Menu Ui");
-            SetIsGamePaused(true);
-            _displayFps = false;
-            Time.timeScale = 0;
-        }
-
-        public void OnResumeEvent()
-        {
-            SwitchToLoadedScene("Level 1");
-            SetIsGamePaused(false);
-            _displayFps = true;
-            Time.timeScale = 1;
-        }
-
+        
         private void Update()
         {
             _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.1f;
@@ -84,56 +55,7 @@ namespace ANM.Framework
             var text = $"{msecs:0.0} ms ({fps:0.} fps)";
             GUI.Label(rect, text, style);
         }
-
-        #region Game Events
-        public void StartGameEvent()
-        {
-            sceneTransitionManager.LoadStartingLevel();
-        }
-
-        public void LoadGameEvent()
-        {
-            StartCoroutine(GetComponentInChildren<SavingWrapper>()?.LoadLastScene());
-        }
-
-        public void ReloadScene()
-        {
-            sceneTransitionManager.ReloadCurrentScene();
-        }
-
-        public void SaveGameSettings()
-        {
-            _saveSettings.SaveGameSettings();
-        }
         
-        public void LoadCredits()
-        {
-            sceneTransitionManager.LoadCredits();
-        }
-
-        private void OnDestroy()
-        {
-            if (Instance != this) return;
-            Resources.UnloadUnusedAssets();
-            GC.Collect();
-        }
-        #endregion
-
-        public void SwitchToLoadedScene(string sceneName)
-        {
-            sceneTransitionManager.SwitchToLoadedScene(sceneName);
-        }
-
-        public void UnloadAllLoadedScenes()
-        {
-            sceneTransitionManager.UnloadAllSceneExcept("ExitScreen");
-        }
-
-        public void UnloadScenesExceptMenu()
-        {
-            sceneTransitionManager.UnloadAllSceneExcept("Menu Ui");
-        }
-
         public bool GetIsMainMenuActive()
         {
             return _isMainMenuActive;
@@ -152,6 +74,50 @@ namespace ANM.Framework
         public void SetIsGamePaused(bool b)
         {
             _isGamePaused = b;
+        }
+
+        public SceneTransitionManager GetCustomSceneManager()
+        {
+            return GetComponentInChildren<SceneTransitionManager>();
+        }
+
+        public PlayerController GetPlayerController()
+        {
+            if (_player == null) _player = FindObjectOfType<PlayerController>();
+            return _player;
+        }
+
+        public void OnPauseEvent()
+        {
+            SetIsGamePaused(true);
+            _displayFps = false;
+            Time.timeScale = 0;
+        }
+
+        public void OnResumeEvent()
+        {
+            SetIsGamePaused(false);
+            _displayFps = true;
+            Time.timeScale = 1;
+        }
+        
+        public void SaveGameSettings()
+        {
+            _saveSettings.SaveGameSettings();
+        }
+        
+        public void Reset()
+        {
+            Time.timeScale = 1;
+            _isGamePaused = false;
+            _isMainMenuActive = true;
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance != this) return;
+            Resources.UnloadUnusedAssets();
+            GC.Collect();
         }
     }
 }

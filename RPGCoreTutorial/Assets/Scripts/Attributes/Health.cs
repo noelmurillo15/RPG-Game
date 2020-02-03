@@ -78,7 +78,6 @@ namespace ANM.Attributes
 
         public void TakeDamage(GameObject instigator, float damage)
         {
-            print(gameObject.name + " took damage : " + damage);
             _healthPoints.value = Mathf.Max(_healthPoints.value - damage, 0);
             if (_healthPoints.value == 0f)
             {

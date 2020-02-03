@@ -1,51 +1,56 @@
 using System.IO;
 using UnityEngine;
+using ANM.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ANM.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
-        
-        public IEnumerator LoadLastScene(string saveFile)
-        {
-            Dictionary<string, object> state = LoadFile(saveFile);
-            if (state.Count <= 0){ Debug.Log("No Save File Found"); yield break;}
-            
-            int buildIndex = SceneManager.GetActiveScene().buildIndex;
-            if (state.ContainsKey("lastSceneBuildIndex"))
-            {
-                buildIndex = (int)state["lastSceneBuildIndex"];
-            }
-            yield return SceneManager.LoadSceneAsync(buildIndex, LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(buildIndex));
-            
-            RestoreState(state);
-        }
 
-        public void Save(string saveFile)
+        public static void SaveGameStateToFile(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveFile);
+            var state = LoadFile(saveFile);
             CaptureState(state);
             SaveFile(saveFile, state);
         }
 
-        public void Load(string saveFile)
+        public static void LoadGameStateFromFile(string saveFile)
         {
             RestoreState(LoadFile(saveFile));
         }
 
-        public void Delete(string saveFile)
+        public static void DeleteSaveFile(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
         }
-
-        private Dictionary<string, object> LoadFile(string saveFile)
+        
+        public static IEnumerator LoadLastGameState(string saveFile)
         {
-            string path = GetPathFromSaveFile(saveFile);
+            var state = LoadFile(saveFile);
+            if (state.Count <= 0) yield break;
+            
+            var sceneTransitionManager = FindObjectOfType<SceneTransitionManager>();
+            var buildIndex = sceneTransitionManager.GetCurrentScene().buildIndex;
+            
+            if (state.ContainsKey("lastSceneBuildIndex"))
+                buildIndex = (int)state["lastSceneBuildIndex"];
+            
+            yield return sceneTransitionManager.BeginLoadScene(buildIndex);
+            RestoreState(state);
+            yield return sceneTransitionManager.EndLoadScene();
+        }
+
+        public static IEnumerator Transition(int buildIndex)
+        {
+            yield return SceneTransitionManager.BeginLoadNextLevel(buildIndex);
+        }
+
+        private static Dictionary<string, object> LoadFile(string saveFile)
+        {
+            var path = GetPathFromSaveFile(saveFile);
             if (!File.Exists(path))
             {
                 return new Dictionary<string, object>();
@@ -57,10 +62,9 @@ namespace ANM.Saving
             }
         }
 
-        private void SaveFile(string saveFile, object state)
+        private static void SaveFile(string saveFile, object state)
         {
-            string path = GetPathFromSaveFile(saveFile);
-            print("Saving to " + path);
+            var path = GetPathFromSaveFile(saveFile);
             using (var stream = File.Open(path, FileMode.Create))
             {
                 var formatter = new BinaryFormatter();
@@ -74,14 +78,14 @@ namespace ANM.Saving
             {
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
-            state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
+            state["lastSceneBuildIndex"] = SceneTransitionManager.GetCurrentSceneBuildIndex();
         }
 
         private static void RestoreState(IReadOnlyDictionary<string, object> state)
         {
             foreach (var saveable in FindObjectsOfType<SaveableEntity>())
             {
-                string id = saveable.GetUniqueIdentifier();
+                var id = saveable.GetUniqueIdentifier();
                 if (state.ContainsKey(id))
                 {
                     saveable.RestoreState(state[id]);

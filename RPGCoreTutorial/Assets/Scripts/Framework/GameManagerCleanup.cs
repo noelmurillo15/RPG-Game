@@ -12,8 +12,6 @@ namespace ANM.Framework
         private void Start()
         {
             Invoke($"ApplicationQuit", 3f);
-            if (GameManager.Instance == null) return;
-            GameManager.Instance.UnloadAllLoadedScenes();
         }
 
         private void ApplicationQuit()

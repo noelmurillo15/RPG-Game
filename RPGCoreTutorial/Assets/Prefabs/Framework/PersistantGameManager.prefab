@@ -47,25 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb7b371bb85074740984166d8fad6a9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneTransitionManager: {fileID: 0}
-  onApplicationQuitEvent: {fileID: 11400000, guid: 52a7bfe1d2077f9489ef2b50d443575d,
-    type: 2}
-  _deltaTime: 0
-  _displayFps: 1
-  _isMainMenuActive: 0
-  _isGamePaused: 0
-  _saveSettings:
-    masterVolume: 0
-    effectVolume: 0
-    backgroundVolume: 0
-    currentQualityLevel: 0
-    vsync: 0
-    msaa: 0
-    renderDist: 0
-    shadowDist: 0
-    textureLimit: 0
-    anisoFilterLevel: 0
-    shadowCascade: 0
 --- !u!114 &3886840564206206538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,8 +187,6 @@ GameObject:
   - component: {fileID: 4331191665520233220}
   - component: {fileID: 2050860196882241502}
   - component: {fileID: 5473518180224592213}
-  - component: {fileID: 873290630621010882}
-  - component: {fileID: 4884557402426134871}
   m_Layer: 5
   m_Name: SceneTransitionCanvas
   m_TagString: Untagged
@@ -305,63 +284,9 @@ MonoBehaviour:
   canvasGroup: {fileID: 2050860196882241502}
   fadeOutDelay: 2
   fadeInDelay: 0.5
-  onLoadScene: {fileID: 11400000, guid: 960ec40a11cf9704899d03535503cb53, type: 2}
+  onStartLoadScene: {fileID: 11400000, guid: 960ec40a11cf9704899d03535503cb53, type: 2}
   onFinishLoadScene: {fileID: 11400000, guid: 252edc7ab68f40a498f05de1f53a33d5, type: 2}
   _sceneNames: []
---- !u!114 &873290630621010882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6753115139403977206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f31f339eddb2bcd4d8be9d9c73c05819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  event: {fileID: 11400000, guid: 960ec40a11cf9704899d03535503cb53, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5473518180224592213}
-        m_MethodName: LoadSceneEvent
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4884557402426134871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6753115139403977206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f31f339eddb2bcd4d8be9d9c73c05819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  event: {fileID: 11400000, guid: 252edc7ab68f40a498f05de1f53a33d5, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5473518180224592213}
-        m_MethodName: FinishLoadSceneEvent
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &8576604774057817301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -427,7 +352,7 @@ PrefabInstance:
     - target: {fileID: 3841519339841090911, guid: 351b49b133ffb3e4f8b95a89533a2276,
         type: 3}
       propertyPath: m_Name
-      value: Saving
+      value: GameState SaveSystem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 351b49b133ffb3e4f8b95a89533a2276, type: 3}
