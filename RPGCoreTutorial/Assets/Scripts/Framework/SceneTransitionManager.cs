@@ -15,7 +15,7 @@ namespace ANM.Framework
     public class SceneTransitionManager : MonoBehaviour
     {
         [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] private float fadeOutDelay = 2f;
+        [SerializeField] private float fadeOutDelay = 1.5f;
         [SerializeField] private float fadeInDelay = 0.5f;
 
         public GameEvent onStartLoadScene;
@@ -32,8 +32,8 @@ namespace ANM.Framework
 
         private void Start()
         {
-            FadeInImmediate();
             canvasGroup = GetComponent<CanvasGroup>();
+            FadeInImmediate();
             
             var sceneNumber = SceneManager.sceneCountInBuildSettings;
             _sceneNames = new string[sceneNumber];
@@ -46,12 +46,12 @@ namespace ANM.Framework
         
         public void LoadStartingLevel()
         {
-            StartCoroutine(LoadNewScene(GameplaySceneName));
+            StartCoroutine(LoadMultiScene(GameplaySceneName));
         }
 
         public void LoadCredits()
         {
-            StartCoroutine(SimpleLoadNewScene(CreditsSceneName));
+            StartCoroutine(LoadSingleScene(CreditsSceneName));
         }
 
         public void ReloadCurrentScene()
@@ -62,7 +62,7 @@ namespace ANM.Framework
             {
                 SceneManager.UnloadSceneAsync(sceneToBeReloaded).completed += operation =>
                 {
-                    StartCoroutine(LoadNewScene(sceneToBeReloaded));
+                    StartCoroutine(LoadMultiScene(sceneToBeReloaded));
                 };
             }
         }
@@ -107,7 +107,7 @@ namespace ANM.Framework
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(MenuUiSceneName));
         }
 
-        public void UnloadAllSceneExceptMenu()
+        public static void UnloadAllSceneExceptMenu()
         {
             for (var i = 0; i < SceneManager.sceneCount; i++)
             {
@@ -156,21 +156,30 @@ namespace ANM.Framework
             };
         }
         
-        private IEnumerator LoadNewScene(string sceneName)
+        private IEnumerator LoadMultiScene(string sceneName)
         {
             onStartLoadScene.Raise();
             yield return FadeOut();
-            yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+            yield return LoadAdditiveScene(sceneName);
             yield return EndLoadScene();
         }
         
-        private IEnumerator SimpleLoadNewScene(string sceneName)
+        private IEnumerator LoadFastMultiScene(string sceneName)
         {
             FadeOutImmediate();
-            yield return SceneManager.LoadSceneAsync(sceneName);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+            yield return LoadAdditiveScene(sceneName);
             yield return FadeIn();
+        }
+
+        private static IEnumerator LoadAdditiveScene(string sceneName)
+        {
+            yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
+        }
+
+        private static IEnumerator LoadSingleScene(string sceneName)
+        {
+            yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         }
         
         #region Screen Fade

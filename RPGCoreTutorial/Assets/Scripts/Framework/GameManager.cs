@@ -2,7 +2,7 @@
  * GameManager - Backbone of the game application
  * Contains the most important data used throughout the game (ie: Game Settings)
  * Created by : Allan N. Murillo
- * Last Edited : 2/1/2020
+ * Last Edited : 2/7/2020
  */
 
 using System;
@@ -16,9 +16,10 @@ namespace ANM.Framework
         public static GameManager Instance { get; private set; }
         
         private float _deltaTime;
-        private bool _displayFps;
-        private bool _isMainMenuActive;
-        private bool _isGamePaused;
+        [SerializeField] private bool displayFps;
+        [SerializeField] private bool isMainMenuActive;
+        [SerializeField] private bool isGamePaused;
+        
         private SaveSettings _saveSettings;
         private PlayerController _player;
 
@@ -42,7 +43,7 @@ namespace ANM.Framework
 
         private void OnGUI()
         {
-            if (!_displayFps) return;
+            if (!displayFps) return;
             var style = new GUIStyle();
             int w = Screen.width, h = Screen.height;
             h *= 2 / 100;
@@ -58,22 +59,23 @@ namespace ANM.Framework
         
         public bool GetIsMainMenuActive()
         {
-            return _isMainMenuActive;
+            return isMainMenuActive;
         }
 
         public void SetIsMainMenuActive(bool b)
         {
-            _isMainMenuActive = b;
+            isMainMenuActive = b;
         }
         
         public bool GetIsGamePaused()
         {
-            return _isGamePaused;
+            return isGamePaused;
         }
 
         public void SetIsGamePaused(bool b)
         {
-            _isGamePaused = b;
+            isGamePaused = b;
+            Time.timeScale = b ? 0 : 1;
         }
 
         public SceneTransitionManager GetCustomSceneManager()
@@ -87,20 +89,6 @@ namespace ANM.Framework
             return _player;
         }
 
-        public void OnPauseEvent()
-        {
-            SetIsGamePaused(true);
-            _displayFps = false;
-            Time.timeScale = 0;
-        }
-
-        public void OnResumeEvent()
-        {
-            SetIsGamePaused(false);
-            _displayFps = true;
-            Time.timeScale = 1;
-        }
-        
         public void SaveGameSettings()
         {
             _saveSettings.SaveGameSettings();
@@ -109,8 +97,8 @@ namespace ANM.Framework
         public void Reset()
         {
             Time.timeScale = 1;
-            _isGamePaused = false;
-            _isMainMenuActive = true;
+            isGamePaused = false;
+            isMainMenuActive = true;
         }
 
         private void OnDestroy()

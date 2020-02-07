@@ -100,10 +100,28 @@ namespace ANM.Framework
 
         public void Pause()
         {
-            menuUiCamera.gameObject.SetActive(true);
-            TurnOnMainPanel();
             onGamePauseEvent.Raise();
+        }
+
+        public void OnPauseEvent()
+        {
             _sceneTransitionManager.SwitchToMenuUi();
+            menuUiCamera.gameObject.SetActive(true);
+            _gameManager.SetIsGamePaused(true);
+            TurnOnMainPanel();
+        }
+        
+        public void Resume()
+        {
+            onGameResumeEvent.Raise();
+        }
+
+        public void OnResumeEvent()
+        {
+            TurnOffAllPanels();
+            _gameManager.SetIsGamePaused(false);
+            menuUiCamera.gameObject.SetActive(false);
+            _sceneTransitionManager.SwitchBackToLevel();
         }
 
         public void SaveGame()
@@ -122,15 +140,7 @@ namespace ANM.Framework
         {
             _sceneTransitionManager.ReloadCurrentScene();
         }
-
-        public void Resume()
-        {
-            onGameResumeEvent.Raise();
-            menuUiCamera.gameObject.SetActive(false);
-            TurnOffAllPanels();
-            _sceneTransitionManager.SwitchBackToLevel();
-        }
-
+        
         public void QuitOptions()
         {
             videoPanel.SetActive(false);
@@ -162,7 +172,7 @@ namespace ANM.Framework
             pausePanel.SetActive(false);
             mainPanel.SetActive(true);
             _gameManager.Reset();
-            _sceneTransitionManager.UnloadAllSceneExceptMenu();
+            SceneTransitionManager.UnloadAllSceneExceptMenu();
         }
 
         public void StartLoadSceneEvent()
@@ -192,7 +202,7 @@ namespace ANM.Framework
         {
             onGameResumeEvent.Raise();
             if(!_gameManager.GetIsMainMenuActive())
-                _sceneTransitionManager.UnloadAllSceneExceptMenu();
+                SceneTransitionManager.UnloadAllSceneExceptMenu();
             _sceneTransitionManager.LoadCredits();
         }
         
