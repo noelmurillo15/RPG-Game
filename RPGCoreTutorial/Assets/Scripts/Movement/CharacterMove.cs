@@ -4,10 +4,10 @@
  * Last Edited : 2/25/2020
  */
 
-using ANM.Attributes;
 using ANM.Core;
 using ANM.Saving;
 using UnityEngine;
+using ANM.Attributes;
 using UnityEngine.AI;
 
 namespace ANM.Movement
@@ -68,9 +68,14 @@ namespace ANM.Movement
 
         public void RestoreState(object state)
         {
+            if (tag.Contains("Player"))
+            {
+                Debug.Log("Setting Player position : " + ((SerializableVector3)state).ToVector());
+            }
             _navMeshAgent.enabled = false;
             transform.localPosition = ((SerializableVector3)state).ToVector();
             _navMeshAgent.enabled = true;
+            
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }   //  ISaveable
         #endregion

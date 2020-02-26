@@ -133,9 +133,15 @@ namespace ANM.Framework.Extensions
             return SceneManager.GetSceneByBuildIndex(buildIndex);
         }
 
-        private static IEnumerator OnStartLoadWithFade(bool fade = false)
+        public static IEnumerator OnStartLoadWithFade(bool fade = false)
         {
             CallOnStartSceneLoadEvent(fade);
+            if(fade) yield return new WaitForSeconds(1.1f);
+        }
+
+        public static IEnumerator OnFinsihedLoadWithFade(bool fade = false)
+        {
+            CallOnFinishSceneLoadEvent(fade);
             if(fade) yield return new WaitForSeconds(1.1f);
         }
 

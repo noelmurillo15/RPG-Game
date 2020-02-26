@@ -93,6 +93,7 @@
      <Compile Include="Assets\Scripts\Framework\Utils\GameManagerCleanup.cs" />
      <Compile Include="Assets\Scripts\Framework\Utils\ScenePortal.cs" />
      <Compile Include="Assets\Scripts\Framework\Utils\ScreenFade.cs" />
+     <Compile Include="Assets\Scripts\Framework\Utils\WorldPortal.cs" />
      <Compile Include="Assets\Scripts\Framework\Variables\FloatReference.cs" />
      <Compile Include="Assets\Scripts\Framework\Variables\FloatVariable.cs" />
      <Compile Include="Assets\Scripts\Movement\CharacterMove.cs" />
@@ -135,37 +136,37 @@
      <None Include="Assets\Ui\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\Ui\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Cinemachine">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
  <Reference Include="com.unity.cinemachine.editor">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>D:/Github/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>C:/Users/alm002/Documents/GitHub/RPGCore/RPGCoreTutorial/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

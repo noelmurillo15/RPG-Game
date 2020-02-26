@@ -4,6 +4,7 @@
  * Last Edited : 2/25/2020
  */
 
+using ANM.Framework.Extensions;
 using UnityEngine;
 
 namespace ANM.UI
@@ -17,6 +18,7 @@ namespace ANM.UI
         {
             DamageText instance = Instantiate(damageTextPrefab, transform);
             instance.SetValue(damage);
+            instance.transform.position.With(y: instance.transform.position.y + 3);
         }
     }
 }

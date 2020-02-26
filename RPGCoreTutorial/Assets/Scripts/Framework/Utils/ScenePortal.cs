@@ -39,6 +39,8 @@ namespace ANM.Framework.Utils
             player.enabled = true;
             Destroy(gameObject);
         }
+
+        
         
         private static void UpdatePlayerSpawnPosition(ScenePortal otherPortal, GameObject player)
         {

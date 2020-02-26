@@ -102,15 +102,8 @@ namespace ANM.Framework.Settings
         
         public void UpdateRenderDistance(float renderDistance)
         {
-            try
-            {
-                myCamera.farClipPlane = renderDistance;
-            }
-            catch
-            {
-                myCamera = Camera.main;
-                myCamera.farClipPlane = renderDistance;
-            }
+            if (myCamera == null) return;
+            myCamera.farClipPlane = renderDistance;
         }
 
         public void UpdateMasterTextureQuality(float textureQuality)
@@ -263,6 +256,8 @@ namespace ANM.Framework.Settings
 
         private void OverrideRenderDistance()
         {
+            if (myCamera == null) return;
+            
             if (Math.Abs(myCamera.farClipPlane - SaveSettings.RenderDistIni) > 0f)
                 myCamera.farClipPlane = SaveSettings.RenderDistIni;
 

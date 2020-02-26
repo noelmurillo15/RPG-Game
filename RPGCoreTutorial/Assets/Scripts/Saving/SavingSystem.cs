@@ -1,7 +1,8 @@
 /*
- * SavingSystem - 
+ * SavingSystem - Uses SaveableEntity to save/load the current game state
+ * Reads and writes to save file
  * Created by : Allan N. Murillo
- * Last Edited : 2/25/2020
+ * Last Edited : 2/26/2020
  */
 
 using System.IO;

@@ -28,13 +28,15 @@ namespace ANM.Control
         //  Cached Variables
         private Health _myHealth;
         
-        [SerializeField] private float maxPathLength = 40f;
+        [SerializeField] private float maxPathLength = 200f;
         [SerializeField] private float maxNavMeshProjectionDistance = 1f;
         [SerializeField] private CursorMapping[] cursorMappings;
+        private static Camera _mainCam;
 
 
         private void Awake()
         {
+            _mainCam = Camera.main;
             _myHealth = GetComponent<Health>();
         }
 
@@ -92,10 +94,8 @@ namespace ANM.Control
 
         private bool InteractWithMovement()
         {
-            bool hasHit = RaycastNavMesh(out var target);
-
+            var hasHit = RaycastNavMesh(out var target);
             if (!hasHit) return false;
-            
             if (Input.GetMouseButton(0))
             {
                 GetComponent<CharacterMove>().StartMoveAction(target, 1f);
@@ -109,25 +109,19 @@ namespace ANM.Control
             target = new Vector3();
 
             //  Did the raycast hit anything>?
-            bool hasHit = Physics.Raycast(GetMouseRay(), out var hit);
+            var hasHit = Physics.Raycast(GetMouseRay(), out var hit);
             if (!hasHit) return false;
-
+            
             //  Is the raycast hit NavMesh walkable>?
-            bool hasCastToNavMesh = NavMesh.SamplePosition(hit.point, out var navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
+            var hasCastToNavMesh = NavMesh.SamplePosition(hit.point, out var navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
             if (!hasCastToNavMesh) return false;
-
+            
             //  Is there a clear path to the NavMesh target location>?
             var path = new NavMeshPath();
-            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
+            var hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
             if (!hasPath) return false;
-
-            //  Is the path complete>?
-            if (path.status != NavMeshPathStatus.PathComplete) return false;
-
-            //  Is path too long>? TODO : if the land is flat and there are no corners in the navmesh, this will cause flat land to be unwalkable
-            // if(GetPathLength(path) > maxPathLength) return false;
-
-            target = navMeshHit.position;  //  out position
+            
+            target = navMeshHit.position;
             return true;
         }
 
@@ -161,7 +155,7 @@ namespace ANM.Control
 
         private static Ray GetMouseRay()
         {
-            return Camera.main.ScreenPointToRay(Input.mousePosition);
+            return _mainCam.ScreenPointToRay(Input.mousePosition);
         }
     }
 }
