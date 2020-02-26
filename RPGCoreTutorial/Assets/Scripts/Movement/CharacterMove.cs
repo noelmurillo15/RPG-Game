@@ -1,3 +1,9 @@
+/*
+ * CharacterMove - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
 using ANM.Attributes;
 using ANM.Core;
 using ANM.Saving;

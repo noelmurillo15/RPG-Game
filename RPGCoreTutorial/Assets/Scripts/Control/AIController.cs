@@ -1,4 +1,10 @@
-﻿using ANM.Attributes;
+﻿/*
+ * AIController - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using ANM.Attributes;
 using ANM.Combat;
 using ANM.Core;
 using ANM.Movement;

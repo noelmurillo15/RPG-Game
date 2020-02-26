@@ -1,13 +1,46 @@
-﻿using ANM.Control;
+﻿/*
+ * SavingWrapper - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/23/2020
+ */
+
+using ANM.Control;
 using UnityEngine;
 using System.Collections;
+using ANM.Framework.Managers;
+using ANM.Framework.Extensions;
 
 namespace ANM.Saving
 {
     public class SavingWrapper : MonoBehaviour
     {
         private const string DefaultSaveFileName = "save";
+
+
+        private void Start()
+        {
+            SceneExtension.StartSceneLoadEvent += OnStartLoadScene;
+            SceneExtension.FinishSceneLoadEvent += OnFinishLoadScene;
+        }
         
+        private static void OnStartLoadScene(bool b)
+        {
+            var index = SceneExtension.GetCurrentSceneBuildIndex();
+            if (index != 2 && index != 3) return;
+            SaveGameState();
+        }
+        
+        private static void OnFinishLoadScene(bool b)
+        {
+            var index = SceneExtension.GetCurrentSceneBuildIndex();
+            if (index != 2 && index != 3) return;
+            LoadGameState();
+        }
+        
+        public static bool CanLoadSaveFile()
+        {
+            return SavingSystem.CanLoadSaveFile(DefaultSaveFileName);
+        }
 
         public static IEnumerator LoadLastGameState()
         {
@@ -16,24 +49,24 @@ namespace ANM.Saving
 
         public static IEnumerator Transition(int buildIndex, string playerTag)
         {
-            SaveGameState();    //    Saves the state of the old scene
             GameObject.FindWithTag(playerTag).GetComponent<PlayerController>().enabled = false;
-            yield return SavingSystem.Transition(buildIndex);
+            yield return SceneExtension.LoadMultiSceneWithBuildIndexSequence(buildIndex, true);
             GameObject.FindWithTag(playerTag).GetComponent<PlayerController>().enabled = false;
-            LoadGameState();    //    Loads the state of the new scene if a save exists
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Delete)) { DeleteSaveFile(); }
+            if (Input.GetKeyDown(KeyCode.S)) { SaveGameState(); }
+            if (Input.GetKeyDown(KeyCode.L)) { LoadGameState(); }
         }
 
-        public static void LoadGameState()
+        private static void LoadGameState()
         {
             SavingSystem.LoadGameStateFromFile(DefaultSaveFileName);
         }
 
-        public static void SaveGameState()
+        private static void SaveGameState()
         {
             SavingSystem.SaveGameStateToFile(DefaultSaveFileName);
         }
@@ -41,6 +74,13 @@ namespace ANM.Saving
         public static void DeleteSaveFile()
         {
             SavingSystem.DeleteSaveFile(DefaultSaveFileName);
+        }
+
+        private void OnDestroy()
+        {
+            if (gameObject.GetComponentInParent<GameManager>() != GameManager.Instance) return;
+            SceneExtension.StartSceneLoadEvent -= OnStartLoadScene;
+            SceneExtension.FinishSceneLoadEvent -= OnFinishLoadScene;
         }
     }
 }

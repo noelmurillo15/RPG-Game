@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * PlayerController - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using System;
 using UnityEngine;
 using ANM.Movement;
 using ANM.Attributes;
@@ -48,7 +54,7 @@ namespace ANM.Control
         private bool InteractWithUi()
         {
             if (EventSystem.current == null) return false;
-            if (!EventSystem.current.IsPointerOverGameObject()) return false; //  refers to UI gameobject
+            if (!EventSystem.current.IsPointerOverGameObject()) return false; //  refers to UI game object
             SetCursor(CursorType.UI);
             return true;
         }
@@ -58,8 +64,8 @@ namespace ANM.Control
             IEnumerable<RaycastHit> hits = RayCastAllSorted();
             foreach (var hit in hits)
             {
-                IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
-                foreach (var raycastable in raycastables)
+                var interfaces = hit.transform.GetComponents<IRaycastable>();
+                foreach (var raycastable in interfaces)
                 {
                     if (!raycastable.HandleRayCast(this)) continue;
                     SetCursor(raycastable.GetCursorType());
@@ -111,7 +117,7 @@ namespace ANM.Control
             if (!hasCastToNavMesh) return false;
 
             //  Is there a clear path to the NavMesh target location>?
-            NavMeshPath path = new NavMeshPath();
+            var path = new NavMeshPath();
             bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
             if (!hasPath) return false;
 

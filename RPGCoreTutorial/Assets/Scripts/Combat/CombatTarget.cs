@@ -1,4 +1,10 @@
-﻿using ANM.Attributes;
+﻿/*
+ * CombatTarget - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using ANM.Attributes;
 using ANM.Control;
 using UnityEngine;
 
@@ -7,12 +13,10 @@ namespace ANM.Combat
     [RequireComponent(typeof(Health))]
     public class CombatTarget : MonoBehaviour, IRaycastable
     {
-
-        #region Interface
         public CursorType GetCursorType()
         {
             return CursorType.COMBAT;
-        }   //  IRaycastable
+        }    //    IRaycastable
 
         public bool HandleRayCast(PlayerController controller)
         {
@@ -22,7 +26,6 @@ namespace ANM.Combat
             { controller.GetComponent<Fighter>().Attack(gameObject); }
 
             return true;
-        }   //  IRaycastable
-        #endregion
+        }    //    IRaycastable
     }
 }

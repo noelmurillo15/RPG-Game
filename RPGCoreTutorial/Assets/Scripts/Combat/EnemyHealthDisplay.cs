@@ -1,4 +1,10 @@
-﻿using System.Globalization;
+﻿/*
+ * EnemyHealthDisplay - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using System.Globalization;
 using ANM.Attributes;
 using TMPro;
 using UnityEngine;

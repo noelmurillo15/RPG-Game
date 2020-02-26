@@ -1,4 +1,10 @@
-﻿using ANM.Core;
+﻿/*
+ * CinematicsControlRemover - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using ANM.Core;
 using UnityEngine;
 using ANM.Control;
 using ANM.Movement;

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * BaseStats - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using System;
 using System.Linq;
 using UnityEngine;
 using GameDevTV.Utils;
@@ -17,7 +23,7 @@ namespace ANM.Stats
 
         private LazyValue<int> _currentLvl;
 
-        public event Action OnLevelUp;
+        public event Action LevelUpEvent;
 
 
         private void Awake()
@@ -35,7 +41,7 @@ namespace ANM.Stats
         {
             if (_experience != null)
             {
-                _experience.OnExperienceGained += UpdateLevel;
+                _experience.ExperienceGainedEvent += UpdateLevel;
             }
         }
 
@@ -43,7 +49,7 @@ namespace ANM.Stats
         {
             if (_experience != null)
             {
-                _experience.OnExperienceGained -= UpdateLevel;
+                _experience.ExperienceGainedEvent -= UpdateLevel;
             }
         }
         
@@ -63,13 +69,13 @@ namespace ANM.Stats
         {
             if (_experience == null) return startingLevel;
 
-            float currentXP = _experience.GetExperiencePts();
+            float currentXp = _experience.GetExperiencePts();
             int penultimateLevel = progression.GetLevels(Stat.EXP_TO_LVL, characterClass);
 
             for (var level = 1; level <= penultimateLevel; level++)
             {
                 float expToLvlUp = progression.GetStat(Stat.EXP_TO_LVL, characterClass, level);
-                if (expToLvlUp > currentXP) { return level; }
+                if (expToLvlUp > currentXp) { return level; }
             }
 
             return penultimateLevel + 1;
@@ -81,7 +87,7 @@ namespace ANM.Stats
             if (newLevel <= GetLevel()) return;
             _currentLvl.value = newLevel;
             LevelUpEffect();
-            OnLevelUp();
+            LevelUpEvent?.Invoke();
         }
 
         private void LevelUpEffect()

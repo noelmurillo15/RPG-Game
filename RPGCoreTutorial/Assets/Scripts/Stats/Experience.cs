@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Experience - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using System;
 using ANM.Saving;
 using UnityEngine;
 
@@ -7,15 +13,13 @@ namespace ANM.Stats
     public class Experience : MonoBehaviour, ISaveable
     {
         [SerializeField] private float expPoints = 0;
+        public event Action ExperienceGainedEvent;
 
-        public event Action OnExperienceGained; //  Using Action is the same as having delegate + event
-        // public delegate void ExpGainedDelegate();    //  not needed for Action
-
-
+        
         public void GainExperience(float exp)
         {
             expPoints += exp;
-            OnExperienceGained?.Invoke();
+            ExperienceGainedEvent?.Invoke();
         }
 
         public float GetExperiencePts()
@@ -27,12 +31,12 @@ namespace ANM.Stats
         public object CaptureState()
         {
             return expPoints;
-        }
+        }    //    ISaveable
 
         public void RestoreState(object state)
         {
             expPoints = (float)state;
-        }
+        }    //    ISaveable
         #endregion
     }
 }

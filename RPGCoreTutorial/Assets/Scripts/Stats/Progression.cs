@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/*
+ * Progression - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace ANM.Stats
@@ -37,11 +43,11 @@ namespace ANM.Stats
 
             _lookUpTable = new Dictionary<CharacterClasses, Dictionary<Stat, float[]>>();
 
-            foreach (ProgressionCharacterClass progressionClass in characterClass)
+            foreach (var progressionClass in characterClass)
             {
                 var statLookUpTable = new Dictionary<Stat, float[]>();
 
-                foreach (ProgressionStat progressionStat in progressionClass.stats)
+                foreach (var progressionStat in progressionClass.stats)
                 {
                     statLookUpTable[progressionStat.stat] = progressionStat.levels;
                 }

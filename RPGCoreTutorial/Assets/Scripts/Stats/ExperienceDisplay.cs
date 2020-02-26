@@ -1,4 +1,10 @@
-﻿using TMPro;
+﻿/*
+ * ExperienceDisplay - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using TMPro;
 using UnityEngine;
 using System.Globalization;
 
@@ -6,7 +12,6 @@ namespace ANM.Stats
 {
     public class ExperienceDisplay : MonoBehaviour
     {
-        //  Cached Variables
         private Experience _exp;
 
 

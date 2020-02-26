@@ -1,3 +1,9 @@
+/*
+ * Health - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
 using ANM.Core;
 using ANM.Stats;
 using ANM.Saving;
@@ -11,20 +17,14 @@ namespace ANM.Attributes
     {
         //  Unity Events
         [SerializeField] private TakeDamageEvent takeDamage;
-
+        [System.Serializable] public class TakeDamageEvent : UnityEvent<float> { }
         //  Allows Dynamic float parameter which will be used int takeDamage.Invoke(<dynamic float>)
-        [System.Serializable]
-        public class TakeDamageEvent : UnityEvent<float>
-        {
-            
-        }
 
-        //  Regen
-        [SerializeField] private float regenPercentage = 75;
+        [SerializeField] private float regenPercentage = 100;
 
-        private LazyValue<float> _healthPoints;  //  LazyValue will make sure healthPoints are initialized right before we use the healthpoints value by passing in a function
+        private bool _isDead;
+        private LazyValue<float> _healthPoints;  //  LazyValue will make sure healthPoints are initialized right before we use the health points value by passing in a function
         private LazyValue<float> _maxHealthPoints;
-        private bool _isDead = false;
         private static readonly int Die1 = Animator.StringToHash("Die");
 
 
@@ -42,12 +42,12 @@ namespace ANM.Attributes
 
         private void OnEnable()
         {
-            GetComponent<BaseStats>().OnLevelUp += RegenerateHealth;
+            GetComponent<BaseStats>().LevelUpEvent += RegenerateHealth;
         }
 
         private void OnDisable()
         {
-            GetComponent<BaseStats>().OnLevelUp -= RegenerateHealth;
+            GetComponent<BaseStats>().LevelUpEvent -= RegenerateHealth;
         }
 
         public bool IsDead()
@@ -79,12 +79,12 @@ namespace ANM.Attributes
         public void TakeDamage(GameObject instigator, float damage)
         {
             _healthPoints.value = Mathf.Max(_healthPoints.value - damage, 0);
-            if (_healthPoints.value == 0f)
+            if (_healthPoints.value <= 0f)
             {
                 AwardExperience(instigator);
                 Die();
             }
-            else { takeDamage.Invoke(damage); }   //  Unity Event
+            else takeDamage.Invoke(damage); 
         }
 
         private float GetInitialHealth()
@@ -94,7 +94,7 @@ namespace ANM.Attributes
 
         private void AwardExperience(GameObject instigator)
         {
-            Experience experience = instigator.GetComponent<Experience>();
+            var experience = instigator.GetComponent<Experience>();
             if (experience == null) return;
             experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.EXPERIENCE));
         }
@@ -108,8 +108,13 @@ namespace ANM.Attributes
         private void Die()
         {
             if (_isDead) return;
-            GetComponent<Animator>().SetTrigger(Die1);
             GetComponent<ActionScheduler>().CancelCurrentAction();
+            GetComponent<CapsuleCollider>().enabled = false;
+            GetComponent<Animator>().SetTrigger(Die1);
+            var rigid = GetComponent<Rigidbody>();
+            rigid.isKinematic = true;
+            rigid.useGravity = true;
+            rigid.mass = 1000;
             _isDead = true;
         }
 
@@ -124,7 +129,7 @@ namespace ANM.Attributes
         {
             _healthPoints.value = ((HealthProperty)state).curHealth;
             _maxHealthPoints.value = ((HealthProperty)state).maxHealth;
-            if (_healthPoints.value == 0f) { Die(); }
+            if (_healthPoints.value <= 0f) { Die(); }
         }   //  ISaveable
         #endregion
     }

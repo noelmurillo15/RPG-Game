@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * IModifierProvider - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using System.Collections.Generic;
 
 namespace ANM.Stats
 {

@@ -1,4 +1,10 @@
-﻿using ANM.Control;
+﻿/*
+ * WeaponPickup - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using ANM.Control;
 using UnityEngine;
 using System.Collections;
 
@@ -40,7 +46,7 @@ namespace ANM.Combat
             ShowPickup(true);
         }
 
-        #region Interface 
+        #region Interfaces
         public bool HandleRayCast(PlayerController controller)
         {
             if (Input.GetMouseButtonDown(0))

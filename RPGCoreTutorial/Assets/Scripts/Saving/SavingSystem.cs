@@ -1,7 +1,13 @@
+/*
+ * SavingSystem - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
 using System.IO;
 using UnityEngine;
-using ANM.Framework;
 using System.Collections;
+using ANM.Framework.Extensions;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -9,7 +15,6 @@ namespace ANM.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
-
         public static void SaveGameStateToFile(string saveFile)
         {
             var state = LoadFile(saveFile);
@@ -26,28 +31,30 @@ namespace ANM.Saving
         {
             File.Delete(GetPathFromSaveFile(saveFile));
         }
+
+        public static bool CanLoadSaveFile(string saveFile)
+        {
+            var state = LoadFile(saveFile);
+            return state.Count > 0;
+        }
         
         public static IEnumerator LoadLastGameState(string saveFile)
         {
             var state = LoadFile(saveFile);
             if (state.Count <= 0) yield break;
             
-            var sceneTransitionManager = FindObjectOfType<SceneTransitionManager>();
-            var buildIndex = sceneTransitionManager.GetCurrentScene().buildIndex;
-            
+            var buildIndex = -1;
             if (state.ContainsKey("lastSceneBuildIndex"))
                 buildIndex = (int)state["lastSceneBuildIndex"];
             
-            yield return sceneTransitionManager.BeginLoadScene(buildIndex);
-            RestoreState(state);
-            yield return sceneTransitionManager.EndLoadScene();
+            yield return SceneExtension.LoadMultiSceneWithBuildIndexSequence(buildIndex, true);
         }
-
-        public static IEnumerator Transition(int buildIndex)
+        
+        private static string GetPathFromSaveFile(string saveFile)
         {
-            yield return SceneTransitionManager.BeginLoadNextLevel(buildIndex);
+            return Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         }
-
+        
         private static Dictionary<string, object> LoadFile(string saveFile)
         {
             var path = GetPathFromSaveFile(saveFile);
@@ -75,10 +82,10 @@ namespace ANM.Saving
         private static void CaptureState(IDictionary<string, object> state)
         {
             foreach (var saveable in FindObjectsOfType<SaveableEntity>())
-            {
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
-            }
-            state["lastSceneBuildIndex"] = SceneTransitionManager.GetCurrentSceneBuildIndex();
+            
+            var index = SceneExtension.GetCurrentSceneBuildIndex();
+            state["lastSceneBuildIndex"] = index;
         }
 
         private static void RestoreState(IReadOnlyDictionary<string, object> state)
@@ -91,11 +98,6 @@ namespace ANM.Saving
                     saveable.RestoreState(state[id]);
                 }
             }
-        }
-
-        private static string GetPathFromSaveFile(string saveFile)
-        {
-            return Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         }
     }
 }

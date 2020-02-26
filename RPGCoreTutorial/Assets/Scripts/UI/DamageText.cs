@@ -1,4 +1,10 @@
-﻿using TMPro;
+﻿/*
+ * DamageText - 
+ * Created by : Allan N. Murillo
+ * Last Edited : 2/25/2020
+ */
+
+using TMPro;
 using UnityEngine;
 
 namespace ANM.UI
