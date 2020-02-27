@@ -1,13 +1,14 @@
 ﻿/*
  * ScenePortal - 
  * Created by : Allan N. Murillo
- * Last Edited : 2/25/2020
+ * Last Edited : 2/26/2020
  */
 
 using ANM.Saving;
 using ANM.Control;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.AI;
 using System.Collections;
 using ANM.Framework.Extensions;
 
@@ -35,12 +36,12 @@ namespace ANM.Framework.Utils
             var otherBuildIndex = SceneExtension.GetCurrentSceneBuildIndex();
             yield return SavingWrapper.Transition(sceneToLoad, PlayerTag);
             var player = FindObjectOfType<PlayerController>();
+            var agent = player.GetComponent<NavMeshAgent>();
             UpdatePlayerSpawnPosition(GetOtherScenePortal(otherBuildIndex), player.gameObject);
             player.enabled = true;
+            agent.enabled = true;
             Destroy(gameObject);
         }
-
-        
         
         private static void UpdatePlayerSpawnPosition(ScenePortal otherPortal, GameObject player)
         {
@@ -54,7 +55,6 @@ namespace ANM.Framework.Utils
             if(otherBuildIndex == -1)
                 return FindObjectsOfType<ScenePortal>().FirstOrDefault(portal => portal != this);
             
-            otherBuildIndex -= 1;
             return FindObjectsOfType<ScenePortal>().FirstOrDefault(portal => 
                 portal.name.Contains(otherBuildIndex.ToString()) && portal != this);
         }

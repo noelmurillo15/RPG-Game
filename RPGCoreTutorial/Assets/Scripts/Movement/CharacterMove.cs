@@ -1,7 +1,7 @@
 /*
  * CharacterMove - 
  * Created by : Allan N. Murillo
- * Last Edited : 2/25/2020
+ * Last Edited : 2/26/2020
  */
 
 using ANM.Core;
@@ -69,14 +69,13 @@ namespace ANM.Movement
         public void RestoreState(object state)
         {
             if (tag.Contains("Player"))
-            {
-                Debug.Log("Setting Player position : " + ((SerializableVector3)state).ToVector());
-            }
-            _navMeshAgent.enabled = false;
-            transform.localPosition = ((SerializableVector3)state).ToVector();
-            _navMeshAgent.enabled = true;
+                Debug.Log("Setting Player position : " + 
+                          ((SerializableVector3)state).ToVector());
             
             GetComponent<ActionScheduler>().CancelCurrentAction();
+            _navMeshAgent.enabled = false;
+            transform.position = ((SerializableVector3) state).ToVector();
+            _navMeshAgent.enabled = true;
         }   //  ISaveable
         #endregion
     }

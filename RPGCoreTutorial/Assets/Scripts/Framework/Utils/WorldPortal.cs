@@ -30,7 +30,7 @@ namespace ANM.Framework.Utils
         private IEnumerator Teleport()
         {
             if (teleportTo == Vector3.zero) yield break;
-            yield return SceneExtension.OnStartLoadWithFade(true);
+            yield return SceneExtension.OnStartLoadWithFade();
             
             var player = FindObjectOfType<PlayerController>();
             var agent = player.GetComponent<NavMeshAgent>();

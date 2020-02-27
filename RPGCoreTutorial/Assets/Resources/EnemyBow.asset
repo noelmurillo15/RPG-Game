@@ -18,7 +18,7 @@ MonoBehaviour:
   range: 10
   timeBetweenAttacks: 1.25
   weaponBaseDamage: 5
-  weaponPercentageBonus: 0.1
+  weaponPercentageBonus: 25
   isRightHanded: 0
   projectile: {fileID: 8152703577793704094, guid: 3c3dccebfa9756a4d856e31c1e8fa749,
     type: 3}

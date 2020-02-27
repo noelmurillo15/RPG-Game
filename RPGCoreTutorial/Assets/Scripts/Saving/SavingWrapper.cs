@@ -5,8 +5,10 @@
  * Last Edited : 2/26/2020
  */
 
+using ANM.Core;
 using ANM.Control;
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 using ANM.Framework.Managers;
 using ANM.Framework.Extensions;
@@ -28,7 +30,6 @@ namespace ANM.Saving
         private static void OnStartLoadScene(bool b)
         {
             if(!b) return;
-            Debug.Log("SavingWrapper::OnStartLoadScene");
             var index = SceneExtension.GetCurrentSceneBuildIndex();
             if (index < FirstLevelBuildIndex && index > LastLevelBuildIndex) return;
             SaveGameState();
@@ -37,7 +38,6 @@ namespace ANM.Saving
         private static void OnFinishLoadScene(bool b)
         {
             if(!b) return;
-            Debug.Log("SavingWrapper::OnFinishLoadScene");
             var index = SceneExtension.GetCurrentSceneBuildIndex();
             if (index < FirstLevelBuildIndex && index > LastLevelBuildIndex) return;
             LoadGameState();
@@ -86,7 +86,11 @@ namespace ANM.Saving
         {
             GameObject.FindWithTag(playerTag).GetComponent<PlayerController>().enabled = false;
             yield return SceneExtension.LoadMultiSceneWithBuildIndexSequence(buildIndex, true);
-            GameObject.FindWithTag(playerTag).GetComponent<PlayerController>().enabled = false;
+            var player = FindObjectOfType<PlayerController>();
+            player.GetComponent<ActionScheduler>().CancelCurrentAction();
+            var agent = player.GetComponent<NavMeshAgent>();
+            player.enabled = false;
+            agent.enabled = false;
         }
     }
 }

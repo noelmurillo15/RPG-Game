@@ -65,9 +65,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: RPG.Resources.Health+TakeDamageEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  regenrationPercentage: 80
+  regenPercentage: 100
 --- !u!114 &1991953339756221832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,6 +122,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -135,6 +134,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -180,7 +180,7 @@ NavMeshAgent:
   m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 5000
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.75
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -211,11 +211,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9055998343677923917}
     m_Modifications:
-    - target: {fileID: 7475815013760654170, guid: 6b926f233efd5aa4680d55300edf5b60,
-        type: 3}
-      propertyPath: m_Name
-      value: DamageTextSpawner
-      objectReference: {fileID: 0}
     - target: {fileID: 2565207909023621385, guid: 6b926f233efd5aa4680d55300edf5b60,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -270,6 +265,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7475815013760654170, guid: 6b926f233efd5aa4680d55300edf5b60,
+        type: 3}
+      propertyPath: m_Name
+      value: DamageTextSpawner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b926f233efd5aa4680d55300edf5b60, type: 3}

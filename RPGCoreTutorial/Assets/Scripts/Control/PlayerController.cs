@@ -1,7 +1,7 @@
 ﻿/*
  * PlayerController - 
  * Created by : Allan N. Murillo
- * Last Edited : 2/25/2020
+ * Last Edited : 2/26/2020
  */
 
 using System;
@@ -145,11 +145,9 @@ namespace ANM.Control
         private CursorMapping GetCursorMapping(CursorType type)
         {
             foreach (var mapping in cursorMappings)
-            {
                 if (mapping.type == type)
                     return mapping;
-            }
-
+            
             return cursorMappings[0];
         }
 
