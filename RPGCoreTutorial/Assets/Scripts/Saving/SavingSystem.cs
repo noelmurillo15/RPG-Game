@@ -2,7 +2,7 @@
  * SavingSystem - Uses SaveableEntity to save/load the current game state
  * Reads and writes to save file
  * Created by : Allan N. Murillo
- * Last Edited : 2/26/2020
+ * Last Edited : 3/3/2020
  */
 
 using System.IO;
@@ -18,6 +18,7 @@ namespace ANM.Saving
     {
         public static void SaveGameStateToFile(string saveFile)
         {
+            Debug.Log("SavingSystem::SaveGameState ToFile");
             var state = LoadFile(saveFile);
             CaptureState(state);
             SaveFile(saveFile, state);
@@ -25,6 +26,7 @@ namespace ANM.Saving
 
         public static void LoadGameStateFromFile(string saveFile)
         {
+            Debug.Log("SavingSystem::LoadGameState FromFile");
             RestoreState(LoadFile(saveFile));
         }
 
@@ -48,7 +50,7 @@ namespace ANM.Saving
             if (state.ContainsKey("lastSceneBuildIndex"))
                 buildIndex = (int)state["lastSceneBuildIndex"];
             
-            yield return SceneExtension.LoadMultiSceneWithBuildIndexSequence(buildIndex, true);
+            yield return SceneExtension.LoadMultiSceneWithBuildIndexSequence(buildIndex, true, true);
         }
         
         private static string GetPathFromSaveFile(string saveFile)

@@ -2,7 +2,7 @@
  * SavingWrapper - Wrapper class for the SavingSystem
  * Subscribes to LoadSceneEvents and saves/loads the game when loading a level
  * Created by : Allan N. Murillo
- * Last Edited : 2/26/2020
+ * Last Edited : 3/3/2020
  */
 
 using ANM.Core;
@@ -19,7 +19,7 @@ namespace ANM.Saving
     {
         private const string DefaultSaveFileName = "save";
         private const int FirstLevelBuildIndex = 2;
-        private const int LastLevelBuildIndex = 3;
+        private const int LastLevelBuildIndex = 4;
 
         private void Start()
         {
@@ -27,17 +27,17 @@ namespace ANM.Saving
             SceneExtension.FinishSceneLoadEvent += OnFinishLoadScene;
         }
         
-        private static void OnStartLoadScene(bool b)
+        private static void OnStartLoadScene(bool fade, bool save)
         {
-            if(!b) return;
+            if(!save) return;
             var index = SceneExtension.GetCurrentSceneBuildIndex();
             if (index < FirstLevelBuildIndex && index > LastLevelBuildIndex) return;
             SaveGameState();
         }
         
-        private static void OnFinishLoadScene(bool b)
+        private static void OnFinishLoadScene(bool fade, bool save)
         {
-            if(!b) return;
+            if(!save) return;
             var index = SceneExtension.GetCurrentSceneBuildIndex();
             if (index < FirstLevelBuildIndex && index > LastLevelBuildIndex) return;
             LoadGameState();
@@ -53,8 +53,8 @@ namespace ANM.Saving
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Delete)) { DeleteSaveFile(); }
-            if (Input.GetKeyDown(KeyCode.S)) { SaveGameState(); }
-            if (Input.GetKeyDown(KeyCode.L)) { LoadGameState(); }
+            // if (Input.GetKeyDown(KeyCode.S)) { SaveGameState(); }
+            // if (Input.GetKeyDown(KeyCode.L)) { LoadGameState(); }
         }
 
         private static void LoadGameState()

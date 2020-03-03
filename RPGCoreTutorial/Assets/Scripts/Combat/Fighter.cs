@@ -27,6 +27,7 @@ namespace ANM.Combat
 
         private Health _target;
         private Animator _myAnimator;
+        private ActionScheduler _scheduler;
         private CharacterMove _myCharacterMove;
 
         private float _timeSinceLastAttack = Mathf.Infinity;
@@ -35,9 +36,10 @@ namespace ANM.Combat
 
         private void Awake()
         {
-            _currentWeapon = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
-            _myCharacterMove = GetComponent<CharacterMove>();
             _myAnimator = GetComponent<Animator>();
+            _scheduler = GetComponent<ActionScheduler>();
+            _myCharacterMove = GetComponent<CharacterMove>();
+            _currentWeapon = new LazyValue<WeaponConfig>(SetupDefaultWeapon);
         }
 
         private void Start()
@@ -70,7 +72,7 @@ namespace ANM.Combat
 
         public void Attack(GameObject combatTarget)
         {
-            GetComponent<ActionScheduler>().StartAction(this);
+            _scheduler.StartAction(this);
             _target = combatTarget.GetComponent<Health>();
         }
 
@@ -112,8 +114,7 @@ namespace ANM.Combat
         }
 
         private void TriggerAttack()
-        {
-            //  This will trigger the Animation Event : Hit()
+        {    //  This will trigger the Animation Event : Hit()
             _myAnimator.ResetTrigger(StopAttack1);
             _myAnimator.SetTrigger(Attack1);
         }
@@ -125,7 +126,6 @@ namespace ANM.Combat
         }
 
         #region Animation Events
-
         private void Hit()
         {
             if (_target == null) return;
@@ -177,7 +177,8 @@ namespace ANM.Combat
 
         public void RestoreState(object state)
         {
-            var weaponName = (string)state;
+            var weaponName = "Weapon/";
+            weaponName += (string) state;
             var weapon = Resources.Load<WeaponConfig>(weaponName);
             EquipWeapon(weapon);
         }   //  ISaveable                

@@ -16,10 +16,10 @@ namespace ANM.Stats
 
     public enum Stat
     {   //  AI Stats
-        HEALTH,     //  Hit Pts  ~ Affected when Hungry, Thirsty & Tired
-        MANA,       //  Mana Pts ~ Affected when Hungry & Thirsty
-        EXPERIENCE, //  Exp Pts  ~ Awarded upon killing enemy / completing quests   
-        EXP_TO_LVL, //  
+        HEALTH,     //  Hit Pts  ~ 
+        MANA,       //  Mana Pts ~ Used to cast spells
+        EXP_TO_GIVE,//  Exp To Give  ~ Given to the character that deals the killing blow on this character 
+        EXP_TO_LVL, //  Exp To Level ~ Amount of Exp required for the next level
         MELEE_DMG,  //  Base Character Melee Damage
         RANGE_DMG   //  Base Character Ranged Damage
         //  TODO : implement physical status feature (Physique)
@@ -47,7 +47,8 @@ namespace ANM.Stats
         DEFENDER,   // + 10 in Endurance
         ASSASSIN,   // FIGHTER +10 in any other stat or Lv 26  
         WARLOCK,    // SORCERER +10 in any other stat or Lv 26  
-        TANK        // DEFENDER +10 in any other stat or Lv 26    
+        TANK,       // DEFENDER +10 in any other stat or Lv 26
+        GOD
     }
 
     public enum CharacterAttributes

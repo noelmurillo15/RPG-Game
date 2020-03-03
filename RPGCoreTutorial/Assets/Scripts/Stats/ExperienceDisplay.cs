@@ -13,17 +13,18 @@ namespace ANM.Stats
     public class ExperienceDisplay : MonoBehaviour
     {
         private Experience _exp;
+        private TMP_Text _text;
 
 
         private void Awake()
         {
+            _text = GetComponent<TMP_Text>();
             _exp = GameObject.FindWithTag("Player").GetComponent<Experience>();
         }
 
         private void Update()
         {
-            GetComponent<TMP_Text>().text = 
-                $"{_exp.GetExperiencePts().ToString(CultureInfo.CurrentCulture)}pts";
+            _text.text = $"{_exp.GetExperiencePts().ToString(CultureInfo.CurrentCulture)}pts";
         }
     }
 }

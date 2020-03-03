@@ -1,7 +1,7 @@
 ﻿/*
  * ScreenFade - Fades the screen in-between loading scenes
  * Created by : Allan N. Murillo
- * Last Edited : 2/25/2020
+ * Last Edited : 3/3/2020
  */
 
 using UnityEngine;
@@ -23,8 +23,8 @@ namespace ANM.Framework.Utils
         private void Start()
         {
             if (gameObject.GetComponentInParent<GameManager>() != GameManager.Instance) return;
-            SceneExtension.StartSceneLoadEvent += StartLoadScene;
             SceneExtension.FinishSceneLoadEvent += FinishLoadScene;
+            SceneExtension.StartSceneLoadEvent += StartLoadScene;
             canvasGroup = GetComponent<CanvasGroup>();
             FadeInImmediate();
         }
@@ -32,13 +32,13 @@ namespace ANM.Framework.Utils
         private void OnDestroy()
         {
             if (gameObject.GetComponentInParent<GameManager>() != GameManager.Instance) return;
-            SceneExtension.StartSceneLoadEvent -= StartLoadScene;
             SceneExtension.FinishSceneLoadEvent -= FinishLoadScene;
+            SceneExtension.StartSceneLoadEvent -= StartLoadScene;
         }
         
-        private void StartLoadScene(bool wait)
+        private void StartLoadScene(bool fade, bool save)
         {
-            if(!wait) FadeOutImmediate();
+            if(!fade) FadeOutImmediate();
             else
             {
                 FadeInImmediate();
@@ -46,9 +46,9 @@ namespace ANM.Framework.Utils
             }
         }
         
-        private void FinishLoadScene(bool wait)
+        private void FinishLoadScene(bool fade, bool save)
         {
-            if(!wait) FadeInImmediate();
+            if(!fade) FadeInImmediate();
             else
             {
                 FadeOutImmediate();

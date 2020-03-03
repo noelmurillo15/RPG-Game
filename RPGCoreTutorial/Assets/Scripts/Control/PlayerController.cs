@@ -27,6 +27,7 @@ namespace ANM.Control
 
         //  Cached Variables
         private Health _myHealth;
+        private CharacterMove _mover;
         
         [SerializeField] private float maxPathLength = 200f;
         [SerializeField] private float maxNavMeshProjectionDistance = 1f;
@@ -38,6 +39,7 @@ namespace ANM.Control
         {
             _mainCam = Camera.main;
             _myHealth = GetComponent<Health>();
+            _mover = GetComponent<CharacterMove>();
         }
 
         private void Update()
@@ -45,12 +47,15 @@ namespace ANM.Control
             if (InteractWithUi()) return;
 
             if (_myHealth.IsDead())
-            { SetCursor(CursorType.NONE); return; }
+            {
+                SetCursor(CursorType.NONE); 
+                return;
+            }
 
             if (InteractWithComponent()) return;
             if (InteractWithMovement()) return;
 
-            SetCursor(CursorType.NONE);
+            SetCursor(CursorType.MOVEMENT);
         }
 
         private bool InteractWithUi()
@@ -94,13 +99,12 @@ namespace ANM.Control
 
         private bool InteractWithMovement()
         {
+            if (!Input.GetMouseButton(0)) return false;
+            
             var hasHit = RaycastNavMesh(out var target);
             if (!hasHit) return false;
-            if (Input.GetMouseButton(0))
-            {
-                GetComponent<CharacterMove>().StartMoveAction(target, 1f);
-            }
-            SetCursor(CursorType.MOVEMENT);
+            
+            _mover.StartMoveAction(target, 1f);
             return true;
         }
 

@@ -38,7 +38,7 @@ namespace ANM.Framework.Utils
             agent.Warp(teleportTo);
             agent.ResetPath();
             
-            yield return SceneExtension.OnFinsihedLoadWithFade();
+            yield return SceneExtension.OnFinishedLoadWithFade();
         }
     }
 }

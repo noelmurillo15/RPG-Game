@@ -1,5 +1,6 @@
 /*
- * Health - 
+ * Health - Base Health for any Character
+ * Implements ISaveable which is used by the save system
  * Created by : Allan N. Murillo
  * Last Edited : 2/25/2020
  */
@@ -8,6 +9,7 @@ using ANM.Core;
 using ANM.Stats;
 using ANM.Saving;
 using UnityEngine;
+using UnityEngine.AI;
 using GameDevTV.Utils;
 using UnityEngine.Events;
 
@@ -15,64 +17,85 @@ namespace ANM.Attributes
 {
     public class Health : MonoBehaviour, ISaveable
     {
-        //  Unity Events
         [SerializeField] private TakeDamageEvent takeDamage;
-        [System.Serializable] public class TakeDamageEvent : UnityEvent<float> { }
         //  Allows Dynamic float parameter which will be used int takeDamage.Invoke(<dynamic float>)
+        [System.Serializable] public class TakeDamageEvent : UnityEvent<float> { }
 
         [SerializeField] private float regenPercentage = 100;
 
         private bool _isDead;
-        private LazyValue<float> _healthPoints;  //  LazyValue will make sure healthPoints are initialized right before we use the health points value by passing in a function
+        private const float OneHundred = 100f;
+        //  LazyValue will make sure floats are initialized right before we use the health points value by passing in a function
+        private LazyValue<float> _healthPoints;  
         private LazyValue<float> _maxHealthPoints;
+        private BaseStats _baseStats;
         private static readonly int Die1 = Animator.StringToHash("Die");
 
 
         private void Awake()
-        {
-            _healthPoints = new LazyValue<float>(GetInitialHealth);  //  GetInitialHealth() will get called right before the healthPoints.value is used ~ LazyInitialization
+        {    //  GetInitialHealth() will get called right before the healthPoints.value is used ~ LazyInitialization
+            _healthPoints = new LazyValue<float>(GetInitialHealth);  
             _maxHealthPoints = new LazyValue<float>(GetInitialHealth);
-        }
+            _baseStats = GetComponent<BaseStats>();
+        }    //    Needed for saving / loading game state so that these values can be accessed before Start()
 
         private void Start()
-        {
-            _healthPoints.ForceInit();   //  If healthPoints has not been accessed before this point, we'll force the value to be initialized
+        {    //  If healthPoints has not been accessed before this point, we'll force the value to be initialized
+            _healthPoints.ForceInit();   
             _maxHealthPoints.ForceInit();
         }
 
         private void OnEnable()
         {
-            GetComponent<BaseStats>().LevelUpEvent += RegenerateHealth;
+            _baseStats.LevelUpEvent += RegenerateHealth;
         }
 
         private void OnDisable()
         {
-            GetComponent<BaseStats>().LevelUpEvent -= RegenerateHealth;
+            _baseStats.LevelUpEvent -= RegenerateHealth;
+        }
+        
+        private void Die()
+        {
+            if (_isDead) return;
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+            GetComponent<Animator>().SetTrigger(Die1);
+            GetComponent<NavMeshAgent>().enabled = false;
+            var rigid = GetComponent<Rigidbody>();
+            rigid.velocity = Vector3.zero;
+            rigid.mass = 1000;
+            _isDead = true;
+        }
+        
+        private float GetInitialHealth()
+        {
+            return _baseStats.GetStat(Stat.HEALTH);
+        }
+        
+        private void RegenerateHealth()
+        {
+            var regenHealthPts = GetMaxHealth() * regenPercentage / OneHundred;
+            _healthPoints.value = Mathf.Max(_healthPoints.value, regenHealthPts);
         }
 
-        public bool IsDead()
+        private void AwardExperience(GameObject instigator)
         {
-            return _isDead;
+            var experience = instigator.GetComponent<Experience>();
+            if (experience == null) return;
+            experience.GainExperience(_baseStats.GetStat(Stat.EXP_TO_GIVE));
         }
+        
+        public bool IsDead() { return _isDead; }
 
-        public float GetPercentage()
-        {
-            return GetFraction() * 100f;
-        }
+        public float GetPercentage() { return GetFraction() * OneHundred; }
 
-        public float GetFraction()
-        {
-            return GetHealthPts() / GetMaxHealth();
-        }
+        public float GetFraction() { return GetHealthPts() / GetMaxHealth(); }
 
-        public float GetHealthPts()
-        {
-            return _healthPoints.value;
-        }
+        public float GetHealthPts() { return _healthPoints.value; }
 
         public float GetMaxHealth()
         {
-            _maxHealthPoints.value = GetComponent<BaseStats>().GetStat(Stat.HEALTH);
+            _maxHealthPoints.value = _baseStats.GetStat(Stat.HEALTH);
             return _maxHealthPoints.value;
         }
 
@@ -86,39 +109,7 @@ namespace ANM.Attributes
             }
             else takeDamage.Invoke(damage); 
         }
-
-        private float GetInitialHealth()
-        {
-            return GetComponent<BaseStats>().GetStat(Stat.HEALTH);
-        }
-
-        private void AwardExperience(GameObject instigator)
-        {
-            var experience = instigator.GetComponent<Experience>();
-            if (experience == null) return;
-            experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.EXPERIENCE));
-        }
-
-        private void RegenerateHealth()
-        {
-            var regenHealthPts = GetMaxHealth() * regenPercentage / 100;
-            _healthPoints.value = Mathf.Max(_healthPoints.value, regenHealthPts);
-        }
-
-        private void Die()
-        {
-            if (_isDead) return;
-            GetComponent<ActionScheduler>().CancelCurrentAction();
-            GetComponent<CapsuleCollider>().enabled = false;
-            GetComponent<Animator>().SetTrigger(Die1);
-            var rigid = GetComponent<Rigidbody>();
-            rigid.isKinematic = true;
-            rigid.useGravity = true;
-            rigid.mass = 1000;
-            _isDead = true;
-        }
-
-        #region Interface
+        
         public object CaptureState()
         {
             var healthProperty = new HealthProperty(GetHealthPts(), GetMaxHealth());
@@ -131,7 +122,6 @@ namespace ANM.Attributes
             _maxHealthPoints.value = ((HealthProperty)state).maxHealth;
             if (_healthPoints.value <= 0f) { Die(); }
         }   //  ISaveable
-        #endregion
     }
     
     [System.Serializable]

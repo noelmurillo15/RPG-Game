@@ -8,7 +8,7 @@
     {
         private T _value;
         private bool _initialized = false;
-        private InitializerDelegate _initializer;
+        private readonly InitializerDelegate _initializer;
 
         public delegate T InitializerDelegate();
 

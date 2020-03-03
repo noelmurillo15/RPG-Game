@@ -12,16 +12,18 @@ namespace ANM.Stats
     public class LevelDisplay : MonoBehaviour
     {
         private BaseStats _baseStats;
+        private TMP_Text _text;
 
 
         private void Awake()
         {
+            _text = GetComponent<TMP_Text>();
             _baseStats = GameObject.FindWithTag("Player").GetComponent<BaseStats>();
         }
 
         private void Update()
         {
-            GetComponent<TMP_Text>().text = $"{_baseStats.GetLevel().ToString()}";
+            _text.text = $"{_baseStats.GetLevel().ToString()}";
         }
     }
 }

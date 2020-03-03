@@ -4,18 +4,17 @@
  * Last Edited : 2/25/2020
  */
 
-using ANM.Attributes;
-using ANM.Combat;
 using ANM.Core;
-using ANM.Movement;
-using GameDevTV.Utils;
+using ANM.Combat;
 using UnityEngine;
+using ANM.Movement;
+using ANM.Attributes;
+using GameDevTV.Utils;
 
 namespace ANM.Control
 {
     public class AIController : MonoBehaviour
     {
-        #region  AIController Class Members      
         //  Serialized Fields  
         [SerializeField] private PatrolPath patrolPath = null;
         [SerializeField] private float chaseDistance = 5f;
@@ -28,6 +27,7 @@ namespace ANM.Control
         private Fighter _fighter;
         private Health _myHealth;
         private GameObject _player;
+        private ActionScheduler _scheduler;
         private CharacterMove _characterMove;
 
         //  My Variables
@@ -35,13 +35,13 @@ namespace ANM.Control
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
         private int _waypointIndex = 0;
-        #endregion
 
 
         private void Awake()
         {
             _fighter = GetComponent<Fighter>();
             _myHealth = GetComponent<Health>();
+            _scheduler = GetComponent<ActionScheduler>();
             _characterMove = GetComponent<CharacterMove>();
             _player = GameObject.FindGameObjectWithTag("Player");
             _guardLocation = new LazyValue<Vector3>(GetGuardPosition);
@@ -50,6 +50,12 @@ namespace ANM.Control
         private void Start()
         {
             _guardLocation.ForceInit();
+        }
+        
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
         }
 
         private void Update()
@@ -74,6 +80,7 @@ namespace ANM.Control
             UpdateTimers();
         }
 
+        
         private void UpdateTimers()
         {
             _timeSinceArrivedAtWaypoint += Time.deltaTime;
@@ -102,7 +109,7 @@ namespace ANM.Control
 
         private void SuspicionBehaviour()
         {
-            GetComponent<ActionScheduler>().CancelCurrentAction();
+            _scheduler.CancelCurrentAction();
         }
 
         private void AttackBehaviour()
@@ -115,6 +122,7 @@ namespace ANM.Control
             _waypointIndex = patrolPath.GetNextIndex(_waypointIndex);
         }
 
+        
         private bool AtWaypoint()
         {
             var distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
@@ -135,13 +143,5 @@ namespace ANM.Control
         {
             return patrolPath.GetWaypoint(_waypointIndex);
         }
-
-        #region Custom Gizmos
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, chaseDistance);
-        }
-        #endregion
     }
 }

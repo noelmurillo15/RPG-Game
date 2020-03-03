@@ -10,9 +10,16 @@ namespace ANM.UI
 {
     public class UICameraFacing : MonoBehaviour
     {
+        private Camera _mainCam;
+
+        private void Start()
+        {
+            _mainCam = Camera.main;
+        }
+
         private void LateUpdate()
         {
-            transform.forward = Camera.main.transform.forward;
+            transform.forward = _mainCam.transform.forward;
         }
     }
 }

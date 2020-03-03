@@ -228,6 +228,11 @@ PrefabInstance:
       propertyPath: shouldUseModifiers
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7535783648654796431, guid: 7987f571b448e4a4282e9e4ce3bb3797,
+        type: 3}
+      propertyPath: characterClass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8603535784723985103, guid: 7987f571b448e4a4282e9e4ce3bb3797,
         type: 3}
       propertyPath: healthPoints

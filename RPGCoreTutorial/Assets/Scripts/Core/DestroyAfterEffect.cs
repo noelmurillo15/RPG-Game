@@ -11,11 +11,16 @@ namespace ANM.Core
     public class DestroyAfterEffect : MonoBehaviour
     {
         [SerializeField] private GameObject objToDestroy = null;
+        private ParticleSystem _particles;
 
+        private void Start()
+        {
+            _particles = GetComponent<ParticleSystem>();
+        }
 
         private void Update()
         {
-            if (GetComponent<ParticleSystem>().IsAlive()) return;
+            if (_particles.IsAlive()) return;
             Destroy(objToDestroy != null ? objToDestroy : gameObject);
         }
     }

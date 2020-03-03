@@ -4,9 +4,9 @@
  * Last Edited : 2/25/2020
  */
 
-using ANM.Attributes;
 using ANM.Control;
 using UnityEngine;
+using ANM.Attributes;
 
 namespace ANM.Combat
 {
@@ -21,10 +21,7 @@ namespace ANM.Combat
         public bool HandleRayCast(PlayerController controller)
         {
             if (!Fighter.CanAttack(gameObject)) return false;
-
-            if (Input.GetMouseButton(0))
-            { controller.GetComponent<Fighter>().Attack(gameObject); }
-
+            if (Input.GetMouseButton(0)) { controller.GetComponent<Fighter>().Attack(gameObject); }
             return true;
         }    //    IRaycastable
     }

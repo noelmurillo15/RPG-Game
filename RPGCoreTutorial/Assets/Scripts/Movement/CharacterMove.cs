@@ -1,5 +1,6 @@
 /*
- * CharacterMove - 
+ * CharacterMove - handles character movement and updates animations
+ * ISaveable to save the characters' position in the game state
  * Created by : Allan N. Murillo
  * Last Edited : 2/26/2020
  */
@@ -7,7 +8,6 @@
 using ANM.Core;
 using ANM.Saving;
 using UnityEngine;
-using ANM.Attributes;
 using UnityEngine.AI;
 
 namespace ANM.Movement
@@ -16,21 +16,22 @@ namespace ANM.Movement
     public class CharacterMove : MonoBehaviour, IAction, ISaveable
     {
         [SerializeField] private float maxSpeed = 5.66f;
-
-        private Health _myHealth;
-        private NavMeshAgent _navMeshAgent;
+        
         private static readonly int ForwardSpeed = Animator.StringToHash("ForwardSpeed");
+        private ActionScheduler _scheduler;
+        private NavMeshAgent _navMeshAgent;
+        private Animator _animator;
 
 
         private void Awake()
         {
-            _myHealth = GetComponent<Health>();
+            _animator = GetComponent<Animator>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _scheduler = GetComponent<ActionScheduler>();
         }
 
         private void Update()
         {
-            _navMeshAgent.enabled = !_myHealth.IsDead();
             UpdateAnimator();
         }
 
@@ -43,7 +44,7 @@ namespace ANM.Movement
 
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
-            GetComponent<ActionScheduler>().StartAction(this);
+            _scheduler.StartAction(this);
             MoveTo(destination, speedFraction);
         }
 
@@ -52,10 +53,9 @@ namespace ANM.Movement
             var velocity = _navMeshAgent.velocity;
             var localVelocity = transform.InverseTransformDirection(velocity);
             var speed = localVelocity.z;
-            GetComponent<Animator>().SetFloat(ForwardSpeed, speed);
+            _animator.SetFloat(ForwardSpeed, speed);
         }
 
-        #region Interface Methods
         public void Cancel()
         {
             _navMeshAgent.isStopped = true;
@@ -68,15 +68,16 @@ namespace ANM.Movement
 
         public void RestoreState(object state)
         {
-            if (tag.Contains("Player"))
-                Debug.Log("Setting Player position : " + 
-                          ((SerializableVector3)state).ToVector());
-            
-            GetComponent<ActionScheduler>().CancelCurrentAction();
+            if (_scheduler == null)
+            {
+                Debug.Log("CharacterMove::Restoring State Action Scheduler not found for : " 
+                          + gameObject.name);
+                return;
+            }
+            _scheduler.CancelCurrentAction();
             _navMeshAgent.enabled = false;
             transform.position = ((SerializableVector3) state).ToVector();
             _navMeshAgent.enabled = true;
         }   //  ISaveable
-        #endregion
     }
 }

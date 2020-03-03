@@ -12,7 +12,6 @@ namespace ANM.Control
     {
         private const float WaypointGizmosRadius = 0.3f;
 
-
         private void OnDrawGizmos()
         {
             for (var x = 0; x < transform.childCount; x++)

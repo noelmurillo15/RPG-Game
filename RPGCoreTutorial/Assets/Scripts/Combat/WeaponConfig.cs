@@ -1,5 +1,5 @@
 ﻿/*
- * WeaponConfig - 
+ * WeaponConfig - Contains data needed to create runtime weapons
  * Created by : Allan N. Murillo
  * Last Edited : 2/25/2020
  */
@@ -45,18 +45,14 @@ namespace ANM.Combat
             //  Default Animator Override Controller  
             var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
             if (animatorOverride != null)
-            {
                 animator.runtimeAnimatorController = animatorOverride;
-            }
             else if (overrideController != null)
-            {
                 animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
-            }
         }
 
         private static void DestroyOldWeapon(Transform rightHand, Transform leftHand)
         {
-            Transform oldWeapon = rightHand.Find(WeaponName);
+            var oldWeapon = rightHand.Find(WeaponName);
 
             if (oldWeapon == null)
                 oldWeapon = leftHand.Find(WeaponName);
@@ -73,29 +69,14 @@ namespace ANM.Combat
             projectileInstance.SetTarget(target, instigator, totalDmg);
         }
 
-        public bool HasProjectile()
-        {
-            return projectile != null;
-        }
+        public bool HasProjectile() { return projectile != null; }
 
-        public float GetWeaponRange()
-        {
-            return range;
-        }
+        public float GetWeaponRange() { return range; }
 
-        public float GetPercentageBonus()
-        {
-            return weaponPercentageBonus;
-        }
+        public float GetPercentageBonus() { return weaponPercentageBonus; }
 
-        public float GetWeaponBaseDamage()
-        {
-            return weaponBaseDamage;
-        }
+        public float GetWeaponBaseDamage() { return weaponBaseDamage; }
 
-        public float GetWeaponFireRate()
-        {
-            return timeBetweenAttacks;
-        }
+        public float GetWeaponFireRate() { return timeBetweenAttacks; }
     }
 }

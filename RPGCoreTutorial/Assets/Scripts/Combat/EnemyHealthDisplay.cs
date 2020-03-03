@@ -4,35 +4,28 @@
  * Last Edited : 2/25/2020
  */
 
-using System.Globalization;
-using ANM.Attributes;
 using TMPro;
 using UnityEngine;
+using ANM.Attributes;
 
 namespace ANM.Combat
 {
     public class EnemyHealthDisplay : MonoBehaviour
     {
         private Fighter _fighter;
+        private TMP_Text _text;
 
 
         private void Awake()
         {
+            _text = GetComponent<TMP_Text>();
             _fighter = GameObject.FindWithTag("Player").GetComponent<Fighter>();
         }
 
         private void Update()
         {
-            if (_fighter.GetTarget() == null)
-            {
-                GetComponent<TMP_Text>().text = "N/A";
-            }
-            else
-            {
-                Health health = _fighter.GetTarget();
-                GetComponent<TMP_Text>().text = 
-                    $"{health.GetPercentage().ToString(CultureInfo.CurrentCulture):0}%";
-            }
+            Health health = _fighter.GetTarget();
+            _text.text = health == null ? "N/A" : $"{health.GetPercentage():0}%";
         }
     }
 }

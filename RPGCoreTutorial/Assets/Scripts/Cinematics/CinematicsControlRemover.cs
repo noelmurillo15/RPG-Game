@@ -16,23 +16,25 @@ namespace ANM.Cinematics
     public class CinematicsControlRemover : MonoBehaviour
     {
         private GameObject _player;
+        private PlayableDirector _director;
 
 
         private void Awake()
         {
+            _director = GetComponent<PlayableDirector>();
             _player = GameObject.FindGameObjectWithTag("Player");
         }
 
         private void Start()
         {
-            GetComponent<PlayableDirector>().played += DisableControl;
-            GetComponent<PlayableDirector>().stopped += EnableControl;
+            _director.played += DisableControl;
+            _director.stopped += EnableControl;
         }
 
         private void OnDisable()
         {
-            GetComponent<PlayableDirector>().played -= DisableControl;
-            GetComponent<PlayableDirector>().stopped -= EnableControl;
+            _director.played -= DisableControl;
+            _director.stopped -= EnableControl;
         }
 
         private void DisableControl(PlayableDirector playDirector)
