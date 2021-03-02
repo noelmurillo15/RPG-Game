@@ -12,7 +12,7 @@ namespace ANM.Framework.Utils
     public class GameManagerCleanup : MonoBehaviour
     {
         [SerializeField] private float quitDelay = 3f;
-        
+
         private void Start()
         {
             Invoke($"ApplicationQuit", quitDelay);
@@ -23,9 +23,7 @@ namespace ANM.Framework.Utils
             if (GameManager.Instance != null) Destroy(obj: GameManager.Instance.gameObject);
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-#elif UNITY_WEBGL
-            // WebBrowserInteraction.jslib will close the application in WebGL
-#else
+#elif !UNITY_WEBGL
             Application.Quit();
 #endif
         }

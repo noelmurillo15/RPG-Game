@@ -1,7 +1,7 @@
 ﻿/*
- * SaveSettings - Save/Loads game settings to/from a JSON file
+ * SaveSettings - Save/Loads game settings (audio, video) to/from a JSON file
  * Created by : Allan N. Murillo
- * Last Edited : 3/3/2020
+ * Last Edited : 1/14/2021
  */
 
 using System.IO;
@@ -26,21 +26,21 @@ namespace ANM.Framework.Options
         public int anisotropicFilteringLevel;
         public int shadowCascade;
         public bool displayFps;
-        public bool vsync;
+        public bool fullscreen;
 
-        internal static float MasterVolumeIni;
-        internal static float EffectVolumeIni;
-        internal static float BackgroundVolumeIni;
-        internal static int CurrentQualityLevelIni;
-        internal static int MsaaIni;
-        internal static float RenderDistIni;
-        internal static float ShadowDistIni;
-        internal static int TextureLimitIni;
-        internal static int AnisotropicFilteringLevelIni;
-        internal static int ShadowCascadeIni;
-        internal static bool DisplayFpsIni;
-        internal static bool VsyncIni;
-        internal static bool SettingsLoadedIni;
+        internal static float masterVolumeIni;
+        internal static float effectVolumeIni;
+        internal static float backgroundVolumeIni;
+        internal static int currentQualityLevelIni;
+        internal static int msaaIni;
+        internal static float renderDistIni;
+        internal static float shadowDistIni;
+        internal static int textureLimitIni;
+        internal static int anisotropicFilteringLevelIni;
+        internal static int shadowCascadeIni;
+        internal static bool displayFpsIni;
+        internal static bool fullScreenIni;
+        internal static bool settingsLoadedIni;
 
 
         private static object CreateJsonObj(string jsonString)
@@ -59,20 +59,23 @@ namespace ANM.Framework.Options
         public void SaveGameSettings()
         {
             var filePath = Application.persistentDataPath + _fileName;
-            if (VerifyDirectory(filePath)) { File.Delete(filePath); }
+            if (VerifyDirectory(filePath))
+            {
+                File.Delete(filePath);
+            }
 
-            masterVolume = MasterVolumeIni;
-            effectVolume = EffectVolumeIni;
-            backgroundVolume = BackgroundVolumeIni;
-            renderDist = RenderDistIni;
-            shadowDist = ShadowDistIni;
-            msaa = MsaaIni;
-            textureLimit = TextureLimitIni;
-            currentQualityLevel = CurrentQualityLevelIni;
-            shadowCascade = ShadowCascadeIni;
-            anisotropicFilteringLevel = AnisotropicFilteringLevelIni;
-            displayFps = DisplayFpsIni;
-            vsync = VsyncIni;
+            masterVolume = masterVolumeIni;
+            effectVolume = effectVolumeIni;
+            backgroundVolume = backgroundVolumeIni;
+            renderDist = renderDistIni;
+            shadowDist = shadowDistIni;
+            msaa = msaaIni;
+            textureLimit = textureLimitIni;
+            currentQualityLevel = currentQualityLevelIni;
+            shadowCascade = shadowCascadeIni;
+            anisotropicFilteringLevel = anisotropicFilteringLevelIni;
+            displayFps = displayFpsIni;
+            fullscreen = fullScreenIni;
 
             _jsonString = JsonUtility.ToJson(this);
             File.WriteAllText(filePath, _jsonString);
@@ -81,52 +84,40 @@ namespace ANM.Framework.Options
         private void OverwriteGameSettings(string jsonString)
         {
             var jsonObj = (SaveSettings) CreateJsonObj(jsonString);
-            DefaultSettings();
-            MasterVolumeIni = jsonObj.masterVolume;
-            EffectVolumeIni = jsonObj.effectVolume;
-            BackgroundVolumeIni = jsonObj.backgroundVolume;
-            RenderDistIni = jsonObj.renderDist;
-            ShadowDistIni = jsonObj.shadowDist;
-            MsaaIni = jsonObj.msaa;
-            TextureLimitIni = jsonObj.textureLimit;
-            CurrentQualityLevelIni = jsonObj.currentQualityLevel;
-            ShadowCascadeIni = jsonObj.shadowCascade;
-            AnisotropicFilteringLevelIni = jsonObj.anisotropicFilteringLevel;
-            DisplayFpsIni = jsonObj.displayFps;
-            VsyncIni = jsonObj.vsync;
+            masterVolumeIni = jsonObj.masterVolume;
+            effectVolumeIni = jsonObj.effectVolume;
+            backgroundVolumeIni = jsonObj.backgroundVolume;
+            renderDistIni = jsonObj.renderDist;
+            shadowDistIni = jsonObj.shadowDist;
+            msaaIni = jsonObj.msaa;
+            textureLimitIni = jsonObj.textureLimit;
+            currentQualityLevelIni = jsonObj.currentQualityLevel;
+            shadowCascadeIni = jsonObj.shadowCascade;
+            anisotropicFilteringLevelIni = jsonObj.anisotropicFilteringLevel;
+            displayFpsIni = jsonObj.displayFps;
+            fullScreenIni = jsonObj.fullscreen;
+            settingsLoadedIni = true;
         }
 
         public static void DefaultSettings()
         {
-            MasterVolumeIni = 0.8f;
-            EffectVolumeIni = 0.8f;
-            BackgroundVolumeIni = 0.8f;
-            CurrentQualityLevelIni = 2;
-            MsaaIni = 2;
-            AnisotropicFilteringLevelIni = 1;
-            RenderDistIni = 1000.0f;
-            ShadowDistIni = 150;
-            ShadowCascadeIni = 3;
-            TextureLimitIni = 0;
-            DisplayFpsIni = true;
-            VsyncIni = true;
-            SettingsLoadedIni = true;
+            masterVolumeIni = 0.8f;
+            effectVolumeIni = 0.8f;
+            backgroundVolumeIni = 0.8f;
+            currentQualityLevelIni = 2;
+            msaaIni = 2;
+            anisotropicFilteringLevelIni = 1;
+            renderDistIni = 1000.0f;
+            shadowDistIni = 150;
+            shadowCascadeIni = 3;
+            textureLimitIni = 0;
+            displayFpsIni = true;
+            fullScreenIni = false;
+            settingsLoadedIni = true;
         }
 
-        private bool VerifyDirectory(string filePath)
-        {
-            return File.Exists(filePath);
-        }
+        private bool VerifyDirectory(string filePath) => File.Exists(filePath);
 
-        #region External JS LIBRARY
-#if UNITY_WEBGL && !UNITY_EDITOR
-        [System.Runtime.InteropServices.DllImport("__Internal")]
-        static extern void InitializeJsLib();
-
-        public void Initialize() { InitializeJsLib(); }
-#else
-        public void Initialize() {  SettingsLoadedIni = LoadGameSettings();}
-#endif
-        #endregion
+        public void Initialize() => settingsLoadedIni = LoadGameSettings();
     }
 }

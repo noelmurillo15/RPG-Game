@@ -1,34 +1,34 @@
 ﻿/*
- * MenuManager - Handles interactions with the Menu Ui
+ * QuitOptionsPanel - Handles Displaying the Quit Ui Panel
  * Created by : Allan N. Murillo
- * Last Edited : 3/2/2020
+ * Last Edited : 7/10/2020
  */
 
 using UnityEngine;
 
 namespace ANM.Framework.Options
 {
-    public class QuitOptionsPanel : MonoBehaviour, IPanel
+    public class QuitOptionsPanel : MonoBehaviour
     {
         private GameObject _panel;
-        private Animator _quitOptionsPanelAnimator;
 
-        private void Awake()
+
+        private void Start()
         {
-            _quitOptionsPanelAnimator = GetComponent<Animator>();
-            _panel = _quitOptionsPanelAnimator.transform.GetChild(0).gameObject;
+            _panel = gameObject;
+            _panel.SetActive(false);
         }
 
         public void TurnOnPanel()
         {
             if (!_panel.activeSelf)
-                _quitOptionsPanelAnimator.Play("QuitPanelIn");
+                _panel.SetActive(true);
         }
 
         public void TurnOffPanel()
         {
             if (_panel.activeSelf)
-                _quitOptionsPanelAnimator.Play("QuitPanelOut");
+                _panel.SetActive(false);
         }
     }
 }

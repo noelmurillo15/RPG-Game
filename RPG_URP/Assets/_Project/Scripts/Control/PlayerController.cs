@@ -1,14 +1,16 @@
 ﻿/*
- * PlayerController - 
+ * PlayerController -
  * Created by : Allan N. Murillo
- * Last Edited : 2/26/2020
+ * Last Edited : 3/1/2021
  */
 
 using System;
+using ANM.Input;
 using UnityEngine;
 using ANM.Movement;
 using ANM.Attributes;
 using UnityEngine.AI;
+using ANM.Framework.Managers;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
@@ -17,27 +19,24 @@ namespace ANM.Control
     [RequireComponent(typeof(CharacterMove))]
     public class PlayerController : MonoBehaviour
     {
-        [Serializable]
-        private struct CursorMapping
+        [Serializable] private struct CursorMapping
         {
             public CursorType type;
             public Texture2D texture;
             public Vector2 hotspot;
         }
 
-        //  Cached Variables
         private Health _myHealth;
         private CharacterMove _mover;
-        
+        private InputController _inputController;
         [SerializeField] private float maxPathLength = 200f;
         [SerializeField] private float maxNavMeshProjectionDistance = 1f;
         [SerializeField] private CursorMapping[] cursorMappings;
-        private static Camera _mainCam;
 
 
-        private void Awake()
+        private void Start()
         {
-            _mainCam = Camera.main;
+            _inputController = GameManager.GetResources().GetInput();
             _myHealth = GetComponent<Health>();
             _mover = GetComponent<CharacterMove>();
         }
@@ -48,7 +47,7 @@ namespace ANM.Control
 
             if (_myHealth.IsDead())
             {
-                SetCursor(CursorType.NONE); 
+                SetCursor(CursorType.NONE);
                 return;
             }
 
@@ -79,12 +78,13 @@ namespace ANM.Control
                     return true;
                 }
             }
+
             return false;
         }
 
         private static IEnumerable<RaycastHit> RayCastAllSorted()
         {
-            var hits = Physics.RaycastAll(GetMouseRay());
+            var hits = Physics.RaycastAll(InputController.GetMouseRay());
 
             //  Sort all raycast hits based on Distance
             var distances = new float[hits.Length];
@@ -92,6 +92,7 @@ namespace ANM.Control
             {
                 distances[x] = hits[x].distance;
             }
+
             Array.Sort(distances, hits);
 
             return hits;
@@ -99,11 +100,11 @@ namespace ANM.Control
 
         private bool InteractWithMovement()
         {
-            if (!Input.GetMouseButton(0)) return false;
-            
+            if (!_inputController.IsPressed()) return false;
+
             var hasHit = RaycastNavMesh(out var target);
             if (!hasHit) return false;
-            
+
             _mover.StartMoveAction(target, 1f);
             return true;
         }
@@ -113,18 +114,19 @@ namespace ANM.Control
             target = new Vector3();
 
             //  Did the raycast hit anything>?
-            var hasHit = Physics.Raycast(GetMouseRay(), out var hit);
+            var hasHit = Physics.Raycast(InputController.GetMouseRay(), out var hit);
             if (!hasHit) return false;
-            
+
             //  Is the raycast hit NavMesh walkable>?
-            var hasCastToNavMesh = NavMesh.SamplePosition(hit.point, out var navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);
+            var hasCastToNavMesh = NavMesh.SamplePosition(hit.point, out var navMeshHit, maxNavMeshProjectionDistance,
+                NavMesh.AllAreas);
             if (!hasCastToNavMesh) return false;
-            
+
             //  Is there a clear path to the NavMesh target location>?
             var path = new NavMeshPath();
             var hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
             if (!hasPath) return false;
-            
+
             target = navMeshHit.position;
             return true;
         }
@@ -135,7 +137,9 @@ namespace ANM.Control
             if (path.corners.Length < 2) return total;
 
             for (var x = 0; x < path.corners.Length - 1; x++)
-            { total += Vector3.Distance(path.corners[x], path.corners[x + 1]); }
+            {
+                total += Vector3.Distance(path.corners[x], path.corners[x + 1]);
+            }
 
             return total;
         }
@@ -151,13 +155,8 @@ namespace ANM.Control
             foreach (var mapping in cursorMappings)
                 if (mapping.type == type)
                     return mapping;
-            
-            return cursorMappings[0];
-        }
 
-        private static Ray GetMouseRay()
-        {
-            return _mainCam.ScreenPointToRay(Input.mousePosition);
+            return cursorMappings[0];
         }
     }
 }

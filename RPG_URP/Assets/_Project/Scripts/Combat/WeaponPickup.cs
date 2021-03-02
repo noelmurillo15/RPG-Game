@@ -1,12 +1,15 @@
 ﻿/*
- * WeaponPickup - 
+ * WeaponPickup -
  * Created by : Allan N. Murillo
  * Last Edited : 2/25/2020
  */
 
+using System;
 using ANM.Control;
 using UnityEngine;
 using System.Collections;
+using ANM.Framework.Managers;
+using ANM.Input;
 
 namespace ANM.Combat
 {
@@ -14,7 +17,13 @@ namespace ANM.Combat
     {
         [SerializeField] private WeaponConfig weapon = null;
         [SerializeField] private float respawnTime = 5f;
+        private InputController _inputController;
 
+
+        private void Start()
+        {
+            _inputController = GameManager.GetResources().GetInput();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -49,7 +58,7 @@ namespace ANM.Combat
         #region Interfaces
         public bool HandleRayCast(PlayerController controller)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (_inputController.IsPressed())
             {
                 PickUp(controller.GetComponent<Fighter>());
             }

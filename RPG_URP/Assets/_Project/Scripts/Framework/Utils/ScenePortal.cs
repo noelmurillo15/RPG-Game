@@ -1,29 +1,27 @@
 ﻿/*
- * ScenePortal - 
+ * ScenePortal -
  * Created by : Allan N. Murillo
- * Last Edited : 2/26/2020
+ * Last Edited : 3/1/2020
  */
 
-using ANM.Saving;
-using ANM.Control;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.AI;
 using System.Collections;
 using ANM.Framework.Extensions;
 
 namespace ANM.Framework.Utils
 {
-    [RequireComponent(typeof(BoxCollider))]
+    [RequireComponent(typeof(BoxCollider2D))]
     public class ScenePortal : MonoBehaviour
     {
         [SerializeField] private int sceneToLoad = -1;
+        [SerializeField] private Vector3 spawnPoint;
         private const string PlayerTag = "Player";
 
-        
-        private void OnTriggerEnter(Collider other)
+
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.tag.Equals(PlayerTag))
+            if (other.transform.root.CompareTag(PlayerTag))
             {
                 StartCoroutine(Transition());
             }
@@ -31,31 +29,42 @@ namespace ANM.Framework.Utils
 
         private IEnumerator Transition()
         {
-            if (sceneToLoad < 0)  {  yield break;  }
+            if (sceneToLoad < 0)
+            {
+                yield break;
+            }
+
             DontDestroyOnLoad(gameObject);
-            var otherBuildIndex = SceneExtension.GetCurrentSceneBuildIndex();
-            yield return SavingWrapper.Transition(sceneToLoad, PlayerTag);
-            var player = FindObjectOfType<PlayerController>();
-            var agent = player.GetComponent<NavMeshAgent>();
-            UpdatePlayerSpawnPosition(GetOtherScenePortal(otherBuildIndex), player.gameObject);
-            player.enabled = true;
-            agent.enabled = true;
+
+            var buildIndex = SceneExtension.GetCurrentSceneBuildIndex();
+            //FindObjectOfType<PlayerController>().enabled = false;
+            yield return SceneExtension.LoadMultiSceneWithBuildIndexSequence(sceneToLoad, true);
+
+            //var player = FindObjectOfType<PlayerController>();
+            //var cam = FindObjectOfType<PixelPerfectCamera>();
+            //player.enabled = false;
+            var otherPortal = GetOtherScenePortal(buildIndex);
+            //UpdatePlayerSpawnPosition(otherPortal, player.gameObject, cam.gameObject);
+            //player.enabled = true;
+
             Destroy(gameObject);
         }
-        
-        private static void UpdatePlayerSpawnPosition(ScenePortal otherPortal, GameObject player)
+
+        private static void UpdatePlayerSpawnPosition(ScenePortal otherPortal, GameObject player, GameObject cam)
         {
-            var spawnPosition = otherPortal.transform.GetChild(0).position;
-            player.transform.localPosition = spawnPosition;
+            var spawnPosition = otherPortal.spawnPoint;
+            player.transform.position = spawnPosition;
+            cam.transform.position = spawnPosition.With(z: -5);
             player.transform.rotation = Quaternion.identity;
         }
 
         private ScenePortal GetOtherScenePortal(int otherBuildIndex = -1)
         {
-            if(otherBuildIndex == -1)
+            if (otherBuildIndex == -1)
                 return FindObjectsOfType<ScenePortal>().FirstOrDefault(portal => portal != this);
-            
-            return FindObjectsOfType<ScenePortal>().FirstOrDefault(portal => 
+
+            otherBuildIndex -= 1;
+            return FindObjectsOfType<ScenePortal>().FirstOrDefault(portal =>
                 portal.name.Contains(otherBuildIndex.ToString()) && portal != this);
         }
     }

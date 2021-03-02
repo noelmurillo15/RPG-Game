@@ -33,13 +33,13 @@ namespace ANM.Framework.Utils
             var player = FindObjectOfType<PlayerController>();
             var agent = player.GetComponent<NavMeshAgent>();
             player.GetComponent<ActionScheduler>().CancelCurrentAction();
-            yield return SceneExtension.OnStartLoadWithFade(true);
+            yield return SceneExtension.StartLoadWithFade(true);
 
             agent.Warp(teleportTo);
             agent.ResetPath();
-            
+
             yield return new WaitForSeconds(1f);    //    waits for camera to fix position
-            yield return SceneExtension.OnFinishedLoadWithFade(true);
+            yield return SceneExtension.FinishLoadWithFade(true);
         }
     }
 }

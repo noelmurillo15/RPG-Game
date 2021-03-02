@@ -1,5 +1,5 @@
 ﻿/*
- * FloatVariable - 
+ * FloatVariable -
  * Created by : Allan N. Murillo
  * Last Edited : 2/17/2020
  */

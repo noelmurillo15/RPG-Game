@@ -23,8 +23,8 @@ namespace ANM.Saving
 
         private void Start()
         {
-            /*SceneExtension.StartSceneLoadEvent += OnStartLoadScene;
-            SceneExtension.FinishSceneLoadEvent += OnFinishLoadScene;*/
+            SceneExtension.StartSceneLoadEvent += OnStartLoadScene;
+            SceneExtension.FinishSceneLoadEvent += OnFinishLoadScene;
         }
 
         private static void OnStartLoadScene(bool fade, bool save)
@@ -46,16 +46,16 @@ namespace ANM.Saving
         private void OnDestroy()
         {
             if (gameObject.GetComponentInParent<GameManager>() != GameManager.Instance) return;
-            /*SceneExtension.StartSceneLoadEvent -= OnStartLoadScene;
-            SceneExtension.FinishSceneLoadEvent -= OnFinishLoadScene;*/
+            SceneExtension.StartSceneLoadEvent -= OnStartLoadScene;
+            SceneExtension.FinishSceneLoadEvent -= OnFinishLoadScene;
         }
 
-        private void Update()
+        /*private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Delete)) { DeleteSaveFile(); }
             if (Input.GetKeyDown(KeyCode.S)) { SaveGameState(); }
             if (Input.GetKeyDown(KeyCode.L)) { LoadGameState(); }
-        }
+        }*/
 
         private static void LoadGameState()
         {

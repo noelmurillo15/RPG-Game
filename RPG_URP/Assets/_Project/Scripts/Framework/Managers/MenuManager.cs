@@ -1,11 +1,10 @@
 ﻿/*
  * MenuManager - Handles interactions with the Menu Ui
  * Created by : Allan N. Murillo
- * Last Edited : 3/3/2020
+ * Last Edited : 2/26/2021
  */
 
-using ANM.Saving;
-using System.Linq;
+using ANM.Input;
 using UnityEngine;
 using UnityEngine.UI;
 using ANM.Framework.Options;
@@ -16,47 +15,47 @@ namespace ANM.Framework.Managers
 {
     public class MenuManager : MonoBehaviour
     {
-        [SerializeField] private Camera menuUiCamera = null;
-        [SerializeField] private GameObject mainPanel = null;
-        [SerializeField] private GameObject pausePanel = null;
-
-        [SerializeField] private AudioSettingsPanel audioOptionsPanel = null;
-        [SerializeField] private VideoSettingsPanel videoOptionsPanel = null;
+        [Header("Menu Panels")]
+        [SerializeField] private AudioOptionsPanel audioOptionsPanel = null;
+        [SerializeField] private VideoOptionsPanel videoOptionsPanel = null;
         [SerializeField] private QuitOptionsPanel quitOptionsPanel = null;
-
-        [SerializeField] private Toggle fpsDisplayToggle = null;
-        [SerializeField] private Toggle vsyncToggle = null;
-
         [SerializeField] private Button mainPanelSelectedObj = null;
         [SerializeField] private Button pausePanelSelectedObj = null;
         [SerializeField] private Button quitPanelSelectedObj = null;
-        [SerializeField] private Button loadButton = null;
+        [SerializeField] private CanvasGroup menuBackground = null;
 
+        [Space] [Header("Local Game Info")]
+        [SerializeField] private bool isSceneTransitioning = false;
         [SerializeField] private bool isMainMenuActive = false;
         [SerializeField] private int lastSceneBuildIndex = 0;
 
         private bool _isPaused;
+        private Camera _menuUiCamera;
         private EventSystem _eventSystem;
+        private InputController _inputController;
+        private MenuPageController _controller;
         private GameManager _gameManager;
-        private IPanel[] _menuPanels;
 
+
+        #region Unity Funcs
 
         private void Awake()
         {
+            isSceneTransitioning = true;
             _gameManager = GameManager.Instance;
             _eventSystem = FindObjectOfType<EventSystem>();
-            if (!SaveSettings.SettingsLoadedIni) SaveSettings.DefaultSettings();
+            _controller = FindObjectOfType<MenuPageController>();
+            if (!SaveSettings.settingsLoadedIni) SaveSettings.DefaultSettings();
         }
 
         private void Start()
         {
+            ControllerSetup();
+            _menuUiCamera = GetComponentInChildren<Camera>();
             isMainMenuActive = SceneExtension.IsThisSceneActive(SceneExtension.MenuUiSceneName);
-            _menuPanels = FindObjectsOfType<MonoBehaviour>().OfType<IPanel>().ToArray();
             SceneExtension.FinishSceneLoadEvent += OnFinishLoadScene;
             SceneExtension.StartSceneLoadEvent += OnStartLoadScene;
             ApplyIniSettings();
-            TurnOffAllPanels();
-            TurnOnMainPanel();
             _isPaused = false;
         }
 
@@ -78,14 +77,130 @@ namespace ANM.Framework.Managers
 
         private void OnDestroy()
         {
+            _inputController.OnPauseToggleEvent -= OnTogglePauseEventCalled;
+            _inputController.OnCancelEvent -= OnCancelEventCalled;
             SceneExtension.StartSceneLoadEvent -= OnStartLoadScene;
             SceneExtension.FinishSceneLoadEvent -= OnFinishLoadScene;
         }
 
+        #endregion
+
+        #region Public Funcs
+
+        public void OnTogglePauseEventCalled()
+        {
+            if (isMainMenuActive || isSceneTransitioning) return;
+            _gameManager.TogglePause();
+        }
+
+        public void Audio()
+        {
+            _controller.TurnMenuPageOff(_controller.GetCurrentMenuPageType(), MenuPageType.AudioSettings);
+            audioOptionsPanel.AudioPanelIn(_eventSystem);
+        }
+
+        public void Video()
+        {
+            _controller.TurnMenuPageOff(_controller.GetCurrentMenuPageType(), MenuPageType.VideoSettings);
+            videoOptionsPanel.VideoPanelIn(_eventSystem);
+        }
+
+        public void UpdateAudioSettings()
+        {
+            StartCoroutine(audioOptionsPanel.SaveAudioSettings());
+            BackToPreviousPage();
+        }
+
+        public void UpdateVideoSettings()
+        {
+            StartCoroutine(videoOptionsPanel.SaveVideoSettings());
+            BackToPreviousPage();
+        }
+
+        public void CancelAudioSettings()
+        {
+            StartCoroutine(audioOptionsPanel.RevertAudioSettings());
+            BackToPreviousPage();
+        }
+
+        public void CancelVideoSettings()
+        {
+            StartCoroutine(videoOptionsPanel.RevertVideoSettings());
+            BackToPreviousPage();
+        }
+
+        public void BackToPreviousPage()
+        {
+            var target = isMainMenuActive ? MenuPageType.MainMenu : MenuPageType.Pause;
+            _controller.TurnMenuPageOff(_controller.GetCurrentMenuPageType(), target);
+        }
+
+        public void PlayAgain()
+        {
+            GameManager.HardReset();
+            _controller.TurnMenuPageOff(_controller.GetCurrentMenuPageType(), MenuPageType.MainMenu);
+            EnableBg();
+        }
+
+        public void Reset()
+        {
+            isMainMenuActive = true;
+            _menuUiCamera.gameObject.SetActive(true);
+        }
+
+        public void ReturnToMenu()
+        {
+            if (isMainMenuActive) return;
+            GameManager.HardReset();
+            StartCoroutine(SceneExtension.ForceMainMenu(true, true, true, lastSceneBuildIndex));
+            isMainMenuActive = true;
+            EnableBg();
+        }
+
+        public void QuitOptions()
+        {
+            if (quitOptionsPanel == null || quitPanelSelectedObj == null) return;
+            quitOptionsPanel.TurnOnPanel();
+            if(_eventSystem == null) _eventSystem = EventSystem.current;
+            _eventSystem.SetSelectedGameObject(quitPanelSelectedObj.gameObject);
+            quitPanelSelectedObj.OnSelect(null);
+        }
+
+        public void QuitCancel()
+        {
+            if (quitOptionsPanel == null) return;
+            quitOptionsPanel.TurnOffPanel();
+            BackToPreviousPage();
+        }
+
+        public void Quit()
+        {
+            if (Time.timeScale <= 0) _gameManager.TogglePause();
+            isMainMenuActive = true;
+            GameManager.HardReset();
+            GameManager.ReturnToMenu(MenuPageType.Credits);
+            EnableBg();
+        }
+
+        #endregion
+
+        #region Private Funcs
+
+        private void ControllerSetup()
+        {
+            if (_inputController == null) _inputController = GameManager.GetResources().GetInput();
+            _inputController.OnCancelEvent += OnCancelEventCalled;
+            _inputController.OnPauseToggleEvent += OnTogglePauseEventCalled;
+        }
+
         private void OnStartLoadScene(bool b1, bool b2)
         {
+            _controller.TurnMenuPageOff(_controller.GetCurrentMenuPageType());
+            _inputController.OnCancelEvent -= OnCancelEventCalled;
+            isSceneTransitioning = true;
+            if (Time.timeScale <= 0f) _gameManager.SoftReset();
             isMainMenuActive = false;
-            TurnOffAllPanels();
+            DisableBg();
         }
 
         private void OnFinishLoadScene(bool b1, bool b2)
@@ -93,8 +208,7 @@ namespace ANM.Framework.Managers
             isMainMenuActive = SceneExtension.IsThisSceneActive(SceneExtension.MenuUiSceneName);
             if (isMainMenuActive)
             {
-                TurnOnMainPanel();
-                loadButton.interactable = true;
+                BackToPreviousPage();
                 _eventSystem.SetSelectedGameObject(mainPanelSelectedObj.gameObject);
                 mainPanelSelectedObj.OnSelect(null);
             }
@@ -103,159 +217,50 @@ namespace ANM.Framework.Managers
                 _eventSystem.SetSelectedGameObject(pausePanelSelectedObj.gameObject);
                 pausePanelSelectedObj.OnSelect(null);
             }
-            menuUiCamera.gameObject.SetActive(isMainMenuActive);
+
+            _menuUiCamera.gameObject.SetActive(isMainMenuActive);
+            isSceneTransitioning = false;
         }
 
-        private void OnPause()
+        public void OnPause()
         {
             lastSceneBuildIndex = SceneExtension.GetCurrentSceneBuildIndex();
             if (!SceneExtension.TrySwitchToScene(SceneExtension.MenuUiSceneName)) return;
-            TurnOnMainPanel();
+            _inputController.OnCancelEvent += OnCancelEventCalled;
+            BackToPreviousPage();
             _isPaused = true;
+            EnableBg();
         }
 
-        private void OnResume()
+        public void OnResume()
         {
             if (!SceneExtension.TrySwitchToScene(lastSceneBuildIndex)) return;
-            menuUiCamera.gameObject.SetActive(false);
-            TurnOffAllPanels();
+            _controller.TurnMenuPageOff(_controller.GetCurrentMenuPageType());
+            _inputController.OnCancelEvent -= OnCancelEventCalled;
             _isPaused = false;
+            DisableBg();
         }
 
-        private void TurnOnMainPanel()
+        private void DisableBg()
         {
-            if (isMainMenuActive) mainPanel.SetActive(true);
-            else pausePanel.SetActive(true);
+            menuBackground.alpha = 0f;
+            menuBackground.blocksRaycasts = false;
         }
 
-        private void TurnOffAllPanels()
+        private void EnableBg()
         {
-            mainPanel.SetActive(false);
-            pausePanel.SetActive(false);
-            foreach (var panel in _menuPanels)
-            {
-                panel.TurnOffPanel();
-            }
+            menuBackground.alpha = 1f;
+            menuBackground.blocksRaycasts = true;
         }
 
         private void ApplyIniSettings()
         {
-            ToggleFpsDisplay(SaveSettings.DisplayFpsIni);
             audioOptionsPanel.ApplyAudioSettings();
             videoOptionsPanel.ApplyVideoSettings();
-            ToggleVsync(SaveSettings.VsyncIni);
         }
 
-        private void LoadCredits()
-        {
-            StartCoroutine(SceneExtension.LoadSingleSceneSequence(
-                SceneExtension.CreditsSceneName, true));
-        }
+        private void OnCancelEventCalled() => BackToPreviousPage();
 
-
-        public void StartGame()
-        {
-            StartCoroutine(SceneExtension.LoadMultiSceneSequence(
-                SceneExtension.GameplaySceneName, true));
-        }
-
-        public void LoadGame()
-        {
-            if (SavingWrapper.CanLoadSaveFile())
-            {
-                StartCoroutine(SavingWrapper.LoadLastGameState());
-            }
-            else loadButton.interactable = false;
-        }
-
-        public void TogglePause()
-        {
-            _gameManager.TogglePause();
-        }
-
-        public void ReturnToMenu()
-        {
-            if (isMainMenuActive){ QuitCancel(); return;}
-            TurnOffAllPanels();
-            _gameManager.HardReset();
-            StartCoroutine(SceneExtension.ForceMenuSceneSequence(true, true, true, lastSceneBuildIndex));
-            _eventSystem.SetSelectedGameObject(mainPanelSelectedObj.gameObject);
-            mainPanelSelectedObj.OnSelect(null);
-        }
-
-        public void QuitOptions()
-        {
-            videoOptionsPanel.TurnOffPanel();
-            audioOptionsPanel.TurnOffPanel();
-            quitOptionsPanel.TurnOnPanel();
-            _eventSystem.SetSelectedGameObject(quitPanelSelectedObj.gameObject);
-            quitPanelSelectedObj.OnSelect(null);
-        }
-
-        public void QuitCancel()
-        {
-            quitOptionsPanel.TurnOffPanel();
-            TurnOnMainPanel();
-        }
-
-        public void QuitGame()
-        {
-            _gameManager.HardReset();
-            Invoke(nameof(LoadCredits), 0.15f);
-        }
-
-        public void Audio()
-        {
-            TurnOffAllPanels();
-            audioOptionsPanel.AudioPanelIn(_eventSystem);
-        }
-
-        public void Video()
-        {
-            TurnOffAllPanels();
-            videoOptionsPanel.VideoPanelIn(_eventSystem);
-        }
-
-        public void UpdateAudioSettings()
-        {
-            StartCoroutine(audioOptionsPanel.SaveAudioSettings());
-            TurnOnMainPanel();
-        }
-
-        public void UpdateVideoSettings()
-        {
-            StartCoroutine(videoOptionsPanel.SaveVideoSettings());
-            TurnOnMainPanel();
-        }
-
-        public void CancelAudioSettings()
-        {
-            StartCoroutine(audioOptionsPanel.RevertAudioSettings());
-            TurnOnMainPanel();
-        }
-
-        public void CancelVideoSettings()
-        {
-            StartCoroutine(videoOptionsPanel.RevertVideoSettings());
-            TurnOnMainPanel();
-        }
-
-        public void ToggleVsync(bool b)
-        {
-            EventExtension.MuteEventListener(vsyncToggle.onValueChanged);
-            QualitySettings.vSyncCount = b ? 1 : 0;
-            vsyncToggle.isOn = b;
-            SaveSettings.VsyncIni = b;
-            EventExtension.UnMuteEventListener(vsyncToggle.onValueChanged);
-        }
-
-        public void ToggleFpsDisplay(bool b)
-        {
-            EventExtension.MuteEventListener(fpsDisplayToggle.onValueChanged);
-            GameManager.Instance.SetDisplayFps(b);
-            fpsDisplayToggle.isOn = b;
-            SaveSettings.DisplayFpsIni = b;
-            EventExtension.UnMuteEventListener(fpsDisplayToggle.onValueChanged);
-        }
+        #endregion
     }
 }
