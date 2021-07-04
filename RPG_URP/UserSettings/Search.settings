@@ -2,13 +2,14 @@ trackSelection = true
 fetchPreview = true
 wantsMore = false
 keepOpen = false
-itemIconSize = 1
 queryFolder = "Assets"
 onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
-debounceMs = 250
 scopes = {
+	"last_search.7F95D817" = "h: layer>0"
+	"InspectorPreview.7F95D817" = "0"
+	"currentGroup.7F95D817" = "settings"
 }
 providers = {
 	asset = {
@@ -53,5 +54,11 @@ providers = {
 	}
 }
 recentSearches = [
+	"h: layer>0"
+	"layer>0"
+	"h: "
+]
+searchItemFavorites = [
 ]
 savedSearchesSortOrder = 0
+showSavedSearchPanel = false

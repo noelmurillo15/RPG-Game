@@ -101,18 +101,18 @@ namespace ANM.Framework.Options
 
         public static void DefaultSettings()
         {
-            masterVolumeIni = 0.8f;
-            effectVolumeIni = 0.8f;
+            masterVolumeIni = 0.5f;
+            effectVolumeIni = 1f;
             backgroundVolumeIni = 0.8f;
             currentQualityLevelIni = 2;
             msaaIni = 2;
             anisotropicFilteringLevelIni = 1;
-            renderDistIni = 1000.0f;
-            shadowDistIni = 150;
+            renderDistIni = 200.0f;
+            shadowDistIni = 100;
             shadowCascadeIni = 3;
             textureLimitIni = 0;
             displayFpsIni = true;
-            fullScreenIni = false;
+            fullScreenIni = true;
             settingsLoadedIni = true;
         }
 
